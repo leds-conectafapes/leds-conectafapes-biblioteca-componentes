@@ -31,6 +31,7 @@ export const Default: Story = {
     mandatory: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'default',
+    modelValue: '',
   },
 };
 
@@ -41,6 +42,7 @@ export const Error: Story = {
     mandatory: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'error',
+    modelValue: '',
   },
 };
 
@@ -51,6 +53,7 @@ export const Warning: Story = {
     mandatory: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'warning',
+    modelValue: '',
   },
 };
 
@@ -61,5 +64,6 @@ export const Disabled: Story = {
     mandatory: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'disabled',
+    modelValue: '',
   },
 };
