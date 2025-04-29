@@ -1,7 +1,24 @@
 {
-  "name": "leds-conectafapes-biblioteca-componentes",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@leds-ifes/biblioteca-componentes",
+  "description": "Biblioteca de componentes Vue para o projeto ConectaFapes",
+  "author": "LedsConectaFapes",
+  "license": "MIT",
+  "private": false,
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/leds-conectafapes-biblioteca-componentes.es.js",
+      "require": "./dist/leds-conectafapes-biblioteca-componentes.umd.js",
+      "types": "./dist/main.d.ts"
+    }
+  },
+  "main": "dist/leds-conectafapes-biblioteca-componentes.umd.js",
+  "module": "dist/leds-conectafapes-biblioteca-componentes.es.js",
+  "types": "dist/main.d.ts",
+  "files": ["dist"],
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +29,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
+    "dayjs": "^1.11.13",
     "tailwindcss": "^4.1.4",
     "vue": "^3.5.13"
   },
@@ -39,6 +57,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.31.1",
     "vite": "^6.3.1",
+    "vite-plugin-dts": "^4.5.3",
     "vitest": "^3.1.2",
     "vue-tsc": "^2.2.8"
   },

@@ -104,7 +104,7 @@ const sortedData = computed(() => {
         class="border-b border-table-line"
       >
         <td
-          v-for="(col, colKey) in props.headers"
+          v-for="colKey in Object.keys(props.headers)"
           :key="colKey"
           class="px-6 py-4 font-inter text-gray-600"
         >
