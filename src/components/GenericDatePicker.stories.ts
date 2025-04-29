@@ -30,6 +30,7 @@ export const Default: Story = {
     label: 'Label',
     mandatory: true,
     state: 'default',
+    modelValue: '',
   },
 };
 
@@ -39,6 +40,7 @@ export const Error: Story = {
     label: 'Label',
     mandatory: true,
     state: 'error',
+    modelValue: '',
   },
 };
 
@@ -48,6 +50,7 @@ export const Warning: Story = {
     label: 'Label',
     mandatory: true,
     state: 'warning',
+    modelValue: '',
   },
 };
 
@@ -57,5 +60,6 @@ export const Disabled: Story = {
     label: 'Label',
     mandatory: true,
     state: 'disabled',
+    modelValue: '',
   },
 };

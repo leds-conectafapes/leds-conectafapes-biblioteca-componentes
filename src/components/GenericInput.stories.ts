@@ -35,6 +35,7 @@ export const TextDefault: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'default',
+    modelValue: '',
   },
 };
 
@@ -45,6 +46,7 @@ export const SearchDefault: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'default',
+    modelValue: '',
   },
 };
 
@@ -55,6 +57,7 @@ export const NumberDefault: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'default',
+    modelValue: '',
   },
 };
 
@@ -65,6 +68,7 @@ export const TextError: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'error',
+    modelValue: '',
   },
 };
 
@@ -75,6 +79,7 @@ export const SearchError: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'error',
+    modelValue: '',
   },
 };
 
@@ -85,6 +90,7 @@ export const NumberError: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'error',
+    modelValue: '',
   },
 };
 
@@ -95,6 +101,7 @@ export const TextDisabled: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'disabled',
+    modelValue: '',
   },
 };
 
@@ -105,6 +112,7 @@ export const SearchDisabled: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'disabled',
+    modelValue: '',
   },
 };
 
@@ -115,5 +123,6 @@ export const NumberDisabled: Story = {
     mandatory: true,
     placeholder: 'Placeholder',
     state: 'disabled',
+    modelValue: '',
   },
 };

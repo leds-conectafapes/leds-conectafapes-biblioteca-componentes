@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import GenericTitle from './components/GenericTitle.vue'
+import GenericButton from './components/GenericButton.vue'
 </script>
 
 <template>
-  <GenericTitle text="TESTE" />
+  <div class="m-2">
+    <GenericButton label="Button" />
+  </div>
 </template>
 
 <style scoped>
