@@ -40,16 +40,86 @@ const items = [
     date: '2021-11-20T17:02:59-03:00',
     status: 'Manutenção',
     actions: ['view', 'delete']
+  },
+  {
+    name: 'Fernanda da Silva Costa',
+    date: '2020-10-30T17:02:59-03:00',
+    status: 'Inativo',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Roberto Carlos Almeida',
+    date: '2019-09-15T17:02:59-03:00',
+    status: 'Ativo',
+    actions: ['view', 'delete', 'edit']
+  },
+  {
+    name: 'Patrícia de Souza Santos',
+    date: '2018-08-05T17:02:59-03:00',
+    status: 'Manutenção',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Ricardo da Silva Oliveira',
+    date: '2017-07-10T17:02:59-03:00',
+    status: 'Inativo',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Juliana Maria de Souza',
+    date: '2016-06-20T17:02:59-03:00',
+    status: 'Ativo',
+    actions: ['view', 'delete', 'edit']
+  },
+  {
+    name: 'André Luiz Almeida',
+    date: '2015-05-15T17:02:59-03:00',
+    status: 'Manutenção',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Tatiane da Silva Costa',
+    date: '2014-04-25T17:02:59-03:00',
+    status: 'Inativo',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Gustavo Carlos de Oliveira',
+    date: '2013-03-30T17:02:59-03:00',
+    status: 'Ativo',
+    actions: ['view', 'delete', 'edit']
+  },
+  {
+    name: 'Mariana de Souza Santos',
+    date: '2012-02-15T17:02:59-03:00',
+    status: 'Manutenção',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Leonardo da Silva Oliveira',
+    date: '2011-01-10T17:02:59-03:00',
+    status: 'Inativo',
+    actions: ['view', 'delete']
+  },
+  {
+    name: 'Camila Maria de Souza',
+    date: '2010-12-20T17:02:59-03:00',
+    status: 'Ativo',
+    actions: ['view', 'delete', 'edit']
+  },
+  {
+    name: 'Felipe Almeida Santos',
+    date: '2009-11-05T17:02:59-03:00',
+    status: 'Manutenção',
+    actions: ['view', 'delete']
   }
 ]
 const pageNumber = ref(1)
-const totalPages = computed(() => Math.ceil(items.length / 2))
-const pageSize = ref(2)
-const pageSizeOptions = [2, 5, 10, 25, 50]
-const hasNextPage = computed(() => pageNumber.value < totalPages.value)
-const hasPreviousPage = computed(() => pageNumber.value > 1)
+const totalPages = computed(() => Math.ceil(items.length / 15))
+const totalRecords = computed(() => items.length)
+const pageSize = ref(15)
 
-const items_paginados = computed(() => items.slice(pageNumber.value -1, pageNumber.value -1 + pageSize.value))
+const items_paginados = computed(() => items.slice((pageNumber.value -1) * pageSize.value, pageNumber.value * pageSize.value))
 /* 
 "pageNumber": 1,
 "pageSize": 25,
@@ -71,11 +141,11 @@ const onAction = (action: string, index: number) => {
     :headers="headers"
     :items="items_paginados"
     class="m-2"
+    :totalRecords="totalRecords"
     @action="onAction"
-    :paginationItems="paginationItems"
     v-model:page="pageNumber"
-    v-model:pageSize="pageSize"
     :totalPages="totalPages"
+    :itemsPerPage="pageSize"
   />
 </template>
 
