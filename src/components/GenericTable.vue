@@ -6,9 +6,13 @@ import dayjs from 'dayjs'
 const props = withDefaults(defineProps<{
     headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
     items: Array<{ [key: string]: string | Array<string> }>,
+    totalPages: number
 }>(), {
 
 });
+
+const pageNumber = defineModel('page', { required: true, type: Number });
+const itemsPerPage = defineModel('items-per-page', { required: true, type: Number });
 
 const actionsIcon = {
   view: {
@@ -33,6 +37,9 @@ const emit = defineEmits<{
 const actionOnClick = (action: string, itemKey: number) => {
   emit('action', action, itemKey)
 };
+
+const hasNextPage = computed(() => pageNumber.value < props.totalPages);
+const hasPreviousPage = computed(() => pageNumber.value > 1);
 
 const sortKey = ref('');
 const sortDirection = ref('asc');
@@ -149,4 +156,43 @@ const sortedData = computed(() => {
       </tr>
     </tbody>
   </table>
+  <div class="mt-4 text-right flex items-center justify-end">
+      <span class="whitespace-nowrap text-sm mr-2">Itens por página: </span>
+      <!-- <GenericSelect class="relative w-[60px] mr-4" :height="'h-8'" :options="pageSizes" v-model="pageSize"/> -->
+      <button 
+        :disabled="!hasPreviousPage"
+        @click="pageNumber == 1"  
+        class="h-8 w-8 rounded hover:bg-gray-100 disabled:opacity-50 ml-6"
+      >
+        <span class="material-symbols-outlined">first_page</span>
+      </button>
+      
+      
+      <button
+        @click="pageNumber--"
+        :disabled="!hasPreviousPage"
+        class="h-8 w-8 rounded hover:bg-gray-100 disabled:opacity-50"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      
+      <span class="px-2 text-sm">Página {{ pageNumber }} de {{ props.totalPages? props.totalPages : 1 }}</span>
+      
+      <button
+        @click="pageNumber++"
+        :disabled="!hasNextPage"
+        class="h-8 w-8 rounded hover:bg-gray-100 disabled:opacity-50"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+      
+      <button
+        @click="pageNumber = totalPages"
+        :disabled="!hasNextPage"
+        class="h-8 w-8 rounded hover:bg-gray-100 disabled:opacity-50"
+      >
+        <span class="material-symbols-outlined">last_page</span>
+      </button>
+      
+    </div>
 </template>
