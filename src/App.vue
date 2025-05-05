@@ -3,8 +3,8 @@ import GenericTable from './components/GenericTable.vue'
 import GenericTitle from './components/GenericTitle.vue'
 import { computed, ref } from 'vue'
 const headers = {
-  date: { title: 'Data de ingresso', type: 'date', sortable: true },
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
+  date: { title: 'Data de ingresso', type: 'date', sortable: true },
   status: { title: 'Status da Bolsa', type: 'status', sortable: false },
   actions: { title: 'Ações', type: 'actions', sortable: false }
 }
