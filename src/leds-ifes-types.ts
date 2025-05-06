@@ -1,3 +1,5 @@
+import './leds-ifes-styles.css';
+
 export { default as GenericButton } from './components/GenericButton.vue';
 export { default as GenericDatePicker } from './components/GenericDatePicker.vue';
 export { default as GenericInput } from './components/GenericInput.vue';

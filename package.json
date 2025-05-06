@@ -1,21 +1,24 @@
 {
-  "name": "@leds-ifes/biblioteca-componentes",
+  "name": "@leds-ifes/components",
   "description": "Biblioteca de componentes Vue para o projeto ConectaFapes",
   "author": "LedsConectaFapes",
   "license": "MIT",
   "private": false,
-  "version": "1.0.4",
-  "main": "src/index.ts",
-  "files": ["src/components/*.vue", "src/style.css"],
+  "version": "1.0.8",
+  "main": "src/leds-ifes-types.ts",
+  "files": [
+    "src/components/*.vue",
+    "src/leds-ifes-styles.css"
+  ],
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "exports": "./src/index.ts",
+  "exports": "./src/leds-ifes-types.ts",
   "peerDependencies": {
     "dayjs": "^1.11.13",
-    "vue": "^3.5.13",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "^4.1.4",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
@@ -45,9 +48,17 @@
     "vitest": "^3.1.2",
     "vue-tsc": "^2.2.8"
   },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.5"
   }
 }
