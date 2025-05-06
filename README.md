@@ -300,3 +300,33 @@ const classes = computed<String>(() => {
 ## Publicando uma nova versão
 
 Para publicar uma nova versão apenas acesse o github actions do repositorio principal e execute o workflow 'Bump Version and Publish'
+
+## Utilizando a biblioteca em outro projeto
+
+### Instalação
+
+```shell
+npm i '@leds-ifes/components'
+```
+
+### Configurando seu main.css
+
+Adicione os seguintes trechos ao seu arquivo CSS principal do projeto:
+
+```css
+@source "../../node_modules/@leds-ifes/components/src/components/**/*.vue"; /* Permite que o Tailwind reconheça e aplique estilos aos componentes */
+
+@import "../../node_modules/@leds-ifes/components/src/leds-ifes-styles"; /* Importa estilos globais da biblioteca (cores, fontes, ícones) */
+```
+
+### Usando um componente da biblioteca
+
+No bloco `<script>`, importe o componente:
+```ts
+import { GenericButton } from '@leds-ifes/components'
+```
+
+No bloco `<template>`, utilize o componente:
+```html
+<GenericButton label="Botão" />
+```
