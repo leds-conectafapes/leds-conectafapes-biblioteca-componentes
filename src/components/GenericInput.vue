@@ -77,6 +77,7 @@ const states = computed(() => {
               font-inter
               text-gray-600
               ring hover:ring-2 rounded-lg outline-primary-400
+              search-none
           "
       >
       <button
@@ -90,3 +91,11 @@ const states = computed(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.search-none::-webkit-search-cancel-button {
+    display: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+</style>
