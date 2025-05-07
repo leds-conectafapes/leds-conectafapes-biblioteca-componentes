@@ -30,6 +30,10 @@ const actionsIcon = {
     icon: 'border_color',
     color: 'text-primary-500',
   },
+  open_in_new: {
+    icon: 'open_in_new',
+    color: 'text-primary-500',
+  },
 }
 
 const emit = defineEmits<{
