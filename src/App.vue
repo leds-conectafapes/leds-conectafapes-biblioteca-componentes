@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable.vue'
 import GenericTitle from './components/GenericTitle.vue'
+import GenericInput from './components/GenericInput.vue'
 import { computed, ref } from 'vue'
 const headers = {
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
@@ -117,7 +118,7 @@ const items = [
 const pageNumber = ref(1)
 const totalPages = computed(() => Math.ceil(items.length / 15))
 const totalRecords = computed(() => items.length)
-const pageSize = ref(15)
+const pageSize = ref(5)
 
 const items_paginados = computed(() => items.slice((pageNumber.value -1) * pageSize.value, pageNumber.value * pageSize.value))
 /* 
@@ -133,6 +134,7 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
+const teste = ref('')
 </script>
 
 <template>
@@ -147,6 +149,16 @@ const onAction = (action: string, index: number) => {
     :totalPages="totalPages"
     :itemsPerPage="pageSize"
   />
+  
+  <GenericInput
+    v-model="teste"
+    type="search"
+    label="Nome do bolsista"
+    placeholder="Digite o nome do bolsista"
+    state="default"
+    mandatory
+  />
+  
 </template>
 
 <style scoped>
