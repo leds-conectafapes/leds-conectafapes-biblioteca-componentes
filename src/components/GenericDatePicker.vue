@@ -39,28 +39,30 @@ const states = computed(() => {
         font-medium font-inter"
     >
       {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
-    <input
-      v-model="model"
-      type="date"
-      :placeholder="props.placeholder"
-      :class="states"
-      :disabled="props.state === 'disabled'"
-      class="
-            w-full
-            p-4 leading-tight
-            font-inter
-            text-gray-600
-            ring hover:ring-2 rounded-lg outline-primary-400
-            calendar-none
-        "
-    >
-    <button
-      class="absolute right-1 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer"
-    >
-      <span
-        class="material-symbols-outlined w-full h-full"
-      >date_range</span>
-    </button>
+    <div class="relative">
+      <input
+        v-model="model"
+        type="date"
+        :placeholder="props.placeholder"
+        :class="states"
+        :disabled="props.state === 'disabled'"
+        class="
+              w-full
+              p-4 leading-tight
+              font-inter
+              text-gray-600
+              ring hover:ring-2 rounded-lg outline-primary-400
+              calendar-none
+          "
+      >
+      <button
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
+      >
+        <span
+          class="material-symbols-outlined w-full h-full"
+        >date_range</span>
+      </button>
+    </div>
   </div>
 </template>
 
