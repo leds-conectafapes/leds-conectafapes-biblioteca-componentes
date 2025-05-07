@@ -4,7 +4,8 @@
   "author": "LedsConectaFapes",
   "license": "MIT",
   "private": false,
-  "version": "1.0.8",
+  "version": "1.0.9",
+  "readme": "README-NPM.md",
   "main": "src/leds-ifes-types.ts",
   "files": [
     "src/components/*.vue",

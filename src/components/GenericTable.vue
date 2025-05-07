@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 const props = withDefaults(defineProps<{
   headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
