@@ -15,15 +15,6 @@ const props = withDefaults(defineProps<{
 
 const model = defineModel({ required: true, type: String })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-}>();
-
-const iconClick = () => {
-    if (props.type === 'text') {
-        emit('update:modelValue', '')
-    }
-}
 
 type InputTypeData = {
   type: string,
@@ -38,8 +29,8 @@ type Types = {
 
 const types = computed(() => {
   const currentType: Types = {
-    text: { type: 'text', icon: 'mdi-close-circle-outline' },
-    search: { type: 'search',icon: 'mdi-magnify' },
+    text: { type: 'text', icon: null },
+    search: { type: 'search',icon: 'search' },
     number: { type: 'number', icon: null },
   }
   return currentType[props.type in currentType ? props.type as keyof typeof currentType : 'text']
@@ -73,27 +64,29 @@ const states = computed(() => {
         font-medium font-inter"
     >
         {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
-    <input
-      v-model="model"
-      :type="types.type"
-      :placeholder="props.placeholder"
-      :class="states"
-      :disabled="props.state === 'disabled'"
-      class="
-            w-full
-            p-4 leading-tight
-            font-inter
-            text-gray-600
-            ring hover:ring-2 rounded-lg outline-primary-400
-        "
-    >
-    <button
-      class="absolute right-1 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer"
-      @click="iconClick"
-    >
-      <span
-        class="material-symbols-outlined w-full h-full"
-      >close</span>
-    </button>
+    <div class="relative">
+      <input
+        v-model="model"
+        :type="types.type"
+        :placeholder="props.placeholder"
+        :class="states"
+        :disabled="props.state === 'disabled'"
+        class="
+              w-full
+              p-4 leading-tight
+              font-inter
+              text-gray-600
+              ring hover:ring-2 rounded-lg outline-primary-400
+          "
+      >
+      <button
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
+        v-if="types.icon !== null "
+      >
+        <span
+          class="material-symbols-outlined w-full h-full"
+        >{{ types.icon }}</span>
+      </button>
+    </div>
   </div>
 </template>

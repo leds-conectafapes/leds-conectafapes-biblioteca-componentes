@@ -51,42 +51,44 @@ const states = computed(() => {
         font-medium font-inter"
     >
       {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
-    <select
-      ref="select"
-      v-model="model"
-      autocomplete="on"
-      :class="states"
-      :disabled="props.state === 'disabled'"
-      class="
-            appearance-none
-            w-full
-            p-4
-            font-inter
-            text-gray-600
-            ring hover:ring-2 rounded-lg outline-primary-400
-        "
-    >
-      <option
-        value=""
-        selected
+    <div class="relative">
+      <select
+        ref="select"
+        v-model="model"
+        autocomplete="on"
+        :class="states"
+        :disabled="props.state === 'disabled'"
+        class="
+              appearance-none
+              w-full
+              p-4
+              font-inter
+              text-gray-600
+              ring hover:ring-2 rounded-lg outline-primary-400
+          "
       >
-        {{ props.placeholder }}
-      </option>
-      <option
-        v-for="(option, index) in props.options ?? []"
-        :key="index"
-        :value="option"
+        <option
+          value=""
+          selected
+        >
+          {{ props.placeholder }}
+        </option>
+        <option
+          v-for="(option, index) in props.options ?? []"
+          :key="index"
+          :value="option"
+        >
+          {{ option }}
+        </option>
+      </select>
+      <button
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer items-center justify-center"
+        @click="openSelect"
       >
-        {{ option }}
-      </option>
-    </select>
-    <button
-      class="absolute right-1 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer"
-      @click="openSelect"
-    >
-      <span
-        class="material-symbols-outlined w-full h-full"
-      >keyboard_arrow_down</span>
-    </button>
+        <span
+          class="material-symbols-outlined w-full h-full"
+        >keyboard_arrow_down</span>
+      </button>
+    </div>  
   </div>
 </template>
