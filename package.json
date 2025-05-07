@@ -3,9 +3,9 @@
   "description": "Biblioteca de componentes Vue para o projeto ConectaFapes",
   "author": "LedsConectaFapes",
   "license": "MIT",
+  "readme": "./README.npm.md",
   "private": false,
-  "version": "1.0.9",
-  "readme": "README-NPM.md",
+  "version": "1.0.12",
   "main": "src/leds-ifes-types.ts",
   "files": [
     "src/components/*.vue",
