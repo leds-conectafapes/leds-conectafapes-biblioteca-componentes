@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 const props = withDefaults(defineProps<{
   headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
   items: Array<{ [key: string]: string | Array<string> }>,
-  totalRecords: number,
+  totalRecords?: number,
   itemsPerPage?: number,
-  totalPages: number
+  totalPages?: number
 }>(), {
   itemsPerPage: 15,
+  totalRecords: ({ items }) => items.length,
+  totalPages: ({ items, itemsPerPage }) => Math.ceil(items.length / itemsPerPage!),
 });
 
 const pageNumber = defineModel('page', { required: true, type: Number });
@@ -126,12 +128,14 @@ function goToPage(page: number) {
           </th>
         </tr>
       </thead>
+      
       <tbody>
         <tr
           v-for="(row, rowIndex) in sortedData"
           :key="rowIndex"
           class="border-b border-table-line"
         >
+          
           <td
             v-for="colKey in Object.keys(props.headers)"
             :key="colKey"
@@ -178,6 +182,9 @@ function goToPage(page: number) {
         </tr>
       </tbody>
     </table>
+    <div class="relative flex pt-2 items-center justify-center font-inter" v-if="props.totalRecords === 0">
+        <span>Nenhum resultado encontrado</span>
+    </div>
     <div class="py-4 px-5  text-right flex items-center justify-between">
       <span class="ml-1"><span class="font-semibold">{{ items.length + ((pageNumber - 1) * itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
       <div class="flex items-center justify-center h-9 border border-primary-200 rounded-lg align-middle">
