@@ -8,11 +8,16 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    text: { control: 'text' },
-    state: { control: 'select', options: [
+    text: { control: 'text', description: 'Texto do subtitle', required: true },
+    state: {
+      control: 'select',
+      options: [
       'normal',
       'error',
-    ]},
+      ],
+      description: 'Variante do subtitle',
+      required: false,
+    },
   },
 
 } satisfies Meta<typeof GenericSubtitle>;

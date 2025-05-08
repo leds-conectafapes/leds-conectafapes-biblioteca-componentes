@@ -8,15 +8,20 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    text: { control: 'text' },
-    variant: { control: 'select', options: [
+    text: { control: 'text', description: 'Texto do status tag', required: true },
+    variant: {
+      control: 'select',
+      options: [
       'success',
       'successOutline',
       'error',
       'neutral',
       'neutralOutline',
       'warning',
-    ]},
+      ],
+      description: 'Variante do status tag',
+      required: false,
+    },
   },
 
 } satisfies Meta<typeof GenericStatusTag>;

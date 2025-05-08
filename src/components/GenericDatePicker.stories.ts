@@ -8,15 +8,18 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    placeholder: { control: 'text' },
+    placeholder: { control: 'text', description: 'Placeholder do input' ,required: true },
     state: { control: 'select', options: [
       'default',
       'error',
       'warning',
       'disabled',
-    ]},
-    label: { control: 'text' },
-    mandatory: { control: 'boolean' },
+    ],
+      description: 'Estado do input',
+      required: false,
+  },
+    label: { control: 'text', description: 'Nome do input', required: true },
+    mandatory: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
   },
 
 } satisfies Meta<typeof GenericDatePicker>;

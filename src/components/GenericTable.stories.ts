@@ -8,12 +8,12 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    headers: { control: 'object' },
-    items: { control: 'object' },
-    totalRecords: { control: 'number' },
-    itemsPerPage: { control: 'number' },
-    totalPages: { control: 'number' },
-    page: { control: 'number' },
+    headers: { control: 'object', description: 'Configurações da coluna da tabela', required: true },
+    items: { control: 'object', description: 'Itens da tabela', required: true },
+    totalRecords: { control: 'number', description: 'Quantidade total de registros' },
+    itemsPerPage: { control: 'number', description: 'Quantidade de registros por página', required: true },
+    totalPages: { control: 'number', description: 'Quantidade total de páginas' },
+    page: { control: 'number', description: 'Página atual' },
   },
 
 } satisfies Meta<typeof GenericTable>;

@@ -8,8 +8,10 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    text: { control: 'text' },
-    variant: { control: 'select', options: [
+    text: { control: 'text', description: 'Texto do title', required: true },
+    variant: {
+      control: 'select',
+      options: [
       'h1',
       'h2',
       'h3',
@@ -17,7 +19,10 @@ const meta = {
       'subtitle',
       'body',
       'caption',
-    ]},
+      ],
+      description: 'Variante do title',
+      required: false,
+    },
   },
 
 } satisfies Meta<typeof GenericTitle>;
