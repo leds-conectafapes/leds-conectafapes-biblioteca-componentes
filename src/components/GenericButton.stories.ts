@@ -8,16 +8,20 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    label: { control: 'text'},
-
-    variant: { control: 'select', options: [
+    label: { control: 'text', description: 'Texto do botão' ,required: true },
+    variant: { 
+      control: 'select',
+      options: [
       'primary',
       'danger',
       'warning',
       'secondary',
       'secondaryDanger',
       'disabled',
-    ]},
+      ],
+      description: 'Variante do botão',
+      required: false,
+    },
 
   },
 

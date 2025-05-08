@@ -8,16 +8,21 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
-    placeholder: { control: 'text' },
-    options: { control: 'object' },
-    label: { control: 'text' },
-    mandatory: { control: 'boolean' },
-    state: { control: 'select', options: [
+    placeholder: { control: 'text', description: 'Placeholder do input' , required: true },
+    options: { control: 'object', description: 'Valores do select', required: true },
+    label: { control: 'text', description: 'Nome do input', required: true },
+    mandatory: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
+    state: {
+      control: 'select',
+      options: [
       'default',
       'error',
       'warning',
       'disabled',
-    ]},
+      ],
+      description: 'Estado do input',
+      required: false,
+    },
   },
 } satisfies Meta<typeof GenericSelect>;
 
