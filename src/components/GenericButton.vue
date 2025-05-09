@@ -42,6 +42,7 @@ const variants = computed(() => {
   <button
     type="button"
     class="
+      w-full
       flex gap-2.5 items-center justify-center
       px-6 py-4 leading-tight
       rounded-lg
