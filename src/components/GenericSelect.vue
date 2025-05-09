@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ref } from 'vue';
 
 const props = withDefaults(defineProps<{
     placeholder: string,
@@ -14,16 +13,6 @@ const props = withDefaults(defineProps<{
 })
 
 const model = defineModel({ required: true, type: String })
-
-const select = ref<HTMLSelectElement | null>(null)
-const openSelect = () => {
-    const event = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-    })
-    select.value?.dispatchEvent(event)
-}
 
 type InputStates = {
     default: string,
@@ -53,7 +42,6 @@ const states = computed(() => {
       {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
     <div class="relative">
       <select
-        ref="select"
         v-model="model"
         autocomplete="on"
         :class="states"
@@ -83,7 +71,6 @@ const states = computed(() => {
       </select>
       <button
         class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer items-center justify-center"
-        @click="openSelect"
       >
         <span
           class="material-symbols-outlined w-full h-full"

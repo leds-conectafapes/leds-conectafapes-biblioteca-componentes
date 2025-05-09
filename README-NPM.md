@@ -32,12 +32,10 @@ npm i '@leds-ifes/components'
 
 ### Configurando seu main.css
 
-Adicione os seguintes trechos ao seu arquivo CSS principal do projeto:
+Adicione o seguinte trecho ao seu arquivo CSS principal do projeto:
 
 ```css
-@source "../../node_modules/@leds-ifes/components/src/components/**/*.vue"; /* Permite que o Tailwind reconheça e aplique estilos aos componentes */
-
-@import "../../node_modules/@leds-ifes/components/src/leds-ifes-styles"; /* Importa estilos globais da biblioteca (cores, fontes, ícones) */
+@import "@leds-ifes/components/styles";
 ```
 
 ### Usando um componente da biblioteca
