@@ -126,6 +126,7 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
+const letra = ref('')
 </script>
 
 <template>
@@ -140,7 +141,7 @@ const onAction = (action: string, index: number) => {
     :totalPages="totalPages"
     :itemsPerPage="pageSize"
   />
-  <GenericSelect :options="['A', 'B', 'C']" placeholder="Selecione uma letra" label="Letra" class="w-xl m-2"/>
+  <GenericSelect :options="['A', 'B', 'C']" placeholder="Selecione uma letra" label="Letra" class="w-xl m-2" v-model="letra"/>
 </template>
 
 <style scoped>

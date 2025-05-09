@@ -2,56 +2,55 @@ name: Bump Version and Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Tipo de versão (patch, minor, major)"
+        required: true
+        default: "patch"
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-        registry-url: 'https://registry.npmjs.org'
-        
-    - name: Configure Git
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Reset any uncommitted changes
-      run: |
-        git reset --hard HEAD
-        git clean -fd
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Check Git status
-      run: git status
-      
-    - name: Commit changes if any
-      run: |
-        git add .
-        git commit -m "Committing changes before version bump" || echo "No changes to commit"
-        
-    - name: Rename README.md to README-GITHUB.md and README-NPM.md to README.md
-      run: |
-        mv README.md README-GITHUB.md
-        mv README-NPM.md README.md
-    
-    - name: Increment Version
-      run: |
-        npm version patch -m "Upgrade to %s for new release"
-            
-    - name: Publish to NPM
-      run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Restore README files after publish
-      run: |
-        mv README.md README-NPM.md
-        mv README-GITHUB.md README.md
+      - name: Swap README files for npm
+        run: |
+          mv README.md README-GITHUB.md
+          mv README-NPM.md README.md
+
+      - name: Bump version
+        run: |
+          npm version ${{ github.event.inputs.version_type }} -m "Release %s [skip ci]"
+        env:
+          CI: true
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Restore README files
+        run: |
+          mv README.md README-NPM.md
+          mv README-GITHUB.md README.md
+
+      - name: Push version commit and tag
+        run: |
+          git push origin HEAD --follow-tags
+        env:
+          GIT_AUTHOR_NAME: github-actions
+          GIT_AUTHOR_EMAIL: github-actions@github.com
+          GIT_COMMITTER_NAME: github-actions
+          GIT_COMMITTER_EMAIL: github-actions@github.com

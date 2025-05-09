@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
-import dayjs from 'dayjs'
+import * as dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
