@@ -5,17 +5,17 @@
   "license": "MIT",
   "readme": "./README.npm.md",
   "private": false,
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "src/leds-ifes-types.ts",
   "files": [
     "src/components/*.vue",
     "src/leds-ifes-styles.css"
   ],
   "exports": {
-  ".": {
-    "types": "./src/leds-ifes-types.ts"
-  },
-  "./styles": "./src/leds-ifes-styles.css"
+    ".": {
+      "types": "./src/leds-ifes-types.ts"
+    },
+    "./styles": "./src/leds-ifes-styles.css"
   },
   "type": "module",
   "publishConfig": {
