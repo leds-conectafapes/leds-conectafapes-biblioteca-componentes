@@ -49,6 +49,14 @@ jobs:
         run: |
           mv README.md README-NPM.md
           mv README-GITHUB.md README.md
+      
+      - name: Commit restored README files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md README-GITHUB.md README-NPM.md
+          git commit -m "chore: restore README after npm publish"
+          git push origin HEAD
 
       - name: Push version commit and tag
         run: |
