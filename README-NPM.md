@@ -8,11 +8,9 @@ Biblioteca global de componentes Vue.js para os sistemas do Conecta Fapes, desen
 - Estilização com Tailwind CSS v4
 - Design system consistente para todos os projetos
 
-## Documentação
+## Documentação (Requer VPN)
 
-Documentação completa dos componentes disponíveis via Storybook 
-
-- Vai ter um LINK
+- [Documentação completa dos componentes disponíveis via Storybook](http://storybooks.conectafapes.leds.dev.br:8050/)
 
 ## Pre-requisitos
 
