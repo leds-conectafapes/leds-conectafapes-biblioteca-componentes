@@ -32,7 +32,7 @@ const states = computed(() => {
 </script>
 
 <template>
-  <div class="w-xs relative gap-y-4 flex flex-col">
+  <div class="w-full relative gap-y-4 flex flex-col">
     <label
       class="
         text-base
