@@ -116,7 +116,7 @@ const items = [
   }
 ]
 const pageNumber = ref(1)
-const totalPages = computed(() => Math.ceil(items.length / 15))
+const totalPages = computed(() => Math.ceil(items.length / 5))
 const totalRecords = computed(() => items.length)
 const pageSize = ref(5)
 
@@ -133,13 +133,11 @@ const letra = ref('')
   <GenericTitle text="TESTE" />
   <GenericTable
     :headers="headers"
-    :items="items_paginados"
+    :itemsPerPage="5"
+    :items="items"
     class="m-2"
-    :totalRecords="totalRecords"
     @action="onAction"
     v-model:page="pageNumber"
-    :totalPages="totalPages"
-    :itemsPerPage="pageSize"
   />
   <GenericSelect :options="['A', 'B', 'C']" placeholder="Selecione uma letra" label="Letra" class="w-xl m-2" v-model="letra"/>
 </template>
