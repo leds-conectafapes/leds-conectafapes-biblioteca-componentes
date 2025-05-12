@@ -33,7 +33,8 @@ npm i '@leds-ifes/components'
 Adicione o seguinte trecho ao seu arquivo CSS principal do projeto:
 
 ```css
-@import "@leds-ifes/components/styles";
+@import '../../node_modules/@leds-ifes/components/src/leds-ifes-styles.css';
+@source '../../node_modules/@leds-ifes/components/*/.vue';
 ```
 
 ### Usando um componente da biblioteca

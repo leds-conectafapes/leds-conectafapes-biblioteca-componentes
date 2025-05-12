@@ -12,12 +12,12 @@ const meta = {
     variant: {
       control: 'select',
       options: [
-      'success',
+      'primary',
       'successOutline',
-      'error',
-      'neutral',
-      'neutralOutline',
       'warning',
+      'secondary',
+      'secondaryDanger',
+      'disabled',
       ],
       description: 'Variante do status tag',
       required: false,
