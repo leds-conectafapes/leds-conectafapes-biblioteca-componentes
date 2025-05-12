@@ -5,7 +5,7 @@
   "license": "MIT",
   "readme": "./README.npm.md",
   "private": false,
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "src/leds-ifes-types.ts",
   "files": [
     "src/components/*.vue",
