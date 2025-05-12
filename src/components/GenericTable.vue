@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
@@ -18,6 +18,26 @@ const props = withDefaults(defineProps<{
 });
 
 const pageNumber = defineModel('page', { required: true, type: Number });
+
+const items_paginados = ref<Array<{ [key: string]: string | Array<string> }>>([]);
+const nao_paginados = props.totalRecords === props.items.length && props.itemsPerPage < props.totalRecords;
+onMounted(() => {
+  if(nao_paginados) {
+    items_paginados.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+  } else {
+    items_paginados.value = props.items
+  }
+});
+
+watch(pageNumber, () => {
+  if(nao_paginados) {
+    items_paginados.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+  } else {
+    items_paginados.value = props.items
+  }
+})
+
+
 
 const actionsIcon = {
   view: {
@@ -76,7 +96,7 @@ function compareData(data1: string, data2: string) {
 }
 
 const sortedData = computed(() => {
-  return [...props.items].sort((a: { [key: string]: string | string[] }, b: { [key: string]: string | string[] }) => {
+  return [...items_paginados.value].sort((a: { [key: string]: string | string[] }, b: { [key: string]: string | string[] }) => {
     const modifier = sortDirection.value === 'asc' ? 1 : -1;
     if (sortKey.value === 'date') {
       return compareData(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
@@ -87,7 +107,7 @@ const sortedData = computed(() => {
 
 const visiblePages = computed(() => {
   const currentPage = pageNumber.value;
-  const pagesToShow = 3; // Number of pages to show on each side of the current page
+  const pagesToShow = 3;
 
   const startPage = Math.max(1, currentPage - pagesToShow);
   const endPage = Math.min(props.totalPages, currentPage + pagesToShow);
@@ -173,7 +193,7 @@ function goToPage(page: number) {
               </button>
             </div>
             <div v-else-if="props.headers[colKey].type === 'date'">
-              {{ dayjs(Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]).format('DD/MM/YYYY') }}
+              {{ dayjs(Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]).utc().format('DD/MM/YYYY') }}
             </div>
             <div v-else>
               {{ row[colKey] }}
@@ -186,7 +206,7 @@ function goToPage(page: number) {
         <span>Nenhum resultado encontrado</span>
     </div>
     <div class="py-4 px-5  text-right flex items-center justify-between">
-      <span class="ml-1"><span class="font-semibold">{{ items.length + ((pageNumber - 1) * itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
+      <span class="ml-1"><span class="font-semibold">{{ items_paginados.length + ((pageNumber - 1) * props.itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
       <div class="flex items-center justify-center h-9 border border-primary-200 rounded-lg align-middle">
         <button @click="pageNumber--" :disabled="!hasPreviousPage" class="cursor-pointer w-9 flex items-center justify-center">
           <span class="material-symbols-outlined text-primary-500">chevron_left</span>

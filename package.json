@@ -5,7 +5,7 @@
   "license": "MIT",
   "readme": "./README.npm.md",
   "private": false,
-  "version": "1.0.15",
+  "version": "1.0.17",
   "main": "src/leds-ifes-types.ts",
   "files": [
     "src/components/*.vue",
@@ -13,9 +13,12 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/leds-ifes-types.ts"
+      "types": "./src/leds-ifes-types.ts",
+      "import": "./src/leds-ifes-types.ts"
     },
-    "./styles": "./src/leds-ifes-styles.css"
+    "./styles": {
+      "import": "./src/leds-ifes-styles.css"
+    }
   },
   "type": "module",
   "publishConfig": {
