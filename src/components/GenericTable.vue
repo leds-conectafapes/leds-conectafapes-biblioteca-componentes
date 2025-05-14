@@ -98,6 +98,10 @@ function goToPage(page: number) {
   pageNumber.value = page;
 }
 
+const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+};
+
 const actionsIcon = {
   view: {
     icon: 'visibility',
@@ -193,6 +197,9 @@ const actionsIcon = {
             </div>
             <div v-else-if="props.headers[colKey].type === 'date'">
               {{ dayjs(Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]).utc().format('DD/MM/YYYY') }}
+            </div>
+            <div v-else-if="props.headers[colKey].type === 'currency'">
+              {{ formatCurrency(row[colKey] as number) }}
             </div>
             <div v-else>
               {{ row[colKey] }}

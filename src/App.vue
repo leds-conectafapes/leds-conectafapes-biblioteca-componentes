@@ -7,7 +7,7 @@ const headers = {
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
   date: { title: 'Data de ingresso', type: 'date', sortable: true },
   status: { title: 'Status da Bolsa', type: 'status', sortable: false },
-  dinheiro: { title: 'Dinheiro', type: 'currency', sortable: false },
+  dinheiro: { title: 'Dinheiro', type: 'currency', sortable: true },
   actions: { title: 'Ações', type: 'actions', sortable: false }
 }
 
