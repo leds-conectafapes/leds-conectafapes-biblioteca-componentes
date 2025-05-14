@@ -7,7 +7,7 @@ dayjs.extend(utc);
 
 const props = withDefaults(defineProps<{
   headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
-  items: Array<{ [key: string]: string | Array<string> }>,
+  items: Array<{ [key: string]: string | Array<string> | number }>,
   totalRecords?: number,
   itemsPerPage?: number,
   totalPages?: number
@@ -17,9 +17,18 @@ const props = withDefaults(defineProps<{
   totalPages: ({ items, itemsPerPage }) => Math.ceil(items.length / itemsPerPage!),
 });
 
+
+const emit = defineEmits<{
+  (e: 'action', action: string, itemKey: number): void;
+}>();
+
+const actionOnClick = (action: string, itemKey: number) => {
+  emit('action', action, itemKey)
+};
+
 const pageNumber = defineModel('page', { required: true, type: Number });
 
-const items_paginados = ref<Array<{ [key: string]: string | Array<string> }>>([]);
+const items_paginados = ref<Array<{ [key: string]: string | Array<string> | number }>>([]);
 const nao_paginados = props.totalRecords === props.items.length && props.itemsPerPage < props.totalRecords;
 onMounted(() => {
   if(nao_paginados) {
@@ -36,36 +45,6 @@ watch(pageNumber, () => {
     items_paginados.value = props.items
   }
 })
-
-
-
-const actionsIcon = {
-  view: {
-    icon: 'visibility',
-    color: 'text-primary-500',
-  },
-  delete: {
-    icon: 'dangerous',
-    color: 'text-error-300',
-  },
-  edit: {
-    icon: 'border_color',
-    color: 'text-primary-500',
-  },
-  open_in_new: {
-    icon: 'open_in_new',
-    color: 'text-primary-500',
-  },
-}
-
-const emit = defineEmits<{
-  (e: 'action', action: string, itemKey: number): void;
-}>();
-
-
-const actionOnClick = (action: string, itemKey: number) => {
-  emit('action', action, itemKey)
-};
 
 const hasNextPage = computed(() => pageNumber.value < props.totalPages);
 const hasPreviousPage = computed(() => pageNumber.value > 1);
@@ -96,7 +75,7 @@ function compareData(data1: string, data2: string) {
 }
 
 const sortedData = computed(() => {
-  return [...items_paginados.value].sort((a: { [key: string]: string | string[] }, b: { [key: string]: string | string[] }) => {
+  return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
     const modifier = sortDirection.value === 'asc' ? 1 : -1;
     if (sortKey.value === 'date') {
       return compareData(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
@@ -117,6 +96,29 @@ const visiblePages = computed(() => {
 
 function goToPage(page: number) {
   pageNumber.value = page;
+}
+
+const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+};
+
+const actionsIcon = {
+  view: {
+    icon: 'visibility',
+    color: 'text-primary-500',
+  },
+  delete: {
+    icon: 'dangerous',
+    color: 'text-error-300',
+  },
+  edit: {
+    icon: 'border_color',
+    color: 'text-primary-500',
+  },
+  open_in_new: {
+    icon: 'open_in_new',
+    color: 'text-primary-500',
+  },
 }
 </script>
 
@@ -163,22 +165,23 @@ function goToPage(page: number) {
           >
             <div
               v-if="props.headers[colKey].type === 'actions'"
-              class="gap-2"
+              class="gap-2 flex"
             >
-              <button
-                v-for="(action, actionIndex) in row[colKey]"
-                :key="actionIndex"
-                @click="actionOnClick(action, rowIndex)"
-              >
-                <span
-                  class="material-symbols-outlined p-2 cursor-pointer !text-xl"
-                  :class="actionsIcon[action as keyof typeof actionsIcon].color"
+              <div v-for="(action, actionIndex) in row[colKey]" :key="actionIndex">
+                <button
+                  v-if="typeof action === 'string'"
+                  @click="actionOnClick(action, rowIndex)"
                 >
-                  {{ actionsIcon[action as keyof typeof actionsIcon].icon }}
-                </span>
-              </button>
+                  <span
+                    class="material-symbols-outlined p-2 cursor-pointer !text-xl"
+                    :class="actionsIcon[action as keyof typeof actionsIcon].color"
+                  >
+                    {{ actionsIcon[action as keyof typeof actionsIcon].icon }}
+                  </span>
+                </button>
+              </div>
             </div>
-            <div v-else-if="props.headers[colKey].type === 'status'">
+            <div v-else-if="props.headers[colKey].type === 'status' && typeof row[colKey] === 'string'">
               <GenericStatusTag
                 :text="Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]"
                 variant="success"
@@ -194,6 +197,9 @@ function goToPage(page: number) {
             </div>
             <div v-else-if="props.headers[colKey].type === 'date'">
               {{ dayjs(Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]).utc().format('DD/MM/YYYY') }}
+            </div>
+            <div v-else-if="props.headers[colKey].type === 'currency'">
+              {{ formatCurrency(row[colKey] as number) }}
             </div>
             <div v-else>
               {{ row[colKey] }}
