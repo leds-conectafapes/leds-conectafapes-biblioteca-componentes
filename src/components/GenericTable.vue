@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc';
+import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 
 const props = withDefaults(defineProps<{
