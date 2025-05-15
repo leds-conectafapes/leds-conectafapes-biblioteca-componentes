@@ -2,8 +2,8 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import GenericStatusTag from './GenericStatusTag.vue'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc.js';
-dayjs.extend(utc);
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc.default ?? utc);
 
 const props = withDefaults(defineProps<{
   headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
