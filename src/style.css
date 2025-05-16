@@ -1,20 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 @theme {
+
+    /* Base Colors */
+    --color-white: #fff;
+    
+    /* Primary */
     --color-primary-hover: #1A255F;
     --color-primary-500: #2B3A8A;
     --color-primary-400: #5360A1;
     --color-primary-300: #7C85B8;
     --color-primary-200: #B8BEDA;
     --color-primary-100: #CDD0E5;
+
+    /* Secondary */
     --color-secondary: #ADBC13;
     --color-secondary-400: #BDC942;
     --color-secondary-300: #CED771;
     --color-secondary-200: #E6EBB8;
+
+    /* Success */
     --color-success-400: #107B2E;
     --color-success-100: #6FC487;
+
+    /* Gray */
     --color-gray: #32333A;
-    --color-gray-hover: #CFD0D3;
     --color-gray-700: #2A2D3C;
     --color-gray-600: #4F5059;
     --color-gray-500: #727793;
@@ -22,18 +32,23 @@
     --color-gray-300: #B9BBC9;
     --color-gray-200: #CACDDA;
     --color-gray-200: #E2E3EB;
-    --color-table-line: #E0E0E0; /*Cor Temporaria*/
-    --color-white: #fff;
-    --color-white-100: #E7E8EE;
+    --color-gray-hover: #CFD0D3;
+
+    /* Error */
     --color-error-hover: #810C0C;
-    --color-error-secondaryHover: #E9CACA;
     --color-error-300: #AE1212;
     --color-error-200: #BD383B;
     --color-error-100: #CD6363;
+    --color-error-secondaryHover: #E9CACA;
+
+    /* Warning */
     --color-warning-hover: #9B3312;
-    --color-warning-200: #FDC32E;
     --color-warning-100: #B64421;
+    --color-warning-200: #FDC32E;
 
+    /* Temporary Colors */
+    --color-table-line: #E0E0E0;
 
+    /* Fonts */
     --font-inter: Inter, sans-serif;
 }

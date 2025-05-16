@@ -59,11 +59,11 @@ const states = computed(() => {
 <template>
   <div class="w-full relative gap-y-4 flex flex-col">
     <label
-        class="
+      class="
         text-base
         font-medium font-inter"
     >
-        {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
+      {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
     <div class="relative">
       <input
         v-model="model"
@@ -81,8 +81,8 @@ const states = computed(() => {
           "
       >
       <button
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
         v-if="types.icon !== null "
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
       >
         <span
           class="material-symbols-outlined w-full h-full"

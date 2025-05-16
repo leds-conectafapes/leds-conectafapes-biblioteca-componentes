@@ -150,14 +150,20 @@ const letra = ref('')
 <template>
   <GenericTitle text="TESTE" />
   <GenericTable
+    v-model:page="pageNumber"
     :headers="headers"
-    :itemsPerPage="5"
+    :items-per-page="5"
     :items="items"
     class="m-2"
     @action="onAction"
-    v-model:page="pageNumber"
   />
-  <GenericSelect :options="['A', 'B', 'C']" placeholder="Selecione uma letra" label="Letra" class="w-xl m-2" v-model="letra"/>
+  <GenericSelect
+    v-model="letra"
+    :options="['A', 'B', 'C']"
+    placeholder="Selecione uma letra"
+    label="Letra"
+    class="w-xl m-2"
+  />
 </template>
 
 <style scoped>
