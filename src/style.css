@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 @theme {
-    
+
     /* Base Colors */
     --color-white: #fff;
     
@@ -36,15 +36,15 @@
 
     /* Error */
     --color-error-hover: #810C0C;
-    --color-error-secondaryHover: #E9CACA;
     --color-error-300: #AE1212;
     --color-error-200: #BD383B;
     --color-error-100: #CD6363;
+    --color-error-secondaryHover: #E9CACA;
 
     /* Warning */
     --color-warning-hover: #9B3312;
-    --color-warning-200: #FDC32E;
     --color-warning-100: #B64421;
+    --color-warning-200: #FDC32E;
 
     /* Temporary Colors */
     --color-table-line: #E0E0E0;

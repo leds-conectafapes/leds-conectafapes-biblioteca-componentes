@@ -70,18 +70,28 @@ function sortTable(header: { title: string, type: string, sortable?: boolean}, k
   }
 }
 
-function compareData(data1: string, data2: string) {
+function compareDate(data1: string, data2: string) {
   return dayjs(data1).isAfter(dayjs(data2));
 }
 
 const sortedData = computed(() => {
-  return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
+  if(nao_paginados) {
+    return [...props.items].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
+      const modifier = sortDirection.value === 'asc' ? 1 : -1;
+      if (sortKey.value === 'date') {
+        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+      }
+      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
+  }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+  } else {
+   return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
     const modifier = sortDirection.value === 'asc' ? 1 : -1;
     if (sortKey.value === 'date') {
-      return compareData(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+      return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
     }
     return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-  })
+  }) 
+  }
 });
 
 const visiblePages = computed(() => {
