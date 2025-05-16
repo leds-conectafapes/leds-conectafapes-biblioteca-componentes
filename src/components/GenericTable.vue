@@ -157,7 +157,6 @@ const actionsIcon = {
           :key="rowIndex"
           class="border-b border-table-line"
         >
-          
           <td
             v-for="colKey in Object.keys(props.headers)"
             :key="colKey"
@@ -167,7 +166,10 @@ const actionsIcon = {
               v-if="props.headers[colKey].type === 'actions'"
               class="gap-2 flex"
             >
-              <div v-for="(action, actionIndex) in row[colKey]" :key="actionIndex">
+              <div
+                v-for="(action, actionIndex) in row[colKey]"
+                :key="actionIndex"
+              >
                 <button
                   v-if="typeof action === 'string'"
                   @click="actionOnClick(action, rowIndex)"
@@ -208,13 +210,20 @@ const actionsIcon = {
         </tr>
       </tbody>
     </table>
-    <div class="relative flex pt-2 items-center justify-center font-inter" v-if="props.totalRecords === 0">
-        <span>Nenhum resultado encontrado</span>
+    <div
+      v-if="props.totalRecords === 0"
+      class="relative flex pt-2 items-center justify-center font-inter"
+    >
+      <span>Nenhum resultado encontrado</span>
     </div>
     <div class="py-4 px-5  text-right flex items-center justify-between">
       <span class="ml-1"><span class="font-semibold">{{ items_paginados.length + ((pageNumber - 1) * props.itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
       <div class="flex items-center justify-center h-9 border border-primary-200 rounded-lg align-middle">
-        <button @click="pageNumber--" :disabled="!hasPreviousPage" class="cursor-pointer w-9 flex items-center justify-center">
+        <button
+          :disabled="!hasPreviousPage"
+          class="cursor-pointer w-9 flex items-center justify-center"
+          @click="pageNumber--"
+        >
           <span class="material-symbols-outlined text-primary-500">chevron_left</span>
         </button>
         
@@ -232,11 +241,14 @@ const actionsIcon = {
           </span>
         </div>
         
-        <button @click="pageNumber++" :disabled="!hasNextPage" class="cursor-pointer w-9 flex items-center justify-center">
+        <button
+          :disabled="!hasNextPage"
+          class="cursor-pointer w-9 flex items-center justify-center"
+          @click="pageNumber++"
+        >
           <span class="material-symbols-outlined text-primary-500">chevron_right</span>
         </button>
       </div>
     </div>
-    
   </div>
 </template>
