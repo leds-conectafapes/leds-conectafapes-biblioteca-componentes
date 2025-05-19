@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
+import type { PropType } from 'vue';
 
 const props = withDefaults(defineProps<{
     type?: string,
@@ -7,52 +8,39 @@ const props = withDefaults(defineProps<{
     state?: string,
     label: string,
     mandatory?: boolean,
+    errorMessages?: string | string[],
 }>(), {
     type: 'text',
     state: 'default',
     mandatory: false,
+    errorMessages: '',
 })
 
-const model = defineModel({ required: true, type: String })
+const model = defineModel({ default: '', type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
 
-
-type InputTypeData = {
-  type: string,
-  icon?: string | null,
-}
-
-type Types = {
-    text: InputTypeData,
-    search: InputTypeData,
-    number: InputTypeData,
-}
-
-const types = computed(() => {
-  const currentType: Types = {
+const inputTypes = computed(() => {
+  const type = {
     text: { type: 'text', icon: null },
-    search: { type: 'search',icon: 'search' },
+    search: { type: 'search', icon: 'search' },
     number: { type: 'number', icon: null },
+    email: { type: 'email', icon: null },
+    password: { type: 'password', icon: 'visibility_off' },
+    tel: { type: 'tel', icon: null },
+    url: { type: 'url', icon: null },
   }
-  return currentType[props.type in currentType ? props.type as keyof typeof currentType : 'text']
+  return type[props.type as keyof typeof type] || type.text
 })
 
-type InputStates = {
-    default: string,
-    error: string,
-    warning: string,
-    disabled: string
-}
-
-const states = computed(() => {
-    const currentState: InputStates = {
-        default: 'ring-gray-500',
-        error: 'ring-error-300 bg-error-100/10',
-        warning: 'ring-warning-100',
-        disabled: '!ring-0 bg-gray-100/40',
-    }
-    return currentState[props.state in currentState ? props.state as keyof typeof currentState : 'default']
+const inputStates = computed(() => {
+  const state = {
+      default: 'ring-gray-500',
+      error: 'ring-error-300 bg-error-100/10',
+      warning: 'ring-warning-100',
+      disabled: '!ring-0 bg-gray-100/40',
+  }
+  const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
+  return state[verifyError as keyof typeof state] || state.default
 })
-
 
 </script>
 
@@ -67,9 +55,9 @@ const states = computed(() => {
     <div class="relative">
       <input
         v-model="model"
-        :type="types.type"
+        :type="inputTypes.type"
         :placeholder="props.placeholder"
-        :class="states"
+        :class="inputStates"
         :disabled="props.state === 'disabled'"
         class="
               w-full
@@ -77,25 +65,41 @@ const states = computed(() => {
               font-inter
               text-gray-600
               ring hover:ring-2 rounded-lg outline-primary-400
-              search-none
           "
       >
       <button
-        v-if="types.icon !== null "
+        v-if="inputTypes.icon !== null "
         class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
       >
         <span
           class="material-symbols-outlined w-full h-full"
-        >{{ types.icon }}</span>
+        >{{ inputTypes.icon }}</span>
       </button>
+    </div>
+    <div
+      v-if="props.errorMessages !== ''"
+      class="mt-1 text-sm text-error-300"
+    >
+      <p
+        v-for="(error, index) in props.errorMessages"
+        :key="index"
+      >
+        {{ error }}
+      </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.search-none::-webkit-search-cancel-button {
-    display: none;
-    -webkit-appearance: none;
-    appearance: none;
+input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+
+input[type='password']::-ms-reveal {
+  display: none;
 }
 </style>
