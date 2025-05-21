@@ -1,25 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { titleType } from '../leds-ifes-types';
 
 const props = withDefaults(defineProps<{
   text: string,
-  variant?: string,
+  type?: titleType,
 }>(), {
-  variant: 'h1',
+  type: 'h1',
 });
 
-type Variants = {
-  h1: string,
-  h2: string,
-  h3: string,
-  title: string,
-  subtitle: string,
-  body: string,
-  caption: string
-}
-
-const variants = computed(() => {
-  const currentVariant: Variants = {
+const titleTypes = computed(() => {
+  const variant: Record<titleType, string> = {
     h1: 'text-3xl/[38px] font-semibold',
     h2: 'text-2xl',
     h3: 'text-xl',
@@ -28,7 +19,7 @@ const variants = computed(() => {
     body: 'text-sm/[22px]',
     caption: 'text-xs/[18px]',
   }
-  return currentVariant[props.variant in currentVariant ? props.variant as keyof typeof currentVariant : 'h1']
+  return variant[props.type as keyof typeof variant] || variant.h1
 })
 
 
@@ -36,7 +27,7 @@ const variants = computed(() => {
 
 <template>
   <span
-    :class="variants"
+    :class="titleTypes"
   >
     {{ props.text }}
   </span>

@@ -1,33 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { PropType } from 'vue';
+import type { datePickerState } from '../leds-ifes-types';
 
 const props = withDefaults(defineProps<{
     placeholder: string,
-    state?: string,
+    state?: datePickerState,
     label: string,
-    mandatory?: boolean,
+    required?: boolean,
+    errorMessages?: string[],
 }>(), {
     state: 'default',
     mandatory: false,
+    errorMessages: () => [],
 })
 
-const model = defineModel({ required: true, type: String })
+const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
 
-type InputStates = {
-    default: string,
-    error: string,
-    warning: string,
-    disabled: string
-}
-
-const states = computed(() => {
-    const currentState: InputStates = {
+const datePickerStates = computed(() => {
+    const state: Record<datePickerState, string> = {
         default: 'ring-gray-500',
         error: 'ring-error-300 bg-error-100/10',
         warning: 'ring-warning-100',
         disabled: '!ring-0 bg-gray-100/40',
     }
-    return currentState[props.state in currentState ? props.state as keyof typeof currentState : 'default']
+    return state[props.state as keyof typeof state] || state.default
 })
 </script>
 
@@ -38,13 +35,13 @@ const states = computed(() => {
         text-base
         font-medium font-inter"
     >
-      {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
+      {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <input
         v-model="model"
         type="date"
         :placeholder="props.placeholder"
-        :class="states"
+        :class="datePickerStates"
         :disabled="props.state === 'disabled'"
         class="
               w-full

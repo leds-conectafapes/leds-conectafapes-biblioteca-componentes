@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable.vue'
 import GenericTitle from './components/GenericTitle.vue'
-import GenericSelect from './components/GenericSelect.vue'
+import GenericInput from './components/GenericInput.vue'
+import type { headerColumnType } from './leds-ifes-types'
 import { ref } from 'vue'
-const headers = {
+
+const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} } = {
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
   date: { title: 'Data de ingresso', type: 'date', sortable: true },
   status: { title: 'Status da Bolsa', type: 'status', sortable: false },
@@ -144,7 +146,7 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
-const letra = ref('')
+const inputModel = ref()
 </script>
 
 <template>
@@ -157,13 +159,26 @@ const letra = ref('')
     class="m-2"
     @action="onAction"
   />
-  <GenericSelect
-    v-model="letra"
-    :options="['A', 'B', 'C']"
-    placeholder="Selecione uma letra"
-    label="Letra"
-    class="w-xl m-2"
-  />
+  <div>
+    <GenericInput
+      v-model="inputModel"
+      type="text"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+    />
+    {{ inputModel }}
+  </div>
+
+  <!-- <div>
+    <GenericDatePicker
+      v-model="inputModel"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+    />
+    {{ inputModel }}
+  </div> -->
 </template>
 
 <style scoped>

@@ -1,25 +1,26 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import type { PropType } from 'vue';
+import type { inputState, inputType } from '../leds-ifes-types';
 
 const props = withDefaults(defineProps<{
-    type?: string,
+    type?: inputType,
     placeholder: string,
-    state?: string,
+    state?: inputState,
     label: string,
-    mandatory?: boolean,
-    errorMessages?: string | string[],
+    required?: boolean,
+    errorMessages?: string[],
 }>(), {
     type: 'text',
     state: 'default',
     mandatory: false,
-    errorMessages: '',
+    errorMessages: () => [],
 })
 
-const model = defineModel({ default: '', type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
+const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
 
 const inputTypes = computed(() => {
-  const type = {
+  const type: Record<inputType, { type: inputType, icon: string | null }> = {
     text: { type: 'text', icon: null },
     search: { type: 'search', icon: 'search' },
     number: { type: 'number', icon: null },
@@ -51,7 +52,7 @@ const inputStates = computed(() => {
         text-base
         font-medium font-inter"
     >
-      {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
+      {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <input
         v-model="model"
@@ -77,7 +78,7 @@ const inputStates = computed(() => {
       </button>
     </div>
     <div
-      v-if="props.errorMessages !== ''"
+      v-if="props.errorMessages.length > 0"
       class="mt-1 text-sm text-error-300"
     >
       <p
