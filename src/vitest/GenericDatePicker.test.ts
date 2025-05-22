@@ -2,8 +2,9 @@ import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
 import GenericDatePicker from '../components/GenericDatePicker.vue'
 import { ref } from 'vue'
+import type { inputState } from '../leds-ifes-types'
 
-const states = ['default', 'error', 'warning', 'disabled'] as const
+const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
 
 describe('GenericDatePicker.vue', () => {
   it('renderiza o label corretamente', () => {
@@ -63,7 +64,7 @@ describe('GenericDatePicker.vue', () => {
     expect(input.disabled).toBe(true)
   })
 
-  it.each(states.filter(s => s !== 'disabled'))(
+  it.each(inputStates.filter(s => s !== 'disabled'))(
     'permite interação quando state = "%s"',
     async (state) => {
       const modelValue = ref<string | undefined>('')
@@ -87,17 +88,19 @@ describe('GenericDatePicker.vue', () => {
   )
 
   it('exibe mensagens de erro corretamente', () => {
-    const { getByText } = render(GenericDatePicker, {
+    const { getByText, getByPlaceholderText } = render(GenericDatePicker, {
       props: {
         label: 'Data de início',
         placeholder: 'Selecionar data',
-        state: 'error',
         errorMessages: ['Campo obrigatório', 'Data inválida']
       }
     })
 
     expect(getByText('Campo obrigatório')).toBeInTheDocument()
     expect(getByText('Data inválida')).toBeInTheDocument()
+
+    const input = getByPlaceholderText('Selecionar data') as HTMLInputElement
+    expect(input.classList.contains('bg-error-100/10')).toBe(true)
   })
 
 })

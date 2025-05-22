@@ -2,6 +2,8 @@
 import GenericTable from './components/GenericTable.vue'
 import GenericTitle from './components/GenericTitle.vue'
 import GenericInput from './components/GenericInput.vue'
+import GenericDatePicker from './components/GenericDatePicker.vue'
+import GenericSelect from './components/GenericSelect.vue'
 import type { headerColumnType } from './leds-ifes-types'
 import { ref } from 'vue'
 
@@ -135,7 +137,6 @@ const items = [
     actions: ['view', 'delete']
   }
 ]
-const pageNumber = ref(1)
 //const totalPages = computed(() => Math.ceil(items.length / 5))
 //const totalRecords = computed(() => items.length)
 //const pageSize = ref(5)
@@ -146,13 +147,14 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
-const inputModel = ref()
+const inputModel = ref('')
+const datePickerModel = ref('')
+const selectModel = ref('')
 </script>
 
 <template>
   <GenericTitle text="TESTE" />
   <GenericTable
-    v-model:page="pageNumber"
     :headers="headers"
     :items-per-page="5"
     :items="items"
@@ -170,15 +172,26 @@ const inputModel = ref()
     {{ inputModel }}
   </div>
 
-  <!-- <div>
+  <div>
     <GenericDatePicker
-      v-model="inputModel"
+      v-model="datePickerModel"
       placeholder="Placeholder"
       label="Label"
       class="w-xl m-2"
     />
+    {{ datePickerModel }}
+  </div>
+
+  <div>
+    <GenericSelect
+      v-model="selectModel"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+      :options="['Option 1', 'Option 2', 'Option 3']"
+    />
     {{ inputModel }}
-  </div> -->
+  </div>
 </template>
 
 <style scoped>

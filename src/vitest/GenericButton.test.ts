@@ -1,15 +1,9 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect, vi } from 'vitest'
 import GenericButton from '../components/GenericButton.vue'
+import type { buttonVariant } from '../leds-ifes-types'
 
-const variants = [
-  'primary',
-  'danger',
-  'warning',
-  'secondary',
-  'secondaryDanger',
-  'disabled'
-] as const
+const buttonVariants: buttonVariant[] = ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled']
 
 describe('GenericButton.vue', () => {
   it('renderiza o label corretamente', () => {
@@ -45,7 +39,7 @@ describe('GenericButton.vue', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
-  it.each(variants.filter(v => v !== 'disabled'))(
+  it.each(buttonVariants.filter(v => v !== 'disabled'))(
     'emite "onClick" corretamente com variant "%s"',
     async (variant) => {
       const onClick = vi.fn()

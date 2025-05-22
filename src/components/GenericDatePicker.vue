@@ -24,7 +24,8 @@ const datePickerStates = computed(() => {
         warning: 'ring-warning-100',
         disabled: '!ring-0 bg-gray-100/40',
     }
-    return state[props.state as keyof typeof state] || state.default
+    const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
+    return state[verifyError as keyof typeof state] || state.default
 })
 </script>
 
@@ -59,6 +60,17 @@ const datePickerStates = computed(() => {
           class="material-symbols-outlined w-full h-full"
         >date_range</span>
       </button>
+    </div>
+    <div
+      v-if="props.errorMessages.length > 0"
+      class="mt-1 text-sm text-error-300"
+    >
+      <p
+        v-for="(error, index) in props.errorMessages"
+        :key="index"
+      >
+        {{ error }}
+      </p>
     </div>
   </div>
 </template>

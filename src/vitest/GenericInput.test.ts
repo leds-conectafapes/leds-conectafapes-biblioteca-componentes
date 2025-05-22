@@ -2,9 +2,10 @@ import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
 import GenericInput from '../components/GenericInput.vue'
 import { ref } from 'vue'
+import type { inputType, inputState } from '../leds-ifes-types'
 
-const inputTypes = ['text', 'search', 'number', 'email', 'password', 'tel', 'url'] as const
-const states = ['default', 'error', 'warning', 'disabled'] as const
+const inputTypes: inputType[] = ['text', 'search', 'number', 'email', 'password', 'tel', 'url']
+const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
 
 describe('GenericInput.vue', () => {
   it('renderiza o label corretamente', () => {
@@ -32,26 +33,31 @@ describe('GenericInput.vue', () => {
 
   it.each([
     { label: 'String', initial: 'texto', updated: 'atualizado' },
-    { label: 'Number', initial: 42, updated: 99 },
+    { label: 'Number', initial: 42, updated: '99' },
     { label: 'Objeto com value', initial: { value: 'obj' }, updated: 'novo' },
     { label: 'Undefined', initial: undefined, updated: 'preenchido' }
   ])('vincula corretamente o valor com v-model ($label)', async ({ initial, updated }) => {
-    const model = ref(initial)
+    const model = ref<string | number | { value: string | undefined } | undefined>(initial)
 
     const { getByPlaceholderText } = render(GenericInput, {
       props: {
         label: 'Input',
         placeholder: 'Teste',
-        modelValue: model.value,
-        'onUpdate:modelValue': (val: string | number | object | undefined) => {
+        modelValue:
+          typeof initial === 'object' && initial !== null && 'value' in initial
+            ? initial.value
+            : initial?.toString() ?? '',
+        'onUpdate:modelValue': (val: string | number | { value: string | undefined } | undefined ) => {
           if (typeof model.value === 'object' && model.value !== null && 'value' in model.value) {
-            model.value.value = val
+            model.value.value = val as string
+          } else if (typeof model.value === 'number') {
+            model.value = Number(val)
           } else {
             model.value = val
           }
         }
       }
-    })
+  })
 
     const input = getByPlaceholderText('Teste') as HTMLInputElement
 
@@ -59,11 +65,37 @@ describe('GenericInput.vue', () => {
 
     if (typeof model.value === 'object' && model.value !== null && 'value' in model.value) {
       expect(model.value.value).toBe(updated)
+    } else if (typeof initial === 'number') {
+      expect(model.value).toBe(Number(updated))
     } else {
       expect(model.value).toBe(updated)
     }
   })
 
+  it.each(inputStates.filter(s => s !== 'disabled'))(
+    'permite interação quando state = "%s"',
+    async (state) => {
+      const modelValue = ref<string | number | { value: string | undefined } | undefined>('')
+
+      const { getByPlaceholderText } = render(GenericInput, {
+        props: {
+          label: 'Campo',
+          placeholder: 'Digite...',
+          state,
+          modelValue: modelValue.value,
+          'onUpdate:modelValue': (val: string | number | { value: string | undefined } | undefined) => {
+            modelValue.value = val
+          }
+        }
+      })
+
+      const input = getByPlaceholderText('Digite...') as HTMLInputElement
+      expect(input.disabled).toBe(false)
+
+      await fireEvent.update(input, 'teste')
+      expect(modelValue.value).toBe('teste')
+    }
+  )
 
   it.each(inputTypes)(
     'define corretamente o tipo de input "%s"',
@@ -119,7 +151,7 @@ describe('GenericInput.vue', () => {
   })
 
   it('exibe mensagens de erro corretamente', () => {
-    const { getByText } = render(GenericInput, {
+    const { getByText, getByPlaceholderText } = render(GenericInput, {
       props: {
         label: 'Email',
         placeholder: 'Digite',
@@ -129,5 +161,8 @@ describe('GenericInput.vue', () => {
 
     expect(getByText('Campo obrigatório')).toBeInTheDocument()
     expect(getByText('Formato inválido')).toBeInTheDocument()
+
+    const input = getByPlaceholderText('Digite') as HTMLInputElement
+    expect(input.classList.contains('bg-error-100/10')).toBe(true)
   })
 })

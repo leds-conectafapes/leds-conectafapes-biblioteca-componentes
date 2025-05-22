@@ -28,7 +28,7 @@ const actionOnClick = (action: string, itemKey: number) => {
   emit('action', action, itemKey)
 };
 
-const pageNumber = defineModel('page', { required: true, type: [Number] as PropType<number> });
+const pageNumber = defineModel('page', { type: [Number] as PropType<number>, default: 1 });
 
 const items_paginados = ref<Array<{ [key: string]: string | Array<string> | number | Array<number> }>>([]);
 const nao_paginados = props.totalRecords === props.items.length && props.itemsPerPage < props.totalRecords;

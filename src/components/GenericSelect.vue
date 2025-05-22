@@ -9,12 +9,14 @@ const props = withDefaults(defineProps<{
     state?: selectState,
     label: string,
     required?: boolean,
+    errorMessages?: string[],
 }>(), {
     state: 'default',
     mandatory: false,
+    errorMessages: () => []
 })
 
-const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
+const model = defineModel({ type: [String, Number, undefined] as PropType<string | number | undefined> })
 
 const selectStates = computed(() => {
     const state: Record<selectState, string> = {
@@ -23,7 +25,8 @@ const selectStates = computed(() => {
         warning: 'ring-warning-100',
         disabled: '!ring-0 bg-gray-100/40',
     }
-    return state[props.state as keyof typeof state] || state.default
+    const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
+    return state[verifyError as keyof typeof state] || state.default
 })
 </script>
 
@@ -71,6 +74,17 @@ const selectStates = computed(() => {
           class="material-symbols-outlined w-full h-full"
         >keyboard_arrow_down</span>
       </button>
+    </div>
+    <div
+      v-if="props.errorMessages.length > 0"
+      class="mt-1 text-sm text-error-300"
+    >
+      <p
+        v-for="(error, index) in props.errorMessages"
+        :key="index"
+      >
+        {{ error }}
+      </p>
     </div>  
   </div>
 </template>
