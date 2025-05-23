@@ -3,21 +3,20 @@
   "description": "Biblioteca de componentes Vue para o projeto ConectaFapes",
   "author": "LedsConectaFapes",
   "license": "MIT",
-  "readme": "./README.npm.md",
   "private": false,
   "version": "1.1.2",
-  "main": "src/leds-ifes-types.ts",
+  "main": "src/types.ts",
   "files": [
-    "src/components/*.vue",
-    "src/leds-ifes-styles.css"
+    "src/components/**/*.vue",
+    "src/style.css"
   ],
   "exports": {
     ".": {
-      "types": "./src/leds-ifes-types.ts",
-      "import": "./src/leds-ifes-types.ts"
+      "types": "./src/types.ts",
+      "import": "./src/types.ts"
     },
     "./styles": {
-      "import": "./src/leds-ifes-styles.css"
+      "import": "./src/style.css"
     }
   },
   "type": "module",

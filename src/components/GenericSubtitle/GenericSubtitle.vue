@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import type { subtitleState } from '../leds-ifes-types';
+import type { subtitleState } from '../../types';
 
 const props = withDefaults(defineProps<{
   text: string,

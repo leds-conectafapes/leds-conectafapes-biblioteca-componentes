@@ -1,9 +1,9 @@
 // tests/GenericSelect.spec.ts
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
-import GenericSelect from '../components/GenericSelect.vue'
+import GenericSelect from '../components/GenericSelect/GenericSelect.vue'
 import { ref } from 'vue'
-import type { selectState } from '../leds-ifes-types'
+import type { selectState } from '../types'
 
 const selectStates: selectState[] = ['default', 'error', 'warning', 'disabled']
 

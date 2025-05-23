@@ -1,6 +1,6 @@
 import { render } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
-import GenericSubtitle from '../components/GenericSubtitle.vue'
+import GenericSubtitle from '../components/GenericSubtitle/GenericSubtitle.vue'
 
 describe('GenericSubtitle.vue', () => {
   it('renderiza o texto corretamente', () => {

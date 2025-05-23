@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { statusTagVariant } from '../leds-ifes-types';
+import type { statusTagVariant } from '../../types';
 
 const props = withDefaults(defineProps<{
     text: string,

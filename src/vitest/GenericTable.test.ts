@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
-import GenericTable from '../components/GenericTable.vue'
-import type { headerColumnType } from '../leds-ifes-types'
+import GenericTable from '../components/GenericTable/GenericTable.vue'
+import type { headerColumnType } from '../types'
 
 const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean } } = {
   name: { title: 'Nome', type: 'text', sortable: true },

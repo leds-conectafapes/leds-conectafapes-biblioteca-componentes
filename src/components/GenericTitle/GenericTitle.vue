@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { titleType } from '../leds-ifes-types';
+import type { titleType } from '../../types';
 
 const props = withDefaults(defineProps<{
   text: string,

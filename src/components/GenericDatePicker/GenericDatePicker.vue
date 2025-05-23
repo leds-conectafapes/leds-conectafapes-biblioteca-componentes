@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { PropType } from 'vue';
-import type { datePickerState } from '../leds-ifes-types';
+import type { datePickerState } from '../../types';
 
 const props = withDefaults(defineProps<{
     placeholder: string,

@@ -1,8 +1,8 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
-import GenericInput from '../components/GenericInput.vue'
+import GenericInput from '../components/GenericInput/GenericInput.vue'
 import { ref } from 'vue'
-import type { inputType, inputState } from '../leds-ifes-types'
+import type { inputType, inputState } from '../types'
 
 const inputTypes: inputType[] = ['text', 'search', 'number', 'email', 'password', 'tel', 'url']
 const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']

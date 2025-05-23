@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect, vi } from 'vitest'
-import GenericButton from '../components/GenericButton.vue'
-import type { buttonVariant } from '../leds-ifes-types'
+import GenericButton from '../components/GenericButton/GenericButton.vue'
+import type { buttonVariant } from '../types'
 
 const buttonVariants: buttonVariant[] = ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled']
 

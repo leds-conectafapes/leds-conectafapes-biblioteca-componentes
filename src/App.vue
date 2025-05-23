@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import GenericTable from './components/GenericTable.vue'
-import GenericTitle from './components/GenericTitle.vue'
-import GenericInput from './components/GenericInput.vue'
-import GenericDatePicker from './components/GenericDatePicker.vue'
-import GenericSelect from './components/GenericSelect.vue'
-import type { headerColumnType } from './leds-ifes-types'
+import GenericTable from './components/GenericTable/GenericTable.vue'
+import GenericTitle from './components/GenericTitle/GenericTitle.vue'
+import GenericInput from './components/GenericInput/GenericInput.vue'
+import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
+import GenericSelect from './components/GenericSelect/GenericSelect.vue'
+import type { headerColumnType } from './types'
 import { ref } from 'vue'
 
 const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} } = {

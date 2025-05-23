@@ -1,11 +1,11 @@
-export { default as GenericButton } from './components/GenericButton.vue';
-export { default as GenericDatePicker } from './components/GenericDatePicker.vue';
-export { default as GenericInput } from './components/GenericInput.vue';
-export { default as GenericSelect } from './components/GenericSelect.vue';
-export { default as GenericStatusTag } from './components/GenericStatusTag.vue';
-export { default as GenericSubtitle } from './components/GenericSubtitle.vue';
-export { default as GenericTitle } from './components/GenericTitle.vue';
-export { default as GenericTable } from './components/GenericTable.vue';
+export { default as GenericButton } from './components/GenericButton/GenericButton.vue';
+export { default as GenericDatePicker } from './components/GenericDatePicker/GenericDatePicker.vue';
+export { default as GenericInput } from './components/GenericInput/GenericInput.vue';
+export { default as GenericSelect } from './components/GenericSelect/GenericSelect.vue';
+export { default as GenericStatusTag } from './components/GenericStatusTag/GenericStatusTag.vue';
+export { default as GenericSubtitle } from './components/GenericSubtitle/GenericSubtitle.vue';
+export { default as GenericTitle } from './components/GenericTitle/GenericTitle.vue';
+export { default as GenericTable } from './components/GenericTable/GenericTable.vue';
 
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'

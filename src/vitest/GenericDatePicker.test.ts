@@ -1,8 +1,8 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
-import GenericDatePicker from '../components/GenericDatePicker.vue'
+import GenericDatePicker from '../components/GenericDatePicker/GenericDatePicker.vue'
 import { ref } from 'vue'
-import type { inputState } from '../leds-ifes-types'
+import type { inputState } from '../types'
 
 const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
 

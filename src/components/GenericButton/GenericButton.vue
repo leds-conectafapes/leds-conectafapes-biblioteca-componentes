@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import type { buttonVariant } from '../leds-ifes-types';
+import type { buttonVariant } from '../../types';
 
 const props = withDefaults(defineProps<{
   label: string,

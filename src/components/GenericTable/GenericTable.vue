@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import GenericStatusTag from './GenericStatusTag.vue'
+import GenericStatusTag from '../GenericStatusTag/GenericStatusTag.vue'
 import dayjs from 'dayjs'
 import * as utc from 'dayjs/plugin/utc';
 import type { PropType } from 'vue';
-import type { headerColumnType } from '../leds-ifes-types';
+import type { headerColumnType } from '../../types';
 dayjs.extend(utc.default ?? utc);
 
 const props = withDefaults(defineProps<{

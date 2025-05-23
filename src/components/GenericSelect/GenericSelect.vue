@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { PropType } from 'vue';
-import type { selectState } from '../leds-ifes-types';
+import type { selectState } from '../../types';
 
 const props = withDefaults(defineProps<{
     placeholder: string,
