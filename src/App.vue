@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import GenericTable from './components/GenericTable.vue'
-import GenericTitle from './components/GenericTitle.vue'
-import GenericSelect from './components/GenericSelect.vue'
+import GenericTable from './components/GenericTable/GenericTable.vue'
+import GenericTitle from './components/GenericTitle/GenericTitle.vue'
+import GenericInput from './components/GenericInput/GenericInput.vue'
+import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
+import GenericSelect from './components/GenericSelect/GenericSelect.vue'
+import type { headerColumnType } from './types'
 import { ref } from 'vue'
-const headers = {
+
+const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} } = {
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
   date: { title: 'Data de ingresso', type: 'date', sortable: true },
   status: { title: 'Status da Bolsa', type: 'status', sortable: false },
@@ -133,7 +137,6 @@ const items = [
     actions: ['view', 'delete']
   }
 ]
-const pageNumber = ref(1)
 //const totalPages = computed(() => Math.ceil(items.length / 5))
 //const totalRecords = computed(() => items.length)
 //const pageSize = ref(5)
@@ -144,26 +147,51 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
-const letra = ref('')
+const inputModel = ref('')
+const datePickerModel = ref('')
+const selectModel = ref('')
 </script>
 
 <template>
   <GenericTitle text="TESTE" />
   <GenericTable
-    v-model:page="pageNumber"
     :headers="headers"
     :items-per-page="5"
     :items="items"
     class="m-2"
     @action="onAction"
   />
-  <GenericSelect
-    v-model="letra"
-    :options="['A', 'B', 'C']"
-    placeholder="Selecione uma letra"
-    label="Letra"
-    class="w-xl m-2"
-  />
+  <div>
+    <GenericInput
+      v-model="inputModel"
+      type="text"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+    />
+    {{ inputModel }}
+  </div>
+
+  <div>
+    <GenericDatePicker
+      v-model="datePickerModel"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+    />
+    {{ datePickerModel }}
+  </div>
+
+  <div>
+    <GenericSelect
+      v-model="selectModel"
+      placeholder="Placeholder"
+      label="Label"
+      class="w-xl m-2"
+      :options="['Option 1', 'Option 2', 'Option 3']"
+    />
+    {{ inputModel }}
+  </div>
 </template>
 
 <style scoped>

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import GenericStatusTag from './GenericStatusTag.vue'
+import GenericStatusTag from '../GenericStatusTag/GenericStatusTag.vue'
 import dayjs from 'dayjs'
 import * as utc from 'dayjs/plugin/utc';
+import type { PropType } from 'vue';
+import type { headerColumnType } from '../../types';
 dayjs.extend(utc.default ?? utc);
 
 const props = withDefaults(defineProps<{
-  headers: { [key: string]: { title: string, type: string, sortable?: boolean} },
-  items: Array<{ [key: string]: string | Array<string> | number }>,
+  headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} },
+  items: Array<{ [key: string]: string | Array<string> | number | Array<number> }>,
   totalRecords?: number,
   itemsPerPage?: number,
   totalPages?: number
@@ -26,9 +28,9 @@ const actionOnClick = (action: string, itemKey: number) => {
   emit('action', action, itemKey)
 };
 
-const pageNumber = defineModel('page', { required: true, type: Number });
+const pageNumber = defineModel('page', { type: [Number] as PropType<number>, default: 1 });
 
-const items_paginados = ref<Array<{ [key: string]: string | Array<string> | number }>>([]);
+const items_paginados = ref<Array<{ [key: string]: string | Array<string> | number | Array<number> }>>([]);
 const nao_paginados = props.totalRecords === props.items.length && props.itemsPerPage < props.totalRecords;
 onMounted(() => {
   if(nao_paginados) {
@@ -76,7 +78,7 @@ function compareDate(data1: string, data2: string) {
 
 const sortedData = computed(() => {
   if(nao_paginados) {
-    return [...props.items].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
+    return [...props.items].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number | Array<number> }) => {
       const modifier = sortDirection.value === 'asc' ? 1 : -1;
       if (sortKey.value === 'date') {
         return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
@@ -84,7 +86,7 @@ const sortedData = computed(() => {
       return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
   }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
   } else {
-   return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number }, b: { [key: string]: string | string[] | number }) => {
+   return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
     const modifier = sortDirection.value === 'asc' ? 1 : -1;
     if (sortKey.value === 'date') {
       return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;

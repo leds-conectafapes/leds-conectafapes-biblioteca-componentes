@@ -2,6 +2,18 @@
 
 Biblioteca de componentes globais para os diferentes sistemas do Conecta Fapes.
 
+## Sumário
+
+- [Sobre o projeto](#sobre-o-projeto)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Estrutura de diretórios](#estrutura-de-diretórios)
+- [O que é Storybook?](#o-que-é-storybook)
+- [Criação](#criação)
+- [Desenvolvimento](#desenvolvimento)
+- [Disponibilizando o componente para uso na biblioteca](#disponibilizando-o-componente-para-uso-na-biblioteca)
+- [Publicando uma nova versão](#publicando-uma-nova-versão)
+
 ## Sobre o projeto
 
 A Biblioteca de Componentes LEDS-CONECTAFAPES foi criada com o objetivo de padronizar e centralizar os componentes visuais utilizados nos diferentes sistemas do ecossistema Conecta Fapes. Com ela, é possível garantir:
@@ -73,11 +85,16 @@ npm run storybook
 ```
 leds-conectafapes-biblioteca-componentes/
 ├── src/
-│   ├── main.js
+│   ├── style.css (Arquivo com style da biblioteca: cores, fontes)
+│   ├── types.ts (Arquivo de exports da biblioteca)
+│   ├── main.ts
+│   ├── vitest (Arquivos de teste dos componentes)
+│   │   └── meuComponente.test.ts
 │   └── components/
 │       └── meuComponente/
 │           └── meuComponente.vue
 │           └── meuComponente.stories.ts
+│
 ├── .env
 ├── .gitignore
 ├── LICENSE
@@ -111,18 +128,19 @@ Quando criado os arquivos, o primeiro passo é desenvolver o componente em si co
 `Button.vue`
 ```html
 <template>
-  <button
-    type="button"
-    class="
-      flex gap-2.5 items-center justify-center
-      px-6 py-4
-      rounded-lg
-      text-base
-      ease-in-out
-      duration-300
-      font-medium">
-    {{label}}
-  </button>
+  <button
+    type="button"
+    class="
+      w-full
+      flex gap-2.5 items-center justify-center
+      px-6 py-4 leading-tight
+      rounded-lg
+      text-base
+      easy-in-out duration-300
+      cursor-auto
+      font-inter font-medium"
+  >
+  </button>
 </template>
 ```
 
@@ -132,15 +150,26 @@ Após desenvolver o estilo do botão, o próximo passo é a parte do `<script>`.
 
 No `<script>`:
 ```ts
+import type { buttonVariant } from '../../types';
+
 const props = withDefaults(defineProps<{
-  label: string,
-  variant: string,
-}>(),{ label: 'Button', variant: 'primary' });
+  label: string,
+  variant?: buttonVariant,
+}>(), {
+  variant: 'primary'
+});
 ```
+Note que a propriedade variant é do tipo `buttonVarian`, o qual está sendo importado a partir do arquivo `types.ts`. Nesse arquivo, o tipo é definido da seguinte forma:
+```ts
+export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
+```
+
 ### Quando o props for um v-model
 Quando queremos passar um ref ou um valor dinâmico do Parent para o componente, utilizamos o `defineModel()`, como no exemplo a seguir:
 ```ts
-const model = defineModel();
+import type { PropType } from 'vue';
+
+const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
 
 <input v-model="model"/> 
 ```
@@ -151,26 +180,17 @@ Definimos quais variáveis o botão irá receber do Parent, como no exemplo, a l
 Quando queremos criar variações de estilo, podemos fazer da seguinte forma:
 
 ```ts
-type Classes = {
-  primary: string,
-  danger: string,
-  warning: string,
-  secondary: string,
-  secondaryDanger: string,
-  disabled: string,
-}
-
-const classes = computed<String>(() => {
-  const currentClass: Classes = {
-    primary: 'bg-primary500 text-white hover:bg-primaryHover',
-    danger: 'bg-error300 text-white hover:bg-errorHover',
-    warning: 'bg-warning100 text-white hover:bg-warningHover',
-    secondary: 'bg-white text-gray-700 hover:bg-grayHover',
-    secondaryDanger: 'bg-white text-error-300 hover:bg-secondarErrorHover',
-    disabled: 'bg-gray200 text-gray-500 cursor-not-allowed',
+const btnVariants = computed(() => {
+  const variant: Record<buttonVariant, string> = {
+    primary: 'bg-primary-500 text-white hover:bg-primary-hover',
+    danger: 'bg-error-300 text-white hover:bg-error-hover',
+    warning: 'bg-warning-100 text-white hover:bg-warning-hover',
+    secondary: 'bg-white text-gray-700 hover:bg-gray-hover',
+    secondaryDanger: 'bg-white text-error-300 hover:bg-error-secondaryHover',
+    disabled: 'bg-gray-200 text-gray-500',
   }
-  return currentClass[props.variant in currentClass ? props.variant as keyof Classes : 'primary'];
-});
+  return variant[props.variant as keyof typeof variant] || variant.primary;
+})
 ```
 
 Criamos um tipo Classes para definir quais variantes vamos utilizar. Dentro do computed definimos quais são os estilos de cada variação e retornamos aquele baseado no props.
@@ -182,16 +202,18 @@ Dessa forma, o componente fica assim:
   <button
     type="button"
     class="
+      w-full
       flex gap-2.5 items-center justify-center
-      px-6 py-4
+      px-6 py-4 leading-tight
       rounded-lg
       text-base
-      ease-in-out
-      duration-300
-      font-medium"
-    :class="classes"
+      easy-in-out duration-300
+      cursor-auto
+      font-inter font-medium"
+    :class="btnVariants"
+    :disabled="props.variant === 'disabled'"
   >
-    {{ label }}
+    {{ props.label }}
   </button>
 </template>
 ```
@@ -242,20 +264,14 @@ Assim, o componente final ficaria assim:
 ```ts
 <script lang="ts" setup>
 import { computed } from 'vue';
-
-type Classes = {
-  primary: string,
-  danger: string,
-  warning: string,
-  secondary: string,
-  secondaryDanger: string,
-  disabled: string,
-}
+import type { buttonVariant } from '../../types';
 
 const props = withDefaults(defineProps<{
   label: string,
-  variant: string,
-}>(),{ label: 'Button', variant: 'primary' });
+  variant?: buttonVariant,
+}>(), {
+  variant: 'primary'
+});
 
 const emit = defineEmits<{
   (e: 'onClick'): void;
@@ -265,38 +281,56 @@ const onClick = () => {
   emit("onClick")
 };
 
-const classes = computed<String>(() => {
-  const currentClass: Classes = {
-    primary: 'bg-primary500 text-white hover:bg-primaryHover',
-    danger: 'bg-error300 text-white hover:bg-errorHover',
-    warning: 'bg-warning100 text-white hover:bg-warningHover',
-    secondary: 'bg-white text-gray-700 hover:bg-grayHover',
-    secondaryDanger: 'bg-white text-error-300 hover:bg-secondarErrorHover',
-    disabled: 'bg-gray200 text-gray-500 cursor-not-allowed',
+const btnVariants = computed(() => {
+  const variant: Record<buttonVariant, string> = {
+    primary: 'bg-primary-500 text-white hover:bg-primary-hover',
+    danger: 'bg-error-300 text-white hover:bg-error-hover',
+    warning: 'bg-warning-100 text-white hover:bg-warning-hover',
+    secondary: 'bg-white text-gray-700 hover:bg-gray-hover',
+    secondaryDanger: 'bg-white text-error-300 hover:bg-error-secondaryHover',
+    disabled: 'bg-gray-200 text-gray-500',
   }
-  return currentClass[props.variant in currentClass ? props.variant as keyof Classes : 'primary'];
-});
+  return variant[props.variant as keyof typeof variant] || variant.primary;
+})
 </script>
 
 <template>
   <button
     type="button"
     class="
+      w-full
       flex gap-2.5 items-center justify-center
-      px-6 py-4
+      px-6 py-4 leading-tight
       rounded-lg
       text-base
-      ease-in-out 
-      duration-300
-      font-medium"
-    :class="classes"
+      easy-in-out duration-300
+      cursor-auto
+      font-inter font-medium"
+    :class="btnVariants"
+    :disabled="props.variant === 'disabled'"
     @click="onClick"
   >
-    {{ label }}
+    {{ props.label }}
   </button>
 </template>
 ```
+## Disponibilizando o componente para uso na biblioteca
+Para tornar o componente disponível para uso externo, abra o arquivo `types.ts` e adicione a seguinte linha de exportação:
+```ts
+export { default as GenericButton } from './components/GenericButton/GenericButton.vue';
+```
+Isso permite que o componente `GenericButton` seja importado diretamente a partir da biblioteca.
 
 ## Publicando uma nova versão
 
 Para publicar uma nova versão apenas acesse o github actions do repositorio principal e execute o workflow 'Bump Version and Publish'
+
+![Demonstração do processo](./src/assets/docs/publishExample.gif)
+
+Note que, antes de ser executado, o workflow solicita um parâmetro de versão. Você pode escolher entre três tipos de incremento:
+
+- **Patch**: incrementa o último número da versão (ex: `1.1.x`);
+- **Minor**: incrementa o segundo número (ex: `1.x.1`);
+- **Major**: incrementa o primeiro número (ex: `x.1.1`).
+
+Essa escolha segue a convenção [SemVer (Versionamento Semântico)](https://semver.org/).

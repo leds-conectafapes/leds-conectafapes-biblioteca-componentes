@@ -1,33 +1,31 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { PropType } from 'vue';
+import type { datePickerState } from '../../types';
 
 const props = withDefaults(defineProps<{
     placeholder: string,
-    state?: string,
+    state?: datePickerState,
     label: string,
-    mandatory?: boolean,
+    required?: boolean,
+    errorMessages?: string[],
 }>(), {
     state: 'default',
     mandatory: false,
+    errorMessages: () => [],
 })
 
-const model = defineModel({ required: true, type: String })
+const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
 
-type InputStates = {
-    default: string,
-    error: string,
-    warning: string,
-    disabled: string
-}
-
-const states = computed(() => {
-    const currentState: InputStates = {
+const datePickerStates = computed(() => {
+    const state: Record<datePickerState, string> = {
         default: 'ring-gray-500',
         error: 'ring-error-300 bg-error-100/10',
         warning: 'ring-warning-100',
         disabled: '!ring-0 bg-gray-100/40',
     }
-    return currentState[props.state in currentState ? props.state as keyof typeof currentState : 'default']
+    const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
+    return state[verifyError as keyof typeof state] || state.default
 })
 </script>
 
@@ -38,13 +36,13 @@ const states = computed(() => {
         text-base
         font-medium font-inter"
     >
-      {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
+      {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <input
         v-model="model"
         type="date"
         :placeholder="props.placeholder"
-        :class="states"
+        :class="datePickerStates"
         :disabled="props.state === 'disabled'"
         class="
               w-full
@@ -62,6 +60,17 @@ const states = computed(() => {
           class="material-symbols-outlined w-full h-full"
         >date_range</span>
       </button>
+    </div>
+    <div
+      v-if="props.errorMessages.length > 0"
+      class="mt-1 text-sm text-error-300"
+    >
+      <p
+        v-for="(error, index) in props.errorMessages"
+        :key="index"
+      >
+        {{ error }}
+      </p>
     </div>
   </div>
 </template>

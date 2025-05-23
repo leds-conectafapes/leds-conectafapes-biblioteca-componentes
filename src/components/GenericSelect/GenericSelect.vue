@@ -1,34 +1,32 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { PropType } from 'vue';
+import type { selectState } from '../../types';
 
 const props = withDefaults(defineProps<{
     placeholder: string,
     options: string[],
-    state?: string,
+    state?: selectState,
     label: string,
-    mandatory?: boolean,
+    required?: boolean,
+    errorMessages?: string[],
 }>(), {
     state: 'default',
     mandatory: false,
+    errorMessages: () => []
 })
 
-const model = defineModel({ required: true, type: String })
+const model = defineModel({ type: [String, Number, undefined] as PropType<string | number | undefined> })
 
-type InputStates = {
-    default: string,
-    error: string,
-    warning: string,
-    disabled: string
-}
-
-const states = computed(() => {
-    const currentState: InputStates = {
+const selectStates = computed(() => {
+    const state: Record<selectState, string> = {
         default: 'ring-gray-500',
         error: 'ring-error-300 bg-error-100/10',
         warning: 'ring-warning-100',
         disabled: '!ring-0 bg-gray-100/40',
     }
-    return currentState[props.state in currentState ? props.state as keyof typeof currentState : 'default']
+    const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
+    return state[verifyError as keyof typeof state] || state.default
 })
 </script>
 
@@ -39,12 +37,12 @@ const states = computed(() => {
         text-base
         font-medium font-inter"
     >
-      {{ props.label }}{{ props.mandatory ? '*' : '' }}</label>
+      {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <select
         v-model="model"
         autocomplete="on"
-        :class="states"
+        :class="selectStates"
         :disabled="props.state === 'disabled'"
         class="
               appearance-none
@@ -76,6 +74,17 @@ const states = computed(() => {
           class="material-symbols-outlined w-full h-full"
         >keyboard_arrow_down</span>
       </button>
+    </div>
+    <div
+      v-if="props.errorMessages.length > 0"
+      class="mt-1 text-sm text-error-300"
+    >
+      <p
+        v-for="(error, index) in props.errorMessages"
+        :key="index"
+      >
+        {{ error }}
+      </p>
     </div>  
   </div>
 </template>

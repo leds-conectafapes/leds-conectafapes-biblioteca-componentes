@@ -3,21 +3,20 @@
   "description": "Biblioteca de componentes Vue para o projeto ConectaFapes",
   "author": "LedsConectaFapes",
   "license": "MIT",
-  "readme": "./README.npm.md",
   "private": false,
   "version": "1.1.2",
-  "main": "src/leds-ifes-types.ts",
+  "main": "src/types.ts",
   "files": [
-    "src/components/*.vue",
-    "src/leds-ifes-styles.css"
+    "src/components/**/*.vue",
+    "src/style.css"
   ],
   "exports": {
     ".": {
-      "types": "./src/leds-ifes-types.ts",
-      "import": "./src/leds-ifes-types.ts"
+      "types": "./src/types.ts",
+      "import": "./src/types.ts"
     },
     "./styles": {
-      "import": "./src/leds-ifes-styles.css"
+      "import": "./src/style.css"
     }
   },
   "type": "module",
@@ -36,26 +35,25 @@
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-onboarding": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
-    "@storybook/experimental-addon-test": "^8.6.12",
-    "@storybook/test": "^8.6.12",
     "@storybook/vue3": "^8.6.12",
     "@storybook/vue3-vite": "^8.6.12",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/vue": "^8.1.0",
     "@types/node": "^22.15.18",
     "@vitejs/plugin-vue": "^5.2.2",
-    "@vitest/browser": "^3.1.2",
-    "@vitest/coverage-v8": "^3.1.2",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.25.1",
     "eslint-plugin-storybook": "^0.12.0",
     "eslint-plugin-vue": "^10.0.1",
     "globals": "^16.0.0",
+    "happy-dom": "^17.4.7",
     "playwright": "^1.52.0",
     "storybook": "^8.6.12",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.31.1",
     "vite": "^6.3.1",
     "vite-plugin-dts": "^4.5.3",
-    "vitest": "^3.1.2",
+    "vitest": "^3.1.4",
     "vue-tsc": "^2.2.8"
   },
   "scripts": {
