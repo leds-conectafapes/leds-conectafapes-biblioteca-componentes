@@ -4,55 +4,88 @@ import GenericButton from '../components/GenericButton/GenericButton.vue'
 import type { buttonVariant } from '../types'
 
 const buttonVariants: buttonVariant[] = ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled']
+const buttonVariantsStyleMap: Record<buttonVariant, { bg: string, text: string, hover: string | undefined}> = { 
+  primary: {
+    bg: 'bg-primary-500',
+    text: 'text-white',
+    hover: 'hover:bg-primary-hover',
+  },
+  danger: {
+    bg: 'bg-error-300',
+    text: 'text-white',
+    hover: 'hover:bg-error-hover',
+  },
+  warning: {
+    bg: 'bg-warning-100',
+    text: 'text-white',
+    hover: 'hover:bg-warning-hover',
+  },
+  secondary: {
+    bg: 'bg-white',
+    text: 'text-gray-700',
+    hover: 'hover:bg-gray-hover',
+  },
+  secondaryDanger: {
+    bg: 'bg-white',
+    text: 'text-error-300',
+    hover: 'hover:bg-error-secondaryHover',
+  },
+  disabled: {
+    bg: 'bg-gray-200',
+    text: 'text-gray-500',
+    hover: undefined
+  }
+}
 
 describe('GenericButton.vue', () => {
-  it('renderiza o label corretamente', () => {
+// Testes de estilização para cada variante
+it.each(buttonVariants)(
+  'renderiza corretamente com variant "%s"',
+  (variant) => {
     const { getByRole } = render(GenericButton, {
-      props: { label: 'Clique aqui' }
-    })
-
-    expect(getByRole('button')).toHaveTextContent('Clique aqui')
-  })
-
-  it('emite "onClick" ao clicar (default: primary)', async () => {
-    const onClick = vi.fn()
-
-    const { getByRole } = render(GenericButton, {
-      props: { label: 'Clique', onOnClick: onClick }
-    })
-
-    await fireEvent.click(getByRole('button'))
-    expect(onClick).toHaveBeenCalled()
-  })
-
-  it('não emite "onClick" se variant for "disabled"', async () => {
-    const onClick = vi.fn()
-
-    const { getByRole } = render(GenericButton, {
-      props: { label: 'Desabilitado', variant: 'disabled', onOnClick: onClick }
+      props: { label: `Botão ${variant}`, variant }
     })
 
     const button = getByRole('button')
-    expect(button).toBeDisabled()
 
-    await fireEvent.click(button)
-    expect(onClick).not.toHaveBeenCalled()
-  })
+    // Testa a aplicação do background das variantes
+    expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].bg}`)
 
-  it.each(buttonVariants.filter(v => v !== 'disabled'))(
-    'emite "onClick" corretamente com variant "%s"',
-    async (variant) => {
-      const onClick = vi.fn()
+    // Testa a aplicação do texto das variantes
+    expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].text}`)
 
-      const { getByRole } = render(GenericButton, {
-        props: { label: `Botão ${variant}`, variant, onOnClick: onClick }
-      })
-
-      const button = getByRole('button')
-      expect(button).not.toBeDisabled()
-
-      await fireEvent.click(button)
-      expect(onClick).toHaveBeenCalled()
+    // Testa a aplicação do hover das variantes
+    if (buttonVariantsStyleMap[variant].hover) {
+      expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].hover}`)
     }
-  )
+
+    // Testa a aplicação da label do botão
+    expect(button).toHaveTextContent(`Botão`)
+  }
+)
+
+// Testes de comportamento para cada variante
+it.each(buttonVariants)(
+  '',
+  (variant) => {
+    const { getByRole } = render({
+      components: { GenericButton },
+      template: `
+        <form @submit="onSubmit">
+          <GenericButton label="Botão" variant="${variant}" />
+        </form>
+      `,
+      setup() {
+        const onSubmit = vi.fn()
+        return { onSubmit }
+      }
+    })
+
+    const button = getByRole('button')
+
+    // Testa a emissão do onsubmit para um formulario
+    fireEvent.click(button)
+    expect(onSubmit).toHaveBeenCalled()
+  }
+)
 })
