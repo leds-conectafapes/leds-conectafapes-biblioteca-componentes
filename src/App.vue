@@ -4,6 +4,7 @@ import GenericTitle from './components/GenericTitle/GenericTitle.vue'
 import GenericInput from './components/GenericInput/GenericInput.vue'
 import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
 import GenericSelect from './components/GenericSelect/GenericSelect.vue'
+import GenericButton from './components/GenericButton/GenericButton.vue'
 import type { headerColumnType } from './types'
 import { ref } from 'vue'
 
@@ -191,6 +192,13 @@ const selectModel = ref('')
       :options="['Option 1', 'Option 2', 'Option 3']"
     />
     {{ inputModel }}
+  </div>
+
+  <div>
+    <GenericButton
+      label="Label"
+      variant="primary"
+    />
   </div>
 </template>
 
