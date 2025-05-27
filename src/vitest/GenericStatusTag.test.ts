@@ -5,42 +5,42 @@ import type { statusTagVariant } from '../types'
 
 const statusTagVariants: statusTagVariant[] = ['success', 'successOutline', 'warning', 'secondary', 'secondaryDanger', 'disabled']
 const statusTagStyleMap: Record<statusTagVariant, {
-  bg: string,
-  border: string | undefined,
-  border_color: string | undefined,
+  bg: string
+  border: string | undefined
+  border_color: string | undefined
   text_color: string | undefined
 }> = {
-  'success': {
+  success: {
     bg: 'bg-success-400',
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
-  'successOutline': {
+  successOutline: {
     bg: 'bg-white',
     border: 'border',
     border_color: 'border-success-100',
     text_color: '!text-success-400',
   },
-  'warning': {
+  warning: {
     bg: 'bg-error-200',
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
-  'secondary': {
+  secondary: {
     bg: 'bg-gray-600',
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
-  'secondaryDanger': {
+  secondaryDanger: {
     bg: 'bg-white',
     border: 'border',
     border_color: 'border-gray-400',
     text_color: '!text-gray-600',
   },
-  'disabled': {
+  disabled: {
     bg: 'bg-warning-200',
     border: undefined,
     border_color: undefined,

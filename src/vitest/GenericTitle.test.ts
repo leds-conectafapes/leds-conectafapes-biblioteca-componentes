@@ -5,34 +5,34 @@ import type { titleType } from '../types'
 
 const titleTypes: titleType[] = ['h1', 'h2', 'h3', 'title', 'subtitle', 'body', 'caption']
 const titleStyleMap: Record<titleType, {
-  text_size: string,
+  text_size: string
   font_weight: string | undefined
 }> = {
-  'h1': {
+  h1: {
     text_size: 'text-3xl/[38px]',
     font_weight: 'font-semibold',
   },
-  'h2': {
+  h2: {
     text_size: 'text-2xl',
     font_weight: undefined,
   },
-  'h3': {
+  h3: {
     text_size: 'text-xl',
-    font_weight: undefined,
+    font_weight: undefined
   },
-  'title': {
+  title: {
     text_size: 'text-lg/[26px]',
     font_weight: undefined,
   },
-  'subtitle': {
+  subtitle: {
     text_size: 'text-base',
     font_weight: undefined,
   },
-  'body': {
+  body: {
     text_size: 'text-sm/[22px]',
     font_weight: undefined,
   },
-  'caption': {
+  caption: {
     text_size: 'text-xs/[18px]',
     font_weight: undefined,
   },

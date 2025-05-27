@@ -7,10 +7,10 @@ const subtitleStates: subtitleState[] = ['default', 'error']
 const subtitleStyleMap: Record<subtitleState, {
   text_color: string
 }> = {
-  'default': {
+  default: {
     text_color: 'text-gray-500',
   },
-  'error': {
+  error: {
     text_color: 'text-error-300',
   },
 }
