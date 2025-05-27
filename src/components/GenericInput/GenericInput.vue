@@ -34,10 +34,10 @@ const inputTypes = computed(() => {
 
 const inputStates = computed(() => {
   const state = {
-      default: 'ring-gray-500',
-      error: 'ring-error-300 bg-error-100/10',
-      warning: 'ring-warning-100',
-      disabled: '!ring-0 bg-gray-100/40',
+    default: 'ring-gray-500',
+    error: 'ring-error-300 bg-error-100/10',
+    warning: 'ring-warning-100',
+    disabled: '!ring-0 bg-gray-100/40',
   }
   const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
   return state[verifyError as keyof typeof state] || state.default

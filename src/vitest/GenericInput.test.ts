@@ -7,7 +7,55 @@ import type { inputType, inputState } from '../types'
 const inputTypes: inputType[] = ['text', 'search', 'number', 'email', 'password', 'tel', 'url']
 const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
 
+const inputStyleMap: Record<inputState, {
+  ring: string
+  bg: string | undefined
+}> = {
+  default: {
+    ring: 'ring-gray-500',
+    bg: undefined,
+  },
+  error: {
+    ring: 'ring-error-300',
+    bg: 'bg-error-100/10',
+  },
+  warning: {
+    ring: 'ring-warning-100',
+    bg: undefined
+  },
+  disabled: {
+    ring: '!ring-0',
+    bg: 'bg-gray-100/40',
+  },
+}
+
 describe('GenericInput.vue', () => {
+  it.each(inputStates)(
+    'renderiza corretamente com state "%s"',
+    (state) => {
+      const { getByRole } = render(GenericInput, {
+        props: {
+          label: `Input ${state}`,
+          placeholder: `${state}`,
+          state
+        }
+      })
+
+      const input = getByRole('textbox')
+
+      // Testa a aplicação do anel
+      expect(input).toHaveClass(`${inputStyleMap[state].ring}`)
+
+      // Testa a aplicação da cor do background
+      if (inputStyleMap[state].bg) {
+        expect(input).toHaveClass(`${inputStyleMap[state].bg}`)
+      }
+
+      // Testa a aplicação do placeholder no Input
+      expect(input).toHaveAttribute('placeholder', state)
+    }
+  )
+
   it('renderiza o label corretamente', () => {
     const { getByText } = render(GenericInput, {
       props: {
