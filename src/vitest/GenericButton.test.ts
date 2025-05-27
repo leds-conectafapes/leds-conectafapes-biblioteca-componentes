@@ -1,10 +1,14 @@
 import { render, fireEvent } from '@testing-library/vue'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import GenericButton from '../components/GenericButton/GenericButton.vue'
 import type { buttonVariant } from '../types'
 
 const buttonVariants: buttonVariant[] = ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled']
-const buttonVariantsStyleMap: Record<buttonVariant, { bg: string, text: string, hover: string | undefined}> = { 
+const buttonVariantsStyleMap: Record<buttonVariant, {
+  bg: string
+  text: string
+  hover: string | undefined
+}> = { 
   primary: {
     bg: 'bg-primary-500',
     text: 'text-white',
@@ -66,26 +70,22 @@ it.each(buttonVariants)(
 
 // Testes de comportamento para cada variante
 it.each(buttonVariants)(
-  '',
+  'evento emitido corretamente com variant "%s"',
   (variant) => {
-    const { getByRole } = render({
-      components: { GenericButton },
-      template: `
-        <form @submit="onSubmit">
-          <GenericButton label="Botão" variant="${variant}" />
-        </form>
-      `,
-      setup() {
-        const onSubmit = vi.fn()
-        return { onSubmit }
-      }
+    const { getByRole, emitted } = render(GenericButton, {
+      props: { label: `Botão ${variant}`, variant }
     })
 
     const button = getByRole('button')
 
     // Testa a emissão do onsubmit para um formulario
     fireEvent.click(button)
-    expect(onSubmit).toHaveBeenCalled()
+    if (variant === 'disabled') {
+      expect(emitted()).not.toHaveProperty('click')
+
+    } else {
+      expect(emitted()).toHaveProperty('click')
+    }
   }
 )
 })
