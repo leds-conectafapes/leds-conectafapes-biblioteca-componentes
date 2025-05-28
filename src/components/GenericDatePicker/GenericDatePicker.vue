@@ -9,10 +9,12 @@ const props = withDefaults(defineProps<{
     label: string,
     required?: boolean,
     errorMessages?: string[],
+    id?: string,
 }>(), {
     state: 'default',
     mandatory: false,
     errorMessages: () => [],
+    id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
 
 const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
@@ -32,13 +34,16 @@ const datePickerStates = computed(() => {
 <template>
   <div class="w-full relative gap-y-4 flex flex-col">
     <label
+      :for="props.id"
       class="
+        w-fit
         text-base
         font-medium font-inter"
     >
       {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <input
+        :id="props.id"
         v-model="model"
         type="date"
         :placeholder="props.placeholder"

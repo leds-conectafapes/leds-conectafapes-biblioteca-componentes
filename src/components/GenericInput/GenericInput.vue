@@ -10,11 +10,13 @@ const props = withDefaults(defineProps<{
     label: string,
     required?: boolean,
     errorMessages?: string[],
+    id?: string,
 }>(), {
     type: 'text',
     state: 'default',
     mandatory: false,
     errorMessages: () => [],
+    id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
 
 const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
@@ -48,13 +50,16 @@ const inputStates = computed(() => {
 <template>
   <div class="w-full relative gap-y-4 flex flex-col">
     <label
+      :for="props.id"
       class="
+        w-fit
         text-base
         font-medium font-inter"
     >
       {{ props.label }}{{ props.required ? '*' : '' }}</label>
     <div class="relative">
       <input
+        :id="props.id"
         v-model="model"
         :type="inputTypes.type"
         :placeholder="props.placeholder"
