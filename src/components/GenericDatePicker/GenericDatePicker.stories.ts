@@ -19,7 +19,7 @@ const meta = {
       required: false,
   },
     label: { control: 'text', description: 'Nome do input', required: true },
-    mandatory: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
+    required: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
   },
 
 } satisfies Meta<typeof GenericDatePicker>;
@@ -31,7 +31,7 @@ export const Default: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     state: 'default',
     modelValue: '',
   },
@@ -41,7 +41,7 @@ export const Error: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     state: 'error',
     modelValue: '',
   },
@@ -51,7 +51,7 @@ export const Warning: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     state: 'warning',
     modelValue: '',
   },
@@ -61,7 +61,7 @@ export const Disabled: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     state: 'disabled',
     modelValue: '',
   },

@@ -11,7 +11,7 @@ const meta = {
     placeholder: { control: 'text', description: 'Placeholder do input' , required: true },
     options: { control: 'object', description: 'Valores do select', required: true },
     label: { control: 'text', description: 'Nome do input', required: true },
-    mandatory: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
+    required: { control: 'boolean', description: 'Simbolo de campo obrigatório', required: false },
     state: {
       control: 'select',
       options: [
@@ -33,7 +33,7 @@ export const Default: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'default',
     modelValue: '',
@@ -44,7 +44,7 @@ export const Error: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'error',
     modelValue: '',
@@ -55,7 +55,7 @@ export const Warning: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'warning',
     modelValue: '',
@@ -66,7 +66,7 @@ export const Disabled: Story = {
   args: {
     placeholder: 'Placeholder',
     label: 'Label',
-    mandatory: true,
+    required: true,
     options: ['Option 1', 'Option 2', 'Option 3'],
     state: 'disabled',
     modelValue: '',
