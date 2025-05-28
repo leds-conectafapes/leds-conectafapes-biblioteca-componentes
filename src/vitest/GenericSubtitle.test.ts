@@ -16,6 +16,8 @@ const subtitleStyleMap: Record<subtitleState, {
 }
 
 describe('GenericSubtitle.vue', () => {
+
+  // Testa de estilização para cada state
   it.each(subtitleStates)(
     'renderiza corretamente com state "%s"',
     (state) => {
@@ -25,10 +27,10 @@ describe('GenericSubtitle.vue', () => {
 
       const subtitle = getByText(`Subtitle ${state}`)
 
-      // Testa a aplicação da cor do texto
+      // Verifica a aplicação da cor do texto
       expect(subtitle).toHaveClass(`${subtitleStyleMap[state].text_color}`)
 
-      // Testa a aplicação do texto na Subtitle
+      // Verifica a aplicação do texto na Subtitle
       expect(subtitle).toHaveTextContent('Subtitle')
     }
   )

@@ -49,7 +49,7 @@ const statusTagStyleMap: Record<statusTagVariant, {
 }
 
 describe('GenericStatusTag.vue', () => {
-  // Testes de estilização para cada variante
+  // Testes de estilização para cada variant
   it.each(statusTagVariants)(
     'renderiza corretamente com variant "%s"',
     (variant) => {
@@ -59,25 +59,25 @@ describe('GenericStatusTag.vue', () => {
 
       const statusTag = getAllByRole('generic')[1]
 
-      // Testa a aplicação do background
+      // Verifica a aplicação do background
       expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].bg}`)
 
-      // Testa a aplicação da borda
+      // Verifica a aplicação da borda
       if (statusTagStyleMap[variant].border) {
         expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border}`)
       }
 
-      // Testa a aplicação da cor da borda
+      // Verifica a aplicação da cor da borda
       if (statusTagStyleMap[variant].border_color) {
         expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border_color}`)
       }
 
-      // Testa a aplicação da cor do texto
+      // Verifica a aplicação da cor do texto
       if (statusTagStyleMap[variant].text_color) {
         expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].text_color}`)
       }
 
-      // Testa a aplicação do texto no StatusTag
+      // Verifica a aplicação do texto no StatusTag
       expect(statusTag).toHaveTextContent('StatusTag')
     }
   )
