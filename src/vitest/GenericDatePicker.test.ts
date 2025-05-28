@@ -6,7 +6,52 @@ import type { inputState } from '../types'
 
 const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
 
+const inputStyleMap: Record<inputState, {
+  ring: string
+  bg: string | undefined
+}> = {
+  default: {
+    ring: 'ring-gray-500',
+    bg: undefined,
+  },
+  error: {
+    ring: 'ring-error-300',
+    bg: 'bg-error-100/10',
+  },
+  warning: {
+    ring: 'ring-warning-100',
+    bg: undefined
+  },
+  disabled: {
+    ring: '!ring-0',
+    bg: 'bg-gray-100/40',
+  },
+}
+
 describe('GenericDatePicker.vue', () => {
+  it.each(inputStates)(
+    'renderiza corretamente com state "%s"',
+    (state) => {
+      const { getByPlaceholderText } = render(GenericDatePicker, {
+        props: {
+          label: `DatePicker ${state}`,
+          placeholder: `${state}`,
+          state
+        }
+      })
+
+      const datePicker = getByPlaceholderText(`${state}`)
+
+      // Testa a aplicação do anel
+      expect(datePicker).toHaveClass(`${inputStyleMap[state].ring}`)
+
+      // Testa a aplicação da cor do background
+      if (inputStyleMap[state].bg) {
+        expect(datePicker).toHaveClass(`${inputStyleMap[state].bg}`)
+      }
+    }
+  )
+
   it('renderiza o label corretamente', () => {
     const { getByText } = render(GenericDatePicker, {
       props: {
