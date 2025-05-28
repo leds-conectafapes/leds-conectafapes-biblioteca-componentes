@@ -7,7 +7,56 @@ import type { selectState } from '../types'
 
 const selectStates: selectState[] = ['default', 'error', 'warning', 'disabled']
 
+const selectStyleMap: Record<selectState, {
+  ring: string
+  bg: string | undefined
+}> = {
+  default: {
+    ring: 'ring-gray-500',
+    bg: undefined
+  },
+  error: {
+    ring: 'ring-error-300',
+    bg: 'bg-error-100/10',
+  },
+  warning: {
+    ring: 'ring-warning-100',
+    bg: undefined
+  },
+  disabled: {
+    ring: '!ring-0',
+    bg: 'bg-gray-100/40',
+  },
+}
+
 describe('GenericSelect.vue', () => {
+  it.each(selectStates)(
+    'renderiza corretamente com state "%s"',
+    (state) => {
+      const { getByRole } = render(GenericSelect, {
+        props: {
+          label: `Select ${state}`,
+          placeholder: `${state}`,
+          options: [],
+          state
+        }
+      })
+
+      const select = getByRole('combobox')
+
+      // Testa a aplicação do anel
+      expect(select).toHaveClass(`${selectStyleMap[state].ring}`)
+
+      // Testa a aplicação da cor do background
+      if (selectStyleMap[state].bg) {
+        expect(select).toHaveClass(`${selectStyleMap[state].bg}`)
+      }
+
+      // Testa aplicação do placeholder no Select
+      expect(select.firstChild).toHaveTextContent(state)
+    }
+  )
+
   it('renderiza o label corretamente', () => {
     const { getByText } = render(GenericSelect, {
       props: {
