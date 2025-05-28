@@ -165,12 +165,12 @@ const selectModel = ref('')
   <div>
     <GenericInput
       v-model="inputModel"
-      type="text"
+      type="number"
       placeholder="Placeholder"
       label="Label"
       class="w-xl m-2"
     />
-    {{ inputModel }}
+    {{ typeof(inputModel) }}
   </div>
 
   <div>
