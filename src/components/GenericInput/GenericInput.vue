@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<{
 }>(), {
     type: 'text',
     state: 'default',
-    mandatory: false,
+    required: false,
     errorMessages: () => [],
     id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })

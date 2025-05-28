@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
   id?: string,
 }>(), {
   state: 'default',
-  mandatory: false,
+  required: false,
   errorMessages: () => [],
   id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
