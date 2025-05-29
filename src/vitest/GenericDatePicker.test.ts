@@ -1,10 +1,14 @@
-import { render, fireEvent } from '@testing-library/vue'
-import { describe, it, expect } from 'vitest'
-import GenericDatePicker from '../components/GenericDatePicker/GenericDatePicker.vue'
 import { ref } from 'vue'
+import { render, fireEvent } from '@testing-library/vue'
+import { describe, it, expect, vi } from 'vitest'
+
+import GenericButton from '../components/GenericButton/GenericButton.vue'
+import GenericDatePicker from '../components/GenericDatePicker/GenericDatePicker.vue'
+
 import type { inputState } from '../types'
 
 const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
+const requiredValues = [true, false]
 
 const inputStyleMap: Record<inputState, {
   ring: string
@@ -29,51 +33,47 @@ const inputStyleMap: Record<inputState, {
 }
 
 describe('GenericDatePicker.vue', () => {
-  it.each(inputStates)(
-    'renderiza corretamente com state "%s"',
-    (state) => {
-      const { getByPlaceholderText } = render(GenericDatePicker, {
+  it.each(
+    inputStates.flatMap(state =>
+      requiredValues.map(required => [state, required] as [inputState, boolean])
+    )
+  )(
+    'renderiza corretamente com state "%s" e required %s',
+    (state, required) => {
+      const { getByLabelText, getByText } = render(GenericDatePicker, {
         props: {
-          label: `DatePicker ${state}`,
-          placeholder: `${state}`,
-          state
+          label: `DatePicker ${state} ${required ? 'required' : 'optional'}`,
+          placeholder: `${state} ${required}`,
+          state,
+          required
         }
       })
 
-      const datePicker = getByPlaceholderText(`${state}`)
+      const label = getByText(`DatePicker ${state} ${required ? 'required' : 'optional'}`, { exact: false })
+      const datePicker = getByLabelText(`DatePicker ${state} ${required ? 'required' : 'optional'}`, { exact: false })
 
-      // Testa a aplicação do anel
+      // Verifica a aplicação do anel
       expect(datePicker).toHaveClass(`${inputStyleMap[state].ring}`)
 
-      // Testa a aplicação da cor do background
+      // Verifica a aplicação da cor do background
       if (inputStyleMap[state].bg) {
         expect(datePicker).toHaveClass(`${inputStyleMap[state].bg}`)
       }
+
+      // Verifica a aplicação do placeholder no DatePicker
+      expect(datePicker).toHaveAttribute('placeholder', `${state} ${required}`)
+
+      // Verifica a aplicação da label no DatePicker
+      expect(label).toBeTruthy()
+
+      // Verifica a aplicação do * quando required
+      if (required) {
+        expect(label).toHaveTextContent(/\*/)
+      } else {
+        expect(label).not.toHaveTextContent(/\*/)
+      }
     }
   )
-
-  it('renderiza o label corretamente', () => {
-    const { getByText } = render(GenericDatePicker, {
-      props: {
-        label: 'Data de nascimento',
-        placeholder: 'Selecione uma data'
-      }
-    })
-
-    expect(getByText('Data de nascimento')).toBeInTheDocument()
-  })
-
-  it('adiciona "*" ao label quando "required" for true', () => {
-    const { getByText } = render(GenericDatePicker, {
-      props: {
-        label: 'Data de matrícula',
-        required: true,
-        placeholder: 'Selecione'
-      }
-    })
-
-    expect(getByText('Data de matrícula*')).toBeInTheDocument()
-  })
 
   it('vincula corretamente o valor com v-model', async () => {
     const modelValue = ref<string | undefined>('2024-12-31')
@@ -96,17 +96,32 @@ describe('GenericDatePicker.vue', () => {
     expect(modelValue.value).toBe('2025-01-01')
   })
 
-  it('desabilita o input quando state = "disabled"', () => {
-    const { getByPlaceholderText } = render(GenericDatePicker, {
-      props: {
-        label: 'Data',
-        placeholder: 'Selecionar',
-        state: 'disabled'
+  it('envio de formulário', async () => {
+    const onSubmit = vi.fn()
+    const { getByLabelText, getByText } = render({
+      components: { GenericDatePicker, GenericButton },
+      template: `
+        <form @submit="submitForm">
+          <GenericDatePicker v-model="inputModel" label="DatePicker" placeholder="Escolha" />
+          <GenericButton label="Enviar" type="submit" />
+        </form>
+      `,
+      setup() {
+        const inputModel = ref()
+        const submitForm = () => {
+          onSubmit(inputModel.value)
+        }
+        return { inputModel, submitForm }
       }
     })
 
-    const input = getByPlaceholderText('Selecionar') as HTMLInputElement
-    expect(input.disabled).toBe(true)
+    const datePicker = getByLabelText('DatePicker') as HTMLInputElement
+    const button = getByText('Enviar')
+
+    expect(datePicker).toHaveTextContent('')
+    await fireEvent.update(datePicker, '2022-12-13')
+    fireEvent.click(button)
+    expect(onSubmit).toHaveBeenCalledWith('2022-12-13')
   })
 
   it.each(inputStates.filter(s => s !== 'disabled'))(
