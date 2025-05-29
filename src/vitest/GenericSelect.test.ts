@@ -1,11 +1,15 @@
 // tests/GenericSelect.spec.ts
-import { render, fireEvent } from '@testing-library/vue'
-import { describe, it, expect } from 'vitest'
-import GenericSelect from '../components/GenericSelect/GenericSelect.vue'
 import { ref } from 'vue'
+import { render, fireEvent } from '@testing-library/vue'
+import { describe, it, expect, vi } from 'vitest'
+
+import GenericButton from '../components/GenericButton/GenericButton.vue'
+import GenericSelect from '../components/GenericSelect/GenericSelect.vue'
+
 import type { selectState } from '../types'
 
 const selectStates: selectState[] = ['default', 'error', 'warning', 'disabled']
+const requiredValues = [true, false]
 
 const selectStyleMap: Record<selectState, {
   ring: string
@@ -30,57 +34,48 @@ const selectStyleMap: Record<selectState, {
 }
 
 describe('GenericSelect.vue', () => {
-  it.each(selectStates)(
+  it.each(
+    selectStates.flatMap(state =>
+      requiredValues.map(required => [state, required] as [selectState, boolean])
+    )
+  )(
     'renderiza corretamente com state "%s"',
-    (state) => {
-      const { getByRole } = render(GenericSelect, {
+    (state, required) => {
+      const { getByLabelText, getByText } = render(GenericSelect, {
         props: {
-          label: `Select ${state}`,
-          placeholder: `${state}`,
+          label: `Select ${state} ${required ? 'required' : 'optional'}`,
+          placeholder: `${state} ${required}`,
           options: [],
-          state
+          state,
+          required
         }
       })
 
-      const select = getByRole('combobox')
+      const label = getByText(`Select ${state} ${required ? 'required' : 'optional'}`, { exact: false })
+      const select = getByLabelText(`Select ${state} ${required ? 'required' : 'optional'}`, { exact: false })
 
-      // Testa a aplicação do anel
+      // Verifica a aplicação do anel
       expect(select).toHaveClass(`${selectStyleMap[state].ring}`)
 
-      // Testa a aplicação da cor do background
+      // Verifica a aplicação da cor do background
       if (selectStyleMap[state].bg) {
         expect(select).toHaveClass(`${selectStyleMap[state].bg}`)
       }
 
-      // Testa aplicação do placeholder no Select
-      expect(select.firstChild).toHaveTextContent(state)
+      // Verifica a aplicação do placeholder no Select
+      expect(select.firstChild).toHaveTextContent(`${state} ${required}`)
+    
+      // Verifica a aplicação de label no Select
+      expect(label).toBeTruthy()
+
+      // Verifica a aplicação de * quando required
+      if (required) {
+        expect(label).toHaveTextContent(/\*/)
+      } else {
+        expect(label).not.toHaveTextContent(/\*/)
+      }
     }
   )
-
-  it('renderiza o label corretamente', () => {
-    const { getByText } = render(GenericSelect, {
-      props: {
-        label: 'Escolha uma opção',
-        placeholder: 'Selecione',
-        options: []
-      }
-    })
-
-    expect(getByText('Escolha uma opção')).toBeInTheDocument()
-  })
-
-  it('adiciona "*" ao label quando required for true', () => {
-    const { getByText } = render(GenericSelect, {
-      props: {
-        label: 'Categoria',
-        required: true,
-        placeholder: 'Escolher',
-        options: []
-      }
-    })
-
-    expect(getByText('Categoria*')).toBeInTheDocument()
-  })
 
   it('vincula corretamente o valor com v-model', async () => {
     const model = ref<string | number | undefined>('banana')
@@ -102,6 +97,37 @@ describe('GenericSelect.vue', () => {
 
     await fireEvent.update(select, 'uva')
     expect(model.value).toBe('uva')
+  })
+
+  it('envio de formulário', () => {
+    const onSubmit = vi.fn()
+    const { getByLabelText, getByText } = render({
+      components: { GenericSelect, GenericButton },
+      template: `
+        <form @submit="submitForm">
+          <GenericSelect v-model="selectModel" label="Select" placeholder="Testando" :options="['Teste', '123']" />
+          <GenericButton label="Enviar" type="submit" />
+        </form>
+      `,
+      setup() {
+        const selectModel = ref()
+        const submitForm = () => {
+          onSubmit(selectModel.value)
+        }
+        return { selectModel, submitForm }
+      }
+    })
+
+    const select = getByLabelText('Select') as HTMLSelectElement
+    const button = getByText('Enviar')
+
+    fireEvent.change(select, { target: { value: '123' } })
+    fireEvent.click(button)
+    expect(onSubmit).toHaveBeenCalledWith('123')
+
+    fireEvent.change(select, { target: { value: 'Algo' } })
+    fireEvent.click(button)
+    expect(onSubmit).toHaveBeenCalledWith(undefined)
   })
 
   it.each(selectStates.filter(s => s !== 'disabled'))(
@@ -158,6 +184,6 @@ describe('GenericSelect.vue', () => {
     expect(getByText('Valor inválido')).toBeInTheDocument()
 
     const select = getByDisplayValue('Escolha') as HTMLSelectElement
-    expect(select.classList.contains('bg-error-100/10')).toBe(true)
+    expect(select).toHaveClass('bg-error-100/10')
   })
 })
