@@ -16,3 +16,5 @@ export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secon
 export type subtitleState = 'default' | 'error'
 export type headerColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
+export type radioGroupState = 'default' | 'error' | 'warning' | 'disabled'
+export type radioGroupOptions = { text: string, value: string }
