@@ -1,3 +1,4 @@
+// Exportação de componentes da biblioteca
 export { default as GenericButton } from './components/GenericButton/GenericButton.vue';
 export { default as GenericDatePicker } from './components/GenericDatePicker/GenericDatePicker.vue';
 export { default as GenericInput } from './components/GenericInput/GenericInput.vue';
@@ -8,7 +9,10 @@ export { default as GenericTitle } from './components/GenericTitle/GenericTitle.
 export { default as GenericTable } from './components/GenericTable/GenericTable.vue';
 export { default as GenericCheckbox } from './components/GenericCheckbox/GenericCheckbox.vue';
 export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
+export { default as GenericTextArea } from './components/GenericTextArea/GenericTextArea.vue';
 
+
+// Exportação de types da biblioteca
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
 export type inputType = 'text' | 'search' | 'number' | 'email' | 'password' | 'tel' | 'url'
@@ -22,3 +26,4 @@ export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: s
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupState = 'default' | 'error' | 'warning' | 'disabled'
 export type radioGroupOptions = { text: string, value: string }
+export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'

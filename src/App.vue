@@ -7,6 +7,7 @@
 // import GenericButton from './components/GenericButton/GenericButton.vue'
 // import GenericRadioGroup from './components/GenericRadioGroup/GenericRadioGroup.vue'
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue'
+import GenericTextArea from './components/GenericTextArea/GenericTextArea.vue'
 import { ref } from 'vue'
 
 // const headers = {
@@ -154,6 +155,7 @@ import { ref } from 'vue'
 // const selectModel = ref('')
 // const radioModel = ref('')
 const checkboxModel = ref()
+const textAreaModel = ref('')
 </script>
 
 <template>
@@ -225,6 +227,15 @@ const checkboxModel = ref()
       class="w-xl m-2"
     />
     {{ typeof(checkboxModel) }}
+  </div>
+
+  <div class="m-2 w-xl">
+    <GenericTextArea
+      v-model="textAreaModel"
+      placeholder="Placeholder"
+      label="Label"
+    />
+    {{ textAreaModel }}
   </div>
 </template>
 
