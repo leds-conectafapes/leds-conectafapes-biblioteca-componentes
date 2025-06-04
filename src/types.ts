@@ -6,6 +6,8 @@ export { default as GenericStatusTag } from './components/GenericStatusTag/Gener
 export { default as GenericSubtitle } from './components/GenericSubtitle/GenericSubtitle.vue';
 export { default as GenericTitle } from './components/GenericTitle/GenericTitle.vue';
 export { default as GenericTable } from './components/GenericTable/GenericTable.vue';
+export { default as GenericCheckbox } from './components/GenericCheckbox/GenericCheckbox.vue';
+export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
 
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
