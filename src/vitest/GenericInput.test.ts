@@ -1,8 +1,10 @@
+import { ref } from 'vue'
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect, vi } from 'vitest'
-import { ref } from 'vue'
+
 import GenericInput from '../components/GenericInput/GenericInput.vue'
 import GenericButton from '../components/GenericButton/GenericButton.vue'
+
 import type { inputType, inputState } from '../types'
 
 const inputTypes: inputType[] = ['text', 'search', 'number', 'email', 'password', 'tel', 'url']
@@ -140,7 +142,7 @@ describe('GenericInput.vue', () => {
         components: { GenericButton, GenericInput },
         template: `
           <form @submit="submitForm">
-            <GenericInput v-model="inputModel" label="Input" type="${type}" />
+            <GenericInput v-model="inputModel" label="Input" placeholder="Digite..." type="${type}" />
             <GenericButton label="Enviar" type="submit" />
           </form>
         `,
