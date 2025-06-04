@@ -1,14 +1,13 @@
 import { render, fireEvent } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
 import GenericTable from '../components/GenericTable/GenericTable.vue'
-import type { headerColumnType } from '../types'
 
-const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean } } = {
+const headers = {
   name: { title: 'Nome', type: 'text', sortable: true },
   date: { title: 'Data', type: 'date', sortable: true },
   status: { title: 'Status', type: 'status' },
   actions: { title: 'Ações', type: 'actions' }
-}
+} as const
 
 const items = [
   { name: 'Item 1', date: '2024-05-01', status: 'Ativo', actions: ['view', 'edit'] },

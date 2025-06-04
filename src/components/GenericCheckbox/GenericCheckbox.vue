@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue';
+
 const props = withDefaults(defineProps<{
   label: string
   id?: string
 }>(), {
   id: `checkbox-${Math.random().toString(36).slice(2, 11)}`
 })
+
+const model = defineModel({ type: [Boolean, undefined] as PropType<boolean | undefined> })
 </script>
 
 <template>
@@ -14,6 +18,7 @@ const props = withDefaults(defineProps<{
   >
     <input
       :id="props.id"
+      v-model="model"
       type="checkbox"
       class="w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer checked:border-0 checked:bg-primary-500"
     >
