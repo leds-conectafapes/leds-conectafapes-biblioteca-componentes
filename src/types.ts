@@ -14,7 +14,9 @@ export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
-export type headerColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
+export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
+export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean}}
+export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupState = 'default' | 'error' | 'warning' | 'disabled'
 export type radioGroupOptions = { text: string, value: string }

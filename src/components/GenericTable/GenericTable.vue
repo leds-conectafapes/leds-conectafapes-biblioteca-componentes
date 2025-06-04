@@ -4,12 +4,12 @@ import GenericStatusTag from '../GenericStatusTag/GenericStatusTag.vue'
 import dayjs from 'dayjs'
 import * as utc from 'dayjs/plugin/utc';
 import type { PropType } from 'vue';
-import type { headerColumnType } from '../../types';
+import type { tableHeaderType, tableItemsType } from '../../types';
 dayjs.extend(utc.default ?? utc);
 
 const props = withDefaults(defineProps<{
-  headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} },
-  items: Array<{ [key: string]: string | Array<string> | number | Array<number> }>,
+  headers: tableHeaderType<string>,
+  items: tableItemsType<tableHeaderType>,
   totalRecords?: number,
   itemsPerPage?: number,
   totalPages?: number
