@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable/GenericTable.vue'
-import GenericTitle from './components/GenericTitle/GenericTitle.vue'
-import GenericInput from './components/GenericInput/GenericInput.vue'
-import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
-import GenericSelect from './components/GenericSelect/GenericSelect.vue'
-import GenericButton from './components/GenericButton/GenericButton.vue'
-import type { headerColumnType } from './types'
-import { ref } from 'vue'
+// import GenericTitle from './components/GenericTitle/GenericTitle.vue'
+// import GenericInput from './components/GenericInput/GenericInput.vue'
+// import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
+// import GenericSelect from './components/GenericSelect/GenericSelect.vue'
+// import GenericButton from './components/GenericButton/GenericButton.vue'
+// import GenericRadioGroup from './components/GenericRadioGroup/GenericRadioGroup.vue'
+// import { ref } from 'vue'
 
-const headers: { [key: string]: { title: string, type: headerColumnType, sortable?: boolean} } = {
+const headers = {
   name: { title: 'Nome do bolsista', type: 'text', sortable: true },
   date: { title: 'Data de ingresso', type: 'date', sortable: true },
   status: { title: 'Status da Bolsa', type: 'status', sortable: false },
   dinheiro: { title: 'Dinheiro', type: 'currency', sortable: true },
   actions: { title: 'Ações', type: 'actions', sortable: false }
-}
+} as const
 
 
 const items = [
   {
     name: 'João Carlos Alberto Alameda',
     date: '2025-04-23T17:02:59-03:00',
-    status: 'Manutenção',
     dinheiro: 1000,
-    actions: ['view', 'delete']
+    status: 'Manutenção',
+    actions: ['view', 'delete'],
   },
   {
     name: 'Maria da Conceição Pereira da Silva',
@@ -148,9 +148,10 @@ const onAction = (action: string, index: number) => {
   console.log(action, index)
 }
 
-const inputModel = ref('')
-const datePickerModel = ref('')
-const selectModel = ref('')
+// const inputModel = ref('')
+// const datePickerModel = ref('')
+// const selectModel = ref('')
+// const radioModel = ref('')
 </script>
 
 <template>
@@ -162,7 +163,7 @@ const selectModel = ref('')
     class="m-2"
     @action="onAction"
   />
-  <div>
+  <!-- <div>
     <GenericInput
       v-model="inputModel"
       type="number"
@@ -192,14 +193,28 @@ const selectModel = ref('')
       :options="['Option 1', 'Option 2', 'Option 3']"
     />
     {{ inputModel }}
-  </div>
+  </div> -->
 
-  <div>
+  <!-- <div>
     <GenericButton
       label="Label"
       variant="primary"
     />
-  </div>
+  </div> -->
+
+  <!-- <div>
+    <GenericRadioGroup
+      v-model="radioModel"
+      label="Label"
+      class="w-xl m-2"
+      :options="[
+        { value: 'Option 1', text: 'Option 1' },
+        { value: 'Option 2', text: 'Option 2' },
+        { value: 'Option 3', text: 'Option 3' },
+      ]"
+    />
+    {{ radioModel }}
+  </div> -->
 </template>
 
 <style scoped>

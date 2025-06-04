@@ -6,6 +6,8 @@ export { default as GenericStatusTag } from './components/GenericStatusTag/Gener
 export { default as GenericSubtitle } from './components/GenericSubtitle/GenericSubtitle.vue';
 export { default as GenericTitle } from './components/GenericTitle/GenericTitle.vue';
 export { default as GenericTable } from './components/GenericTable/GenericTable.vue';
+export { default as GenericCheckbox } from './components/GenericCheckbox/GenericCheckbox.vue';
+export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
 
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
@@ -14,5 +16,9 @@ export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
-export type headerColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
+export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
+export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean}}
+export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
+export type radioGroupState = 'default' | 'error' | 'warning' | 'disabled'
+export type radioGroupOptions = { text: string, value: string }
