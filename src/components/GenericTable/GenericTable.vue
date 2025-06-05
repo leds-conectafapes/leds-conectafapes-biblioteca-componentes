@@ -84,15 +84,15 @@ const sortedData = computed(() => {
         return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
       }
       return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-  }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+    }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
   } else {
-   return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
-    const modifier = sortDirection.value === 'asc' ? 1 : -1;
-    if (sortKey.value === 'date') {
-      return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
-    }
-    return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-  }) 
+    return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
+      const modifier = sortDirection.value === 'asc' ? 1 : -1;
+      if (sortKey.value === 'date') {
+        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+      }
+      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
+    }) 
   }
 });
 
@@ -111,7 +111,7 @@ function goToPage(page: number) {
 }
 
 const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 };
 
 const actionsIcon = {

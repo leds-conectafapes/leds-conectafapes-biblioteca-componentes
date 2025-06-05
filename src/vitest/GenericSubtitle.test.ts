@@ -16,22 +16,23 @@ const subtitleStyleMap: Record<subtitleState, {
 }
 
 describe('GenericSubtitle.vue', () => {
+  describe('testes de estilização', () => {
+    // Testa de estilização para cada state
+    it.each(subtitleStates)(
+      'renderiza corretamente com state "%s"',
+      (state) => {
+        const { getByText } = render(GenericSubtitle, {
+          props: { text: `Subtitle ${state}`, state}
+        })
 
-  // Testa de estilização para cada state
-  it.each(subtitleStates)(
-    'renderiza corretamente com state "%s"',
-    (state) => {
-      const { getByText } = render(GenericSubtitle, {
-        props: { text: `Subtitle ${state}`, state}
-      })
+        const subtitle = getByText(`Subtitle ${state}`)
 
-      const subtitle = getByText(`Subtitle ${state}`)
+        // Verifica a aplicação da cor do texto
+        expect(subtitle).toHaveClass(`${subtitleStyleMap[state].text_color}`)
 
-      // Verifica a aplicação da cor do texto
-      expect(subtitle).toHaveClass(`${subtitleStyleMap[state].text_color}`)
-
-      // Verifica a aplicação do texto na Subtitle
-      expect(subtitle).toHaveTextContent('Subtitle')
-    }
-  )
+        // Verifica a aplicação do texto na Subtitle
+        expect(subtitle).toHaveTextContent('Subtitle')
+      }
+    )
+  })
 })

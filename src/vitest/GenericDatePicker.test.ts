@@ -5,12 +5,12 @@ import { describe, it, expect, vi } from 'vitest'
 import GenericButton from '../components/GenericButton/GenericButton.vue'
 import GenericDatePicker from '../components/GenericDatePicker/GenericDatePicker.vue'
 
-import type { inputState } from '../types'
+import type { datePickerState } from '../types'
 
-const inputStates: inputState[] = ['default', 'error', 'warning', 'disabled']
+const datePickerStates: datePickerState[] = ['default', 'error', 'warning', 'disabled']
 const requiredValues = [true, false]
 
-const inputStyleMap: Record<inputState, {
+const datePickerStyleMap: Record<datePickerState, {
   ring: string
   bg: string | undefined
 }> = {
@@ -35,8 +35,8 @@ const inputStyleMap: Record<inputState, {
 describe('GenericDatePicker.vue', () => {
   describe('testes de estilização', () => {
     it.each(
-      inputStates.flatMap(state =>
-        requiredValues.map(required => [state, required] as [inputState, boolean])
+      datePickerStates.flatMap(state =>
+        requiredValues.map(required => [state, required] as [datePickerState, boolean])
       )
     )(
       'renderiza corretamente com state "%s" e required %s',
@@ -54,11 +54,11 @@ describe('GenericDatePicker.vue', () => {
         const datePicker = getByLabelText(`DatePicker ${state} ${required ? 'required' : 'optional'}`, { exact: false })
 
         // Verifica a aplicação do anel
-        expect(datePicker).toHaveClass(`${inputStyleMap[state].ring}`)
+        expect(datePicker).toHaveClass(`${datePickerStyleMap[state].ring}`)
 
         // Verifica a aplicação da cor do background
-        if (inputStyleMap[state].bg) {
-          expect(datePicker).toHaveClass(`${inputStyleMap[state].bg}`)
+        if (datePickerStyleMap[state].bg) {
+          expect(datePicker).toHaveClass(`${datePickerStyleMap[state].bg}`)
         }
 
         // Verifica a aplicação do placeholder no DatePicker
@@ -92,10 +92,10 @@ describe('GenericDatePicker.vue', () => {
         }
       })
 
-      const input = getByLabelText('DatePicker') as HTMLInputElement
-      expect(input).toHaveValue('2024-12-31')
+      const datePicker = getByLabelText('DatePicker') as HTMLInputElement
+      expect(datePicker).toHaveValue('2024-12-31')
 
-      await fireEvent.update(input, '2025-01-01')
+      await fireEvent.update(datePicker, '2025-01-01')
       expect(modelValue.value).toBe('2025-01-01')
     })
 
@@ -105,16 +105,16 @@ describe('GenericDatePicker.vue', () => {
         components: { GenericDatePicker, GenericButton },
         template: `
           <form @submit="submitForm">
-            <GenericDatePicker v-model="inputModel" label="DatePicker" placeholder="Escolha" />
+            <GenericDatePicker v-model="datePickerModel" label="DatePicker" placeholder="Escolha" />
             <GenericButton label="Enviar" type="submit" />
           </form>
         `,
         setup() {
-          const inputModel = ref()
+          const datePickerModel = ref()
           const submitForm = () => {
-            onSubmit(inputModel.value)
+            onSubmit(datePickerModel.value)
           }
-          return { inputModel, submitForm }
+          return { datePickerModel, submitForm }
         }
       })
 
@@ -126,7 +126,7 @@ describe('GenericDatePicker.vue', () => {
       expect(onSubmit).toHaveBeenCalledWith('2022-12-13')
     })
 
-    it.each(inputStates.filter(s => s !== 'disabled'))(
+    it.each(datePickerStates.filter(s => s !== 'disabled'))(
       'permite interação quando state = "%s"',
       async (state) => {
         const modelValue = ref<string | undefined>('')
@@ -141,10 +141,10 @@ describe('GenericDatePicker.vue', () => {
           }
         })
 
-        const input = getByPlaceholderText('Digite...') as HTMLInputElement
-        expect(input.disabled).toBe(false)
+        const datePicker = getByPlaceholderText('Digite...') as HTMLInputElement
+        expect(datePicker.disabled).toBe(false)
 
-        await fireEvent.update(input, '2025-05-21')
+        await fireEvent.update(datePicker, '2025-05-21')
         expect(modelValue.value).toBe('2025-05-21')
       }
     )
@@ -161,8 +161,8 @@ describe('GenericDatePicker.vue', () => {
       expect(getByText('Campo obrigatório')).toBeInTheDocument()
       expect(getByText('Data inválida')).toBeInTheDocument()
 
-      const input = getByPlaceholderText('Selecionar data') as HTMLInputElement
-      expect(input.classList.contains('bg-error-100/10')).toBe(true)
+      const datePicker = getByPlaceholderText('Selecionar data') as HTMLInputElement
+      expect(datePicker.classList.contains('bg-error-100/10')).toBe(true)
     })
   })
 

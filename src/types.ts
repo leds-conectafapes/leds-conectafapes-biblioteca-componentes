@@ -24,6 +24,5 @@ export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'sta
 export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean}}
 export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
-export type radioGroupState = 'default' | 'error' | 'warning' | 'disabled'
 export type radioGroupOptions = { text: string, value: string }
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'

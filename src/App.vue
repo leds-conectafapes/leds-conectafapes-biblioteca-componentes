@@ -5,9 +5,9 @@
 // import GenericDatePicker from './components/GenericDatePicker/GenericDatePicker.vue'
 // import GenericSelect from './components/GenericSelect/GenericSelect.vue'
 // import GenericButton from './components/GenericButton/GenericButton.vue'
-// import GenericRadioGroup from './components/GenericRadioGroup/GenericRadioGroup.vue'
-import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue'
-import GenericTextArea from './components/GenericTextArea/GenericTextArea.vue'
+import GenericRadioGroup from './components/GenericRadioGroup/GenericRadioGroup.vue'
+// import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue'
+// import GenericTextArea from './components/GenericTextArea/GenericTextArea.vue'
 import { ref } from 'vue'
 
 // const headers = {
@@ -153,9 +153,9 @@ import { ref } from 'vue'
 // const inputModel = ref('')
 // const datePickerModel = ref('')
 // const selectModel = ref('')
-// const radioModel = ref('')
-const checkboxModel = ref()
-const textAreaModel = ref('')
+const radioModel = ref('')
+// const checkboxModel = ref()
+// const textAreaModel = ref('')
 </script>
 
 <template>
@@ -206,7 +206,7 @@ const textAreaModel = ref('')
     />
   </div> -->
 
-  <!-- <div>
+  <div>
     <GenericRadioGroup
       v-model="radioModel"
       label="Label"
@@ -218,9 +218,9 @@ const textAreaModel = ref('')
       ]"
     />
     {{ radioModel }}
-  </div> -->
+  </div>
 
-  <div>
+  <!-- <div>
     <GenericCheckbox
       v-model="checkboxModel"
       label="Label"
@@ -236,7 +236,7 @@ const textAreaModel = ref('')
       label="Label"
     />
     {{ textAreaModel }}
-  </div>
+  </div> -->
 </template>
 
 <style scoped>

@@ -10,11 +10,11 @@ const props = withDefaults(defineProps<{
 });
 
 const subtitleStates = computed(() => {
-    const state: Record<subtitleState, string> = {
-      default: 'text-gray-500',
-      error: 'text-error-300',
-    }
-    return state[props.state as keyof typeof state] || state.default
+  const state: Record<subtitleState, string> = {
+    default: 'text-gray-500',
+    error: 'text-error-300',
+  }
+  return state[props.state as keyof typeof state] || state.default
 })
 
 </script>

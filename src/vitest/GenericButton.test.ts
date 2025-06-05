@@ -42,79 +42,82 @@ const buttonVariantsStyleMap: Record<buttonVariant, {
 }
 
 describe('GenericButton.vue', () => {
-// Testes de estilização para cada variant
-it.each(buttonVariants)(
-  'estilização correta com variant "%s"',
-  (variant) => {
-    const { getByRole } = render(GenericButton, {
-      props: { label: `Botão ${variant}`, variant }
-    })
+  describe('testes de estilização', () => {
+    it.each(buttonVariants)(
+      'estilização correta com variant "%s"',
+      (variant) => {
+        const { getByRole } = render(GenericButton, {
+          props: { label: `Botão ${variant}`, variant }
+        })
 
-    const button = getByRole('button')
+        const button = getByRole('button')
 
-    // Verifica a aplicação do background das variantes
-    expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].bg}`)
+        // Verifica a aplicação do background das variantes
+        expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].bg}`)
 
-    // Verifica a aplicação do texto das variantes
-    expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].text}`)
+        // Verifica a aplicação do texto das variantes
+        expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].text}`)
 
-    // Verifica a aplicação do hover das variantes
-    if (buttonVariantsStyleMap[variant].hover) {
-      expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].hover}`)
-    }
+        // Verifica a aplicação do hover das variantes
+        if (buttonVariantsStyleMap[variant].hover) {
+          expect(button).toHaveClass(`${buttonVariantsStyleMap[variant].hover}`)
+        }
 
-    // Verifica a aplicação da label do botão
-    expect(button).toHaveTextContent(`Botão`)
-  }
-)
-
-// Testes de comportamento para cada variant
-it.each(buttonVariants)(
-  'evento emitido corretamente com variant "%s"',
-  (variant) => {
-    const { getByRole, emitted } = render(GenericButton, {
-      props: { label: `Botão ${variant}`, variant }
-    })
-
-    const button = getByRole('button')
-
-    // Verifica a emissão do click do botão
-    fireEvent.click(button)
-    if (variant === 'disabled') {
-      expect(emitted()).not.toHaveProperty('click')
-
-    } else {
-      expect(emitted()).toHaveProperty('click')
-    }
-  }
-)
-
-// Testes de comportamento para um formulario para cada variant
-it.each(buttonVariants)(
-  'submit do formulario emitido corretamente com variant "%s"',
-  (variant) => {
-    const onSubmit = vi.fn()
-    const { getByRole } = render({
-      components: { GenericButton },
-      template: `
-        <form @submit="onSubmit" data-testid="form">
-          <GenericButton label="Botão" variant="${variant}" type="submit" />
-        </form>
-      `,
-      setup() {
-        return { onSubmit }
+        // Verifica a aplicação da label do botão
+        expect(button).toHaveTextContent(`Botão`)
       }
-    })
+    )
+  })
 
-    const button = getByRole('button')
+  describe('testes de comportamento', () => {
+    // Testes de comportamento para cada variant
+    it.each(buttonVariants)(
+      'evento emitido corretamente com variant "%s"',
+      (variant) => {
+        const { getByRole, emitted } = render(GenericButton, {
+          props: { label: `Botão ${variant}`, variant }
+        })
 
-    // Verifica a emissão do onsubmit para um formulario ao clicar no botão
-    fireEvent.click(button)
-    if (variant === 'disabled') {
-      expect(onSubmit).not.toHaveBeenCalled()
-    } else {
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-    }
-  }
-)
+        const button = getByRole('button')
+
+        // Verifica a emissão do click do botão
+        fireEvent.click(button)
+        if (variant === 'disabled') {
+          expect(emitted()).not.toHaveProperty('click')
+
+        } else {
+          expect(emitted()).toHaveProperty('click')
+        }
+      }
+    )
+
+    // Testes de comportamento para um formulario para cada variant
+    it.each(buttonVariants)(
+      'submit do formulario emitido corretamente com variant "%s"',
+      (variant) => {
+        const onSubmit = vi.fn()
+        const { getByRole } = render({
+          components: { GenericButton },
+          template: `
+            <form @submit="onSubmit" data-testid="form">
+              <GenericButton label="Botão" variant="${variant}" type="submit" />
+            </form>
+          `,
+          setup() {
+            return { onSubmit }
+          }
+        })
+
+        const button = getByRole('button')
+
+        // Verifica a emissão do onsubmit para um formulario ao clicar no botão
+        fireEvent.click(button)
+        if (variant === 'disabled') {
+          expect(onSubmit).not.toHaveBeenCalled()
+        } else {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        }
+      }
+    )
+  })
 })

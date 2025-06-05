@@ -4,17 +4,17 @@ import type { PropType } from 'vue';
 import type { textAreaState } from '../../types';
 
 const props = withDefaults(defineProps<{
-    placeholder: string,
-    state?: textAreaState,
-    label: string,
-    required?: boolean,
-    errorMessages?: string[],
-    id?: string,
+  placeholder: string,
+  state?: textAreaState,
+  label: string,
+  required?: boolean,
+  errorMessages?: string[],
+  id?: string,
 }>(), {
-    state: 'default',
-    required: false,
-    errorMessages: () => [],
-    id: `textarea-${Math.random().toString(36).slice(2, 11)}`
+  state: 'default',
+  required: false,
+  errorMessages: () => [],
+  id: `textarea-${Math.random().toString(36).slice(2, 11)}`
 });
 
 const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
