@@ -4,19 +4,19 @@ import type { PropType } from 'vue';
 import type { inputState, inputType } from '../../types';
 
 const props = withDefaults(defineProps<{
-    type?: inputType,
-    placeholder: string,
-    state?: inputState,
-    label: string,
-    required?: boolean,
-    errorMessages?: string[],
-    id?: string,
+  type?: inputType,
+  placeholder: string,
+  state?: inputState,
+  label: string,
+  required?: boolean,
+  errorMessages?: string[],
+  id?: string,
 }>(), {
-    type: 'text',
-    state: 'default',
-    required: false,
-    errorMessages: () => [],
-    id: `input-${Math.random().toString(36).slice(2, 11)}`,
+  type: 'text',
+  state: 'default',
+  required: false,
+  errorMessages: () => [],
+  id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
 
 const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })

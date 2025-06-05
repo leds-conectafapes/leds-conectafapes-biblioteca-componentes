@@ -8,7 +8,7 @@ const headers: tableHeaderType = {
   date: { title: 'Data', type: 'date', sortable: true },
   status: { title: 'Status', type: 'status' },
   actions: { title: 'Ações', type: 'actions' }
-}
+} as const
 
 const items: tableItemsType<tableHeaderType> = [
   { name: 'Item 1', date: '2024-05-01', status: 'Ativo', actions: ['view', 'edit'] },

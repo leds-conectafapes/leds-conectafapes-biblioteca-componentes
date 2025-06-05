@@ -39,27 +39,28 @@ const titleStyleMap: Record<titleType, {
 }
 
 describe('GenericTitle.vue', () => {
+  describe('testes de estilização', () => {
+    // Testes de estilização para cada type
+    it.each(titleTypes)(
+      'estilização correta com type "%s"',
+      (type) => {
+        const { getAllByRole } = render(GenericTitle, {
+          props: { text: `Title ${type}`, type }
+        })
 
-  // Testes de estilização para cada type
-  it.each(titleTypes)(
-    'estilização correta com type "%s"',
-    (type) => {
-      const { getAllByRole } = render(GenericTitle, {
-        props: { text: `Title ${type}`, type }
-      })
+        const title = getAllByRole('generic')[1]
 
-      const title = getAllByRole('generic')[1]
+        // Verifica a aplicação do tamanho do texto
+        expect(title).toHaveClass(`${titleStyleMap[type].text_size}`)
 
-      // Verifica a aplicação do tamanho do texto
-      expect(title).toHaveClass(`${titleStyleMap[type].text_size}`)
+        // Verifica a aplicação do peso da fonte
+        if (titleStyleMap[type].font_weight) {
+          expect(title).toHaveClass(`${titleStyleMap[type].font_weight}`)
+        }
 
-      // Verifica a aplicação do peso da fonte
-      if (titleStyleMap[type].font_weight) {
-        expect(title).toHaveClass(`${titleStyleMap[type].font_weight}`)
+        // Verifica a aplicação do texto no Title
+        expect(title).toHaveTextContent('Title')
       }
-
-      // Verifica a aplicação do texto no Title
-      expect(title).toHaveTextContent('Title')
-    }
-  )
+    )
+  })
 })

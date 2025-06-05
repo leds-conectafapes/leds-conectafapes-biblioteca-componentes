@@ -49,36 +49,38 @@ const statusTagStyleMap: Record<statusTagVariant, {
 }
 
 describe('GenericStatusTag.vue', () => {
-  // Testes de estilização para cada variant
-  it.each(statusTagVariants)(
-    'renderiza corretamente com variant "%s"',
-    (variant) => {
-      const { getAllByRole } = render(GenericStatusTag, {
-        props: { text: `StatusTag ${variant}`, variant}
-      })
+  describe('testes de estilização', () => {
+    // Testes de estilização para cada variant
+    it.each(statusTagVariants)(
+      'renderiza corretamente com variant "%s"',
+      (variant) => {
+        const { getAllByRole } = render(GenericStatusTag, {
+          props: { text: `StatusTag ${variant}`, variant}
+        })
 
-      const statusTag = getAllByRole('generic')[1]
+        const statusTag = getAllByRole('generic')[1]
 
-      // Verifica a aplicação do background
-      expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].bg}`)
+        // Verifica a aplicação do background
+        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].bg}`)
 
-      // Verifica a aplicação da borda
-      if (statusTagStyleMap[variant].border) {
-        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border}`)
+        // Verifica a aplicação da borda
+        if (statusTagStyleMap[variant].border) {
+          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border}`)
+        }
+
+        // Verifica a aplicação da cor da borda
+        if (statusTagStyleMap[variant].border_color) {
+          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border_color}`)
+        }
+
+        // Verifica a aplicação da cor do texto
+        if (statusTagStyleMap[variant].text_color) {
+          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].text_color}`)
+        }
+
+        // Verifica a aplicação do texto no StatusTag
+        expect(statusTag).toHaveTextContent('StatusTag')
       }
-
-      // Verifica a aplicação da cor da borda
-      if (statusTagStyleMap[variant].border_color) {
-        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border_color}`)
-      }
-
-      // Verifica a aplicação da cor do texto
-      if (statusTagStyleMap[variant].text_color) {
-        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].text_color}`)
-      }
-
-      // Verifica a aplicação do texto no StatusTag
-      expect(statusTag).toHaveTextContent('StatusTag')
-    }
-  )
+    )
+  })
 })
