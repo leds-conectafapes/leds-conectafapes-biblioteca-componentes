@@ -30,23 +30,20 @@ const actionOnClick = (action: string, itemKey: number) => {
 
 const pageNumber = defineModel('page', { type: [Number] as PropType<number>, default: 1 });
 
-const items_paginados = ref<Array<{ [key: string]: string | Array<string> | number | Array<number> }>>([]);
-const nao_paginados = props.totalRecords === props.items.length && props.itemsPerPage < props.totalRecords;
-onMounted(() => {
-  if(nao_paginados) {
-    items_paginados.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
-  } else {
-    items_paginados.value = props.items
-  }
-});
+const paginatedItems = ref<Array<{ [key: string]: string | Array<string> | number | Array<number> }>>([]);
+const isPaginationEnabled = computed(() => props.totalRecords > props.items.length);
 
-watch(pageNumber, () => {
-  if(nao_paginados) {
-    items_paginados.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+const updateItems = () => {
+  if(isPaginationEnabled.value) {
+    paginatedItems.value = props.items
   } else {
-    items_paginados.value = props.items
+    paginatedItems.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
   }
-})
+}
+
+onMounted(updateItems)
+
+watch(pageNumber, updateItems)
 
 const hasNextPage = computed(() => pageNumber.value < props.totalPages);
 const hasPreviousPage = computed(() => pageNumber.value > 1);
@@ -55,7 +52,6 @@ const sortKey = ref('');
 const sortDirection = ref('asc');
 
 function sortTable(header: { title: string, type: string, sortable?: boolean}, key: string) {
-
   if (!header.sortable) {
     return
   }
@@ -77,22 +73,22 @@ function compareDate(data1: string, data2: string) {
 }
 
 const sortedData = computed(() => {
-  if(nao_paginados) {
-    return [...props.items].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number | Array<number> }) => {
+  if(isPaginationEnabled.value) {
+    return [...paginatedItems.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
+      const modifier = sortDirection.value === 'asc' ? 1 : -1;
+      if (sortKey.value === 'date') {
+        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+      }
+      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
+    })
+  } else {
+    return [...paginatedItems.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number | Array<number> }) => {
       const modifier = sortDirection.value === 'asc' ? 1 : -1;
       if (sortKey.value === 'date') {
         return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
       }
       return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
     }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
-  } else {
-    return [...items_paginados.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
-      const modifier = sortDirection.value === 'asc' ? 1 : -1;
-      if (sortKey.value === 'date') {
-        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
-      }
-      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-    }) 
   }
 });
 
@@ -229,7 +225,7 @@ const actionsIcon = {
       <span>Nenhum resultado encontrado</span>
     </div>
     <div class="py-4 px-5  text-right flex items-center justify-between">
-      <span class="ml-1"><span class="font-semibold">{{ items_paginados.length + ((pageNumber - 1) * props.itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
+      <span class="ml-1"><span class="font-semibold">{{ sortedData.length + ((pageNumber - 1) * props.itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
       <div class="flex items-center justify-center h-9 border border-primary-200 rounded-lg align-middle">
         <button
           :disabled="!hasPreviousPage"
