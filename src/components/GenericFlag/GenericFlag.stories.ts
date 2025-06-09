@@ -27,9 +27,38 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const InformativeDefault: Story = {
   args: {
-    title: 'Título breve',
-    description: 'Descrição, caso necessária'
+    variant: 'informative',
+    title: 'Atualização disponível',
+    description: 'Uma nova versão do sistema está pronta para ser instalada.',
+    modelValue: true,
   }
+}
+
+export const SuccessDefault: Story = {
+  args: {
+    variant: 'success',
+    title: 'Cadastro concluído',
+    description: 'Seu registro foi salvo com sucesso.',
+    modelValue: true,
+  }
+}
+
+export const WarningDefault: Story = {
+  args: {
+    variant: 'warning',
+    title: 'Campo obrigatório vazio',
+    description: 'Preencha todos os campos antes de enviar.',
+    modelValue: true,
+  } 
+}
+
+export const ErrorDefault: Story = {
+  args: {
+    variant: 'error',
+    title: 'Ação não permitida',
+    description: 'Você não tem permissão para executar esta operação.',
+    modelValue: true,
+  } 
 }
