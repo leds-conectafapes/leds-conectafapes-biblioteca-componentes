@@ -19,6 +19,7 @@ export type flagVariant = 'informative' | 'success' | 'warning' | 'error';
 export type inputType = 'text' | 'search' | 'number' | 'email' | 'password' | 'tel' | 'url'
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
+export type selectOption<T> = { label: string, value: T }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
