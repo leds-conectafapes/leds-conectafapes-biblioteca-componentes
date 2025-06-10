@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 import type { flagVariant } from '../../types';
 
@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   description?: string,
 }>(), {
   variant: 'informative',
-  description: ''
+  description: '',
 })
 
 const flagVariants = computed(() => {
@@ -61,31 +61,56 @@ const flagVariants = computed(() => {
   }
   return variant[props.variant as keyof typeof variant] || variant.informative
 })
+
+const timeout = computed(() => {
+  if (props.variant === 'informative' || props.variant === 'success') {
+    return 8000
+  } else {
+    return -1
+  }
+})
+
+const model = defineModel<boolean>({ default: false })
+
+const close = () => {
+  model.value = false
+}
+
+const startTimeout = () => {
+  setTimeout(() => {
+    model.value = false
+  }, timeout.value)
+}
+
+onMounted(() => {
+  if (timeout.value > 0) startTimeout()
+})
 </script>
 
 <template>
   <div
-    class="flex flex-row justify-between w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-[420px] md:max-w-[700px] font-inter"
-    :class="flagVariants.style.card"
+    class="flex flex-row justify-between gap-x-4 w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-[420px] md:max-w-[700px] font-inter"
+    :class="flagVariants.style.card, model ? '' : 'hidden'"
   >
     <span
       id="icon"
-      class="material-symbols-outlined text-xl select-all"
+      class="material-symbols-outlined text-xl select-none"
       :class="flagVariants.style.icon"
     >{{ flagVariants.icon }}</span>
-    <div class="flex flex-col justify-start w-full h-full ml-3 mr-10 ">
+    <div class="flex flex-col justify-start w-full h-full text-base leading-normal">
       <span
-        class="font-bold leading-[150%]"
+        class="font-bold"
         :class="flagVariants.style.title"
       >{{ props.title }}</span>
       <span
-        class="font-normal leading-[150%]"
+        class="font-normal"
         :class="flagVariants.style.description"
       >{{ props.description }}</span>
     </div>
     <span
-      class="material-symbols-outlined select-all"
+      class="material-symbols-outlined text-xl cursor-pointer select-none"
       :class="flagVariants.style.title"
+      @click="close"
     >close</span>
   </div>
 </template>
