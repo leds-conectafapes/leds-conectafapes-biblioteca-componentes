@@ -11,9 +11,9 @@ const meta = {
     type: { 
       control: 'select',
       options: [
-      'text',
-      'search',
-      'number',
+        'text',
+        'search',
+        'number',
       ],
       description: 'Tipo do input',
       required: false,
@@ -24,10 +24,10 @@ const meta = {
     state: {
       control: 'select',
       options: [
-      'default',
-      'error',
-      'warning',
-      'disabled',
+        'default',
+        'error',
+        'warning',
+        'disabled',
       ],
       description: 'Estado do input',
       required: false,

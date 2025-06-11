@@ -6,17 +6,27 @@ const meta = {
   title: 'Basic Components/GenericCheckbox',
   component: GenericCheckbox,
   tags: ['autodocs'],
-
-  argTypes: {
-    label: { control: 'text', description: 'Nome do checkbox', required: true }
-  }
 } satisfies Meta<typeof GenericCheckbox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof GenericCheckbox>
 
-export const Default: Story = {
+export const PropDefault: Story = {
   args: {
-    label: 'Label',
+    label: 'Checkbox',
+    modelValue: false,
+  },
+}
+
+export const SlotDefault: Story = {
+  args: {
+    default: 'Checkbox with slot',
+  }
+}
+
+export const CheckedDefault: Story = {
+  args: {
+    default: 'Checkbox',
+    modelValue: true,
   }
 }
