@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<selectProps<T>>(), {
   placeholder: 'Selecione uma opção',
   errorMessages: () => [],
   containerClass: () => [],
-  castToNumber: false
+  castToNumber: false,
 })
 
 const emit = defineEmits<{
@@ -47,7 +47,7 @@ const SELECT_STATES: Record<selectState, string> = {
 const selectState = computed(() => cn(
   'appearance-none w-full p-4 font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400',
   SELECT_STATES[props.errorMessages.length > 0 ? 'error' : props.state],
-  attrs.class as string | undefined
+  attrs.class as string | undefined,
 ))
 
 const forwarded = computed(() => {
