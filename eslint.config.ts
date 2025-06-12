@@ -1,7 +1,8 @@
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVue from 'eslint-plugin-vue'
-import { globalIgnores } from 'eslint/config'
 import stylistic from '@stylistic/eslint-plugin'
+
+import { globalIgnores } from 'eslint/config'
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 
 
 export default defineConfigWithVueTs(
