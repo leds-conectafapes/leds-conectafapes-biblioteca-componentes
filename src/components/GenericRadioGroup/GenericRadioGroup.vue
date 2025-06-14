@@ -38,7 +38,7 @@ const model = defineModel({ type: [String, undefined] as PropType<string | undef
           v-model="model"
           type="radio"
           :value="option.value"
-          class="accent-primary-500 h-6 w-6"
+          class="accent-primary-500 h-5 w-5"
         >
         <label
           :for="props.id + index"
