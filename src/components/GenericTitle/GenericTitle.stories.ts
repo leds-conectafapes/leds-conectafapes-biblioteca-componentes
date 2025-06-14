@@ -6,75 +6,63 @@ const meta = {
   title: 'Basic Components/GenericTitle',
   component: GenericTitle,
   tags: ['autodocs'],
-
-  argTypes: {
-    text: { control: 'text', description: 'Texto do title', required: true },
-    variant: {
-      control: 'select',
-      options: [
-      'h1',
-      'h2',
-      'h3',
-      'title',
-      'subtitle',
-      'body',
-      'caption',
-      ],
-      description: 'Variante do title',
-      required: false,
-    },
-  },
-
 } satisfies Meta<typeof GenericTitle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const SlotH1: Story = {
+  args: {
+    default: 'Title',
+    type: 'h1',
+  }
+}
+
 export const h1: Story = {
   args: {
     text: 'Title',
-    variant: 'h1',
+    type: 'h1',
   },
 };
 
 export const h2: Story = {
   args: {
     text: 'Title',
-    variant: 'h2',
+    type: 'h2',
   },
 };
 
 export const h3: Story = {
   args: {
     text: 'Title',
-    variant: 'h3',
+    type: 'h3',
   },
 };
 
 export const title: Story = {
   args: {
     text: 'Title',
-    variant: 'title',
+    type: 'title',
   },
 };
 
 export const subtitle: Story = {
   args: {
     text: 'Title',
-    variant: 'subtitle',
+    type: 'subtitle',
   },
 };
 
 export const body: Story = {
   args: {
     text: 'Title',
-    variant: 'body',
+    type: 'body',
   },
 };
 
 export const caption: Story = {
   args: {
     text: 'Title',
-    variant: 'caption',
+    type: 'caption',
   },
 };

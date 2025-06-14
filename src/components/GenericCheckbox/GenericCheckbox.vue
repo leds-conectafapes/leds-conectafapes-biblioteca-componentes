@@ -3,7 +3,7 @@ import { computed, useAttrs } from 'vue'
 
 import { cn } from '../../utils/cn'
 
-import type { InputHTMLAttributes, PropType } from 'vue'
+import type { InputHTMLAttributes } from 'vue'
 
 type NativeCheckboxAttributes = /* @vue-ignore */ InputHTMLAttributes
 
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   containerClass: () => [],
 })
 
-const model = defineModel({ type: [Boolean, undefined] as PropType<boolean | string>  })
+const model = defineModel<boolean>()
 
 const slots = defineSlots<{
   /** Slot para texto da checkbox */
