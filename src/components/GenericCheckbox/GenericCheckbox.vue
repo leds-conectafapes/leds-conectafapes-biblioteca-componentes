@@ -41,7 +41,7 @@ const forwarded = computed(() => {
       type="checkbox"
       :class="checkboxClass"
     >
-
+    
     <label
       v-if="!hasLabelSlot"
       :for="props.id"
