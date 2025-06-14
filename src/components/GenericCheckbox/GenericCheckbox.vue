@@ -1,36 +1,26 @@
-<script lang="ts" setup>
-import { computed, useAttrs } from 'vue'
-
+<script lang="ts" setup generic="T extends string | number | boolean | undefined">
+import { computed, useAttrs, useSlots } from 'vue'
 import { cn } from '../../utils/cn'
-
 import type { InputHTMLAttributes } from 'vue'
 
 type NativeCheckboxAttributes = /* @vue-ignore */ InputHTMLAttributes
 
 type CheckboxProps = {
-  /** Texto do checkbox */
   label?: string
-  /** ID do checkbox */
-  id?: string
-  /** Classe(s) do container */
   containerClass?: string | string[]
 } & NativeCheckboxAttributes
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  label: () => '',
-  id: `checkbox-${Math.random().toString(36).slice(2, 11)}`,
+  label: '',
   containerClass: () => [],
 })
 
-const model = defineModel<boolean>()
+const modelValue = defineModel<T>()
 
-const slots = defineSlots<{
-  /** Slot para texto da checkbox */
-  default(): string
-}>()
+const slots = useSlots()
 const attrs = useAttrs()
 
-const hasDefaultSlot = computed(() => !!slots.default)
+const hasLabelSlot = computed(() => !!slots.default)
 
 const checkboxClass = computed(() => cn(
   'w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer checked:border-0 checked:bg-primary-500',
@@ -38,34 +28,32 @@ const checkboxClass = computed(() => cn(
 ))
 
 const forwarded = computed(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { class: _unusedClass, style: _unusedStyle, ...rest } = attrs
+  const { ...rest } = attrs
   return rest
 })
 </script>
 
 <template>
-  <label
-    :for="props.id"
-    :class="cn(
-      'group relative flex flex-row items-center gap-3 w-fit cursor-pointer select-none font-inter',
-      props.containerClass
-    )"
-  >
+  <div :class="cn('group relative flex flex-row items-center gap-3 w-fit cursor-pointer select-none font-inter', props.containerClass)">
     <input
       v-bind="forwarded"
-      :id="props.id"
-      v-model="model"
+      v-model="modelValue"
       type="checkbox"
       :class="checkboxClass"
     >
 
-    <template v-if="!hasDefaultSlot">
+    <label
+      v-if="!hasLabelSlot"
+      :for="props.id"
+    >
       {{ label }}
-    </template>
-    <template v-else>
-      <slot name="default" />
-    </template>
+    </label>
+    <label
+      v-else-if="hasLabelSlot"
+      :for="props.id"
+    >
+      <slot name="Label" />
+    </label>
 
     <svg
       width="16"
@@ -79,5 +67,5 @@ const forwarded = computed(() => {
         fill="white"
       />
     </svg>
-  </label>
+  </div>
 </template>

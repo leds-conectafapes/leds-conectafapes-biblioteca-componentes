@@ -75,7 +75,6 @@ const forwarded = computed(() => {
     <div class="relative">
       <select
         v-bind="forwarded"
-        :id="props.id"
         v-model="modelValue"
         :class="selectState"
         :disabled="isDisabled"
