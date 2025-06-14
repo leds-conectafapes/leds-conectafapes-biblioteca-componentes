@@ -19,12 +19,12 @@ type selectProps<T> = {
 const modelValue = defineModel<T>()
 
 const props = withDefaults(defineProps<selectProps<T>>(), {
-  state: 'default',
   options: () => [],
   label: '',
+  state: 'default',
   placeholder: 'Selecione uma opção',
-  errorMessages: () => [],
   containerClass: () => [],
+  errorMessages: () => [],
 })
 
 const slots = useSlots()
