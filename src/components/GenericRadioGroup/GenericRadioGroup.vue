@@ -1,61 +1,100 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | number | undefined">
 import type { radioGroupOptions } from '../../types';
-import type { PropType } from 'vue';
+import type { InputHTMLAttributes } from 'vue';
+import { computed, useAttrs, useSlots } from 'vue';
+import { cn } from '../../utils/cn';
 
-const props = withDefaults(defineProps<{
-  options: radioGroupOptions[],
-  label: string,
-  required?: boolean,
-  errorMessages?: string[],
-  id?: string,
-}>(), {
-  state: 'default',
-  required: false,
+type NativeInputAttributes = InputHTMLAttributes
+
+type radioGroupProps<T> = {
+  options?: radioGroupOptions<T>[],
+  label?: string,
+  containerClass?: string | string[]
+  errorMessages?: string | string[]
+} & NativeInputAttributes
+
+const props = withDefaults(defineProps<radioGroupProps<T>>(), {
+  options: () => [],
+  label: '',
+  containerClass: () => [],
   errorMessages: () => [],
-  id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
 
-const model = defineModel({ type: [String, undefined] as PropType<string | undefined> })
+const modelValue = defineModel<T>()
+
+const slots = useSlots()
+const attrs = useAttrs()
+
+const hasOptionSlots = computed(() => !!slots.options)
+const hasErrorSlots = computed(() => !!slots.error)
+const hasLabelSlots = computed(() => !!slots.label)
+
+const forwarded = computed(() => {
+  const { ...rest } = attrs
+  return rest
+})
 </script>
 
 <template>
-  <div class="w-full gap-y-4 flex flex-col">
-    <label
-      class="
+  <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
+    <!-- label -->
+    <div v-if="!hasLabelSlots && props.label !== ''">
+      <label
+        :for="props.id"
+        class="
         w-fit
         text-base
         font-medium font-inter"
-    >
-      {{ props.label }}{{ props.required ? '*' : '' }}</label>
-    <div class="flex flex-row gap-x-8">
-      <div
-        v-for="(option, index) in props.options"
-        :key="option.value"
-        class="flex flex-row gap-x-2"
       >
-        <input
-          :id="props.id + index"
-          v-model="model"
-          type="radio"
-          :value="option.value"
-          class="accent-primary-500 h-5 w-5"
+        {{ props.label }}{{ props.required ? '*' : '' }}
+      </label>
+    </div>
+    <div v-else-if="hasLabelSlots">
+      <slot name="label" />
+    </div>
+    <!-- input -->
+    <div class="flex flex-row gap-x-8">
+      <div v-if="!hasOptionSlots">
+        <div
+          v-for="option in props.options"
+          :key="option.id"
         >
-        <label
-          :for="props.id + index"
-          class="text-base font-inter font-medium"
-        >{{ option.text }}</label>
+          <input
+            v-bind="forwarded"
+            v-model="modelValue"
+            :value="option.value"
+            type="radio"
+          >
+          <label
+            :for="option.id"
+            class="text-base font-inter font-medium"
+          >{{ option.label }}</label>
+        </div>
+      </div>
+      <div v-else-if="hasOptionSlots">
+        <slot name="options" />
       </div>
     </div>
+    <!-- errors -->
     <div
-      v-if="props.errorMessages.length > 0"
-      class="mt-1 text-sm text-error-300"
+      v-if="!hasErrorSlots && props.errorMessages.length > 0"
     >
-      <p
-        v-for="(error, index) in props.errorMessages"
-        :key="index"
-      >
-        {{ error }}
-      </p>
+      <div class="text-sm text-error-300">
+        <div v-if="Array.isArray(props.errorMessages)">
+          <p
+            v-for="(error, index) in props.errorMessages"
+            :key="index"
+          >
+            {{ error }}
+          </p>
+        </div>
+        <div v-else>
+          {{ props.errorMessages }}
+        </div>
+      </div>
+    </div>
+    <div v-else-if="hasErrorSlots">
+      <slot name="error" />
     </div>
   </div>
 </template>

@@ -27,4 +27,4 @@ export type tableHeaderType<K extends string = string> = {[key in K]: {title: st
 export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
-export type radioGroupOptions = { text: string, value: string }
+export type radioGroupOptions<T> = { id: string, label: string, value: T }
