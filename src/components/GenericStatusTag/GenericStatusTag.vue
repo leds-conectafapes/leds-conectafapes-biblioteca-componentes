@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed, useSlots, useAttrs } from 'vue'
 import type { statusTagVariant } from '../../types';
+import type { HTMLAttributes } from 'vue';
 import { cn } from '../../utils/cn';
+
+type NativeStatusTagAttributes = HTMLAttributes
 
 type statusTagProps = {
   text?: string,
   variant?: statusTagVariant
-}
+} & NativeStatusTagAttributes
 
 const props = withDefaults(defineProps<statusTagProps>(), {
   text: '',
