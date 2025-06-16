@@ -4,7 +4,9 @@ import type { statusTagVariant } from '../../types';
 import type { HTMLAttributes } from 'vue';
 import { cn } from '../../utils/cn';
 
-type NativeStatusTagAttributes = HTMLAttributes
+defineOptions({ inheritAttrs: false })
+
+type NativeStatusTagAttributes = /* @vue-ignore */ HTMLAttributes
 
 type statusTagProps = {
   text?: string,

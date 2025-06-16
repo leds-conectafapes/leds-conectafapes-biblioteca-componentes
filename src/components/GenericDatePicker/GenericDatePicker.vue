@@ -4,6 +4,8 @@ import type { InputHTMLAttributes } from 'vue';
 import type { datePickerState } from '../../types';
 import { cn } from '../../utils/cn';
 
+defineOptions({ inheritAttrs: false })
+
 type NativeDatePickerAttributes = /* @vue-ignore */ InputHTMLAttributes
 
 type DatePickerProps = {
@@ -24,6 +26,7 @@ const props = withDefaults(defineProps<DatePickerProps>(), {
 
 const slots = useSlots()
 const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
 
 const isDisabled = computed(() => props.state === 'disabled')
 const hasLabelSlots = computed(() => !!slots.label)
@@ -53,7 +56,7 @@ const forwarded = computed(() => {
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label
-        :for="props.id"
+        :for="id"
         class="
         w-fit
         text-base
@@ -71,17 +74,23 @@ const forwarded = computed(() => {
         v-bind="forwarded"
         v-model="modelValue"
         type="date"
-        :placeholder="props.placeholder"
         :class="datePickerState"
         :disabled="isDisabled"
       >
-      <button
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 text-gray-500 pointer-events-none"
       >
-        <span
-          class="material-symbols-outlined w-full h-full"
-        >date_range</span>
-      </button>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6.75 3v2.25m10.5-2.25V5.25M3.75 9h16.5M4.5 6.75h15a.75.75 0 01.75.75v12a.75.75 0 01-.75.75H4.5A.75.75 0 013.75 19.5V7.5a.75.75 0 01.75-.75z"
+        />
+      </svg>
     </div>
     <!-- errors -->
     <div

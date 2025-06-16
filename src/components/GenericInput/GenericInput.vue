@@ -1,10 +1,12 @@
 <script lang="ts" setup generic="T extends string | number | undefined">
 import { computed, useAttrs, useSlots } from 'vue';
 import type { InputHTMLAttributes } from 'vue';
-import type { inputState, inputType } from '../../types';
+import type { inputState } from '../../types';
 import { cn } from '../../utils/cn';
 
-type NativeInputAttributes = InputHTMLAttributes
+defineOptions({ inheritAttrs: false })
+
+type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes
 
 type inputProps = {
   label?: string
@@ -20,12 +22,23 @@ const props = withDefaults(defineProps<inputProps>(), {
   errorMessages: () => [],
 })
 
+const emit = defineEmits<{
+  (e: 'search', value: T): void;
+}>();
+
+const handleSearch = () => {
+  emit("search", modelValue.value as T)
+};
+
 const modelValue = defineModel<T>()
 
 const slots = useSlots()
 const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
+const type = computed(() => attrs.type as string | undefined)
 
 const isDisabled = computed(() => props.state === 'disabled')
+const isSearchType = computed(() => type.value === 'search')
 const hasLabelSlots = computed(() => !!slots.label)
 const hasErrorSlots = computed(() => !!slots.error)
 
@@ -46,28 +59,14 @@ const forwarded = computed(() => {
   const { ...rest } = attrs
   return rest
 })
-
-const inputTypes = computed(() => {
-  const type: Record<inputType, { type: inputType, icon: string | null }> = {
-    text: { type: 'text', icon: null },
-    search: { type: 'search', icon: 'search' },
-    number: { type: 'number', icon: null },
-    email: { type: 'email', icon: null },
-    password: { type: 'password', icon: 'visibility_off' },
-    tel: { type: 'tel', icon: null },
-    url: { type: 'url', icon: null },
-  }
-  return type[props.type as keyof typeof type] || type.text
-})
-
 </script>
 
 <template>
-  <div :class="cn('w-full relative gap-y-4 flex flex-col', props.containerClass)">
+  <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label
-        :for="props.id"
+        :for="id"
         class="
         w-fit
         text-base
@@ -87,14 +86,22 @@ const inputTypes = computed(() => {
         :class="inputState"
         :disabled="isDisabled"
       >
-      <button
-        v-if="inputTypes.icon !== null "
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
+      <svg
+        v-if="isSearchType"
+        xmlns="http://www.w3.org/2000/svg"
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700 transition"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        @click="handleSearch"
       >
-        <span
-          class="material-symbols-outlined w-full h-full"
-        >{{ inputTypes.icon }}</span>
-      </button>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+        />
+      </svg>
     </div>
     <!-- errors -->
     <div
@@ -126,10 +133,6 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 }
 
 input[type='search']::-webkit-search-cancel-button {
-  display: none;
-}
-
-input[type='password']::-ms-reveal {
   display: none;
 }
 </style>

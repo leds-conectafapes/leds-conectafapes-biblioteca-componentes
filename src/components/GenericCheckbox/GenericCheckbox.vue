@@ -3,6 +3,8 @@ import { computed, useAttrs, useSlots } from 'vue'
 import { cn } from '../../utils/cn'
 import type { InputHTMLAttributes } from 'vue'
 
+defineOptions({ inheritAttrs: false })
+
 type NativeCheckboxAttributes = /* @vue-ignore */ InputHTMLAttributes
 
 type CheckboxProps = {
@@ -19,8 +21,9 @@ const modelValue = defineModel<T>()
 
 const slots = useSlots()
 const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
 
-const hasLabelSlot = computed(() => !!slots.default)
+const hasLabelSlot = computed(() => !!slots.label)
 
 const checkboxClass = computed(() => cn(
   'w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer checked:border-0 checked:bg-primary-500',
@@ -44,18 +47,19 @@ const forwarded = computed(() => {
     
     <label
       v-if="!hasLabelSlot"
-      :for="props.id"
+      :for="id"
     >
       {{ label }}
     </label>
     <label
       v-else-if="hasLabelSlot"
-      :for="props.id"
+      :for="id"
     >
-      <slot name="Label" />
+      <slot name="label" />
     </label>
 
     <svg
+      pointer-events="none"
       width="16"
       height="13"
       viewBox="0 0 16 13"

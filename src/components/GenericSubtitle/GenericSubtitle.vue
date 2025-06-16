@@ -4,6 +4,8 @@ import type { subtitleState } from '../../types';
 import type { HTMLAttributes } from 'vue';
 import { cn } from '../../utils/cn';
 
+defineOptions({ inheritAttrs: false })
+
 type NativeTitleAttributes = /* @vue-ignore */ HTMLAttributes
 
 type subtitleProps = {

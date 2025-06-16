@@ -4,7 +4,9 @@ import type { TextareaHTMLAttributes } from 'vue';
 import type { textAreaState } from '../../types';
 import { cn } from '../../utils/cn';
 
-type NativeTextareaAttributes = TextareaHTMLAttributes
+defineOptions({ inheritAttrs: false })
+
+type NativeTextareaAttributes = /* @vue-ignore */ TextareaHTMLAttributes
 
 type textAreaProps = {
   state?: textAreaState,
@@ -24,6 +26,7 @@ const modelValue = defineModel<T>()
 
 const slots = useSlots()
 const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
 
 const isDisabled = computed(() => props.state === 'disabled')
 const hasLabelSlots = computed(() => !!slots.label)
@@ -53,7 +56,7 @@ const forwarded = computed(() => {
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label
-        :for="props.id"
+        :for="id"
         class="
         w-fit
         text-base

@@ -4,7 +4,9 @@ import type { InputHTMLAttributes } from 'vue';
 import { computed, useAttrs, useSlots } from 'vue';
 import { cn } from '../../utils/cn';
 
-type NativeInputAttributes = InputHTMLAttributes
+defineOptions({ inheritAttrs: false })
+
+type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes
 
 type radioGroupProps<T> = {
   options?: radioGroupOptions<T>[],
@@ -29,6 +31,11 @@ const hasOptionSlots = computed(() => !!slots.options)
 const hasErrorSlots = computed(() => !!slots.error)
 const hasLabelSlots = computed(() => !!slots.label)
 
+const radioGroupClass = computed(() => cn(
+  'accent-primary-500 h-5 w-5',
+  attrs.class as string | undefined
+))
+
 const forwarded = computed(() => {
   const { ...rest } = attrs
   return rest
@@ -36,11 +43,10 @@ const forwarded = computed(() => {
 </script>
 
 <template>
-  <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
+  <div :class="cn('w-full gap-y-2 flex flex-col', props.containerClass)">
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label
-        :for="props.id"
         class="
         w-fit
         text-base
@@ -53,16 +59,22 @@ const forwarded = computed(() => {
       <slot name="label" />
     </div>
     <!-- input -->
-    <div class="flex flex-row gap-x-8">
-      <div v-if="!hasOptionSlots">
+    <div>
+      <div
+        v-if="!hasOptionSlots"
+        class="flex flex-col gap-y-1"
+      >
         <div
           v-for="option in props.options"
           :key="option.id"
+          class="flex flex-row gap-x-2"
         >
           <input
             v-bind="forwarded"
+            :id="option.id"
             v-model="modelValue"
             :value="option.value"
+            :class="radioGroupClass"
             type="radio"
           >
           <label

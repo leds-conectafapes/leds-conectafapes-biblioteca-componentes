@@ -4,7 +4,9 @@ import { cn } from '../../utils/cn';
 import type { ButtonHTMLAttributes } from 'vue';
 import type { buttonVariant } from '../../types';
 
-type NativeButtonAttributes = ButtonHTMLAttributes
+defineOptions({ inheritAttrs: false })
+
+type NativeButtonAttributes = /* @vue-ignore */ ButtonHTMLAttributes
 
 type buttonProps = {
   label?: string,

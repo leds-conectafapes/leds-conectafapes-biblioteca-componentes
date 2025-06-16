@@ -16,7 +16,6 @@ export { default as GenericTextArea } from './components/GenericTextArea/Generic
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
 export type flagVariant = 'informative' | 'success' | 'warning' | 'error';
-export type inputType = 'text' | 'search' | 'number' | 'email' | 'password' | 'tel' | 'url'
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type selectOption<T> = { id: string | number, value: T, label: string }

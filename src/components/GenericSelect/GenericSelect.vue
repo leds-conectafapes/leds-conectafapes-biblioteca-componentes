@@ -5,6 +5,8 @@ import type { SelectHTMLAttributes } from 'vue';
 import type { selectState } from '../../types';
 import type { selectOption } from '../../types';
 
+defineOptions({ inheritAttrs: false })
+
 type NativeSelectAttributes = /* @vue-ignore */ SelectHTMLAttributes
 
 type selectProps<T> = {
@@ -29,6 +31,7 @@ const props = withDefaults(defineProps<selectProps<T>>(), {
 
 const slots = useSlots()
 const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
 
 const isDisabled = computed(() => props.state === 'disabled')
 const hasOptionSlots = computed(() => !!slots.options)
@@ -59,7 +62,7 @@ const forwarded = computed(() => {
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label
-        :for="props.id"
+        :for="id"
         class="
         w-fit
         text-base

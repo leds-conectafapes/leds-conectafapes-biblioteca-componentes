@@ -1,66 +1,63 @@
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue';
-
+import type { HTMLAttributes } from 'vue'
+import { cn } from '../../utils/cn';
 import type { flagVariant } from '../../types';
 
-const props = withDefaults(defineProps<{
+type NativeFlagAttributes = HTMLAttributes
+
+type flagProps = {
   variant?: flagVariant,
-  title: string,
+  title?: string,
   description?: string,
-}>(), {
+} & NativeFlagAttributes
+
+const props = withDefaults(defineProps<flagProps>(), {
   variant: 'informative',
+  title: '',
   description: '',
 })
 
-const flagVariants = computed(() => {
-  const variant: Record<flagVariant, {
+const FLAG_VARIANTS: Record<flagVariant, {style:{card:string, icon:string, title:string, description:string}, icon:string}> = {
+  informative: {
     style: {
-      card: string
-      icon: string
-      title: string
-      description: string
-    }
-    icon: string
-  }> = {
-    informative: {
-      style: {
-        card: 'border-slate-200 bg-white',
-        icon: 'text-gray-500',
-        title: 'text-gray-900',
-        description: 'text-gray-600',
-      },
-      icon: 'info',
+      card: 'border-slate-200 bg-white',
+      icon: 'text-gray-500',
+      title: 'text-gray-900',
+      description: 'text-gray-600',
     },
-    success: {
-      style: {
-        card: 'border-slate-200 bg-white',
-        icon: 'text-emerald-500',
-        title: 'text-gray-900',
-        description: 'text-gray-600',
-      },
-      icon: 'check_circle',
+    icon: 'info',
+  },
+  success: {
+    style: {
+      card: 'border-slate-200 bg-white',
+      icon: 'text-emerald-500',
+      title: 'text-gray-900',
+      description: 'text-gray-600',
     },
-    warning: {
-      style: {
-        card: 'border-transparent bg-amber-300',
-        icon: 'text-zinc-900',
-        title: 'text-zinc-900',
-        description: 'text-zinc-900',
-      },
-      icon: 'warning',
+    icon: 'check_circle',
+  },
+  warning: {
+    style: {
+      card: 'border-transparent bg-amber-300',
+      icon: 'text-zinc-900',
+      title: 'text-zinc-900',
+      description: 'text-zinc-900',
     },
-    error: {
-      style: {
-        card: 'border-transparent bg-red-700',
-        icon: 'text-zinc-50',
-        title: 'text-zinc-50',
-        description: 'text-zinc-50',
-      },
-      icon: 'report',
-    }
-  }
-  return variant[props.variant as keyof typeof variant] || variant.informative
-})
+    icon: 'warning',
+  },
+  error: {
+    style: {
+      card: 'border-transparent bg-red-700',
+      icon: 'text-white',
+      title: 'text-white',
+      description: 'text-white',
+    },
+    icon: 'error',
+  },
+}
+
+const flagVariant = computed(() => FLAG_VARIANTS[props.variant])
 
 const timeout = computed(() => {
   if (props.variant === 'informative' || props.variant === 'success') {
@@ -90,26 +87,26 @@ onMounted(() => {
 <template>
   <div
     class="flex flex-row justify-between gap-x-4 w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-[420px] md:max-w-[700px] font-inter"
-    :class="flagVariants.style.card, model ? '' : 'hidden'"
+    :class="flagVariant.style.card, model ? '' : 'hidden'"
   >
     <span
       id="icon"
       class="material-symbols-outlined text-xl select-none"
-      :class="flagVariants.style.icon"
-    >{{ flagVariants.icon }}</span>
+      :class="flagVariant.style.icon"
+    >{{ flagVariant.icon }}</span>
     <div class="flex flex-col justify-start w-full h-full text-base leading-normal">
       <span
         class="font-bold"
-        :class="flagVariants.style.title"
+        :class="flagVariant.style.title"
       >{{ props.title }}</span>
       <span
         class="font-normal"
-        :class="flagVariants.style.description"
+        :class="flagVariant.style.description"
       >{{ props.description }}</span>
     </div>
     <span
       class="material-symbols-outlined text-xl cursor-pointer select-none"
-      :class="flagVariants.style.title"
+      :class="flagVariant.style.title"
       @click="close"
     >close</span>
   </div>

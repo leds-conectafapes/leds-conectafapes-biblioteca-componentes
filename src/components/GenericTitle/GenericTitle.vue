@@ -4,6 +4,8 @@ import type { HTMLAttributes } from 'vue';
 import type { titleType } from '../../types';
 import { cn } from '../../utils/cn';
 
+defineOptions({ inheritAttrs: false })
+
 type NativeTitleAttributes = /* @vue-ignore */ HTMLAttributes
 
 type titleProps = {
