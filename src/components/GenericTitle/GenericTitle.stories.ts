@@ -8,8 +8,22 @@ const meta: Meta<typeof GenericTitle> = {
   parameters: {
     docs: {
       description: {
-        component: 'Componente **GenericTitle** para exibir títulos com diferentes tipos e estilos, como h1, h2, h3, títulos, legendas, etc.'
-      }
+        component: `
+**GenericTitle** é um componente simples para títulos e textos com diferentes estilos visuais, baseado em tipos como \`h1\`, \`h2\`, \`body\`, etc.
+
+- \`text\`: conteúdo textual do título;
+- \`type\`: define o estilo do título (h1, h2, body etc.);
+- Slots disponíveis:
+  - \`text\`: substitui o texto do title;
+
+### Exemplo:
+\`\`\`vue
+<GenericTitle text="Título Exemplo" type="h1" />
+\`\`\`
+        `.trim(),
+      },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     }
   },
   argTypes: {
@@ -59,9 +73,27 @@ export const Variations: Story = {
       </div>
     `,
   }),
+  name: 'Variações de Type',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="space-y-4">
+  <GenericTitle type="h1" text="Título H1" />
+  <GenericTitle type="h2" text="Título H2" />
+  <GenericTitle type="h3" text="Título H3" />
+  <GenericTitle type="title" text="Título Title" />
+  <GenericTitle type="subtitle" text="Título Subtitle" />
+  <GenericTitle type="body" text="Título Body" />
+  <GenericTitle type="caption" text="Título Caption" />
+</div>
+        `.trim(),
+      },
+    },
+  },
 }
 
-export const WithSlot: Story = {
+export const ComSlotText: Story = {
   render: (args) => ({
     components: { GenericTitle },
     setup: () => ({ args }),

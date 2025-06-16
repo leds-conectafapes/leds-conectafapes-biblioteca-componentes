@@ -13,12 +13,15 @@ const meta: Meta<typeof GenericSelect> = {
         component: `
 **GenericSelect** é um componente de select tipado com suporte a genéricos e slots.
 
-Principais características:
 - Suporta v-model com tipo genérico (string | number | undefined);
 - Aceita props para opções, estado, placeholder, erros e classes;
 - Permite customizar o label, opções e mensagens de erro via slots;
 - Prop containerClass para estilização do container;
 - Gerencia estados visuais como 'default', 'error', 'warning' e 'disabled'.
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+  - \`error\`: personaliza a exibição de mensagens de erro;
+  - \`options\`: para layout personalizado das opções.
 
 ### Exemplos de uso:
 
@@ -33,23 +36,10 @@ Principais características:
   placeholder="Selecione..."
 />
 \`\`\`
-
-\`\`\`vue
-<GenericSelect v-model="selected" :options="options" state="error">
-  <template #label>
-    <span style="font-weight: bold;">Selecione seu país</span>
-  </template>
-  <template #error>
-    <div style="color: red;">Erro personalizado</div>
-  </template>
-  <template #options>
-    <option disabled value="">Selecione uma opção (customizada)</option>
-    <option v-for="opt in options" :key="opt.id" :value="opt.value">{{ opt.label }}</option>
-  </template>
-</GenericSelect>
-\`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -100,7 +90,7 @@ Principais características:
       },
     },
     errorMessages: {
-      control: 'object',
+      control: 'text',
       description: 'Mensagens de erro a serem exibidas',
       table: {
         type: { summary: 'string | string[]' },
@@ -154,8 +144,37 @@ export const WithSlotLabel: Story = {
       }
     },
   }),
-  name: 'Com slot label',
+  name: 'Com Slot Label',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericSelect
+  v-model="selected"
+  :options="options"
+  placeholder="Selecione uma opção"
+>
+  <template #label>
+    <span style="font-weight: bold;">Selecione um valor personalizado</span>
+  </template>
+</GenericSelect>
+
+<script setup>
+import { ref } from 'vue'
+
+const selected = ref('2')
+const options = [
+  { id: '1', label: 'Opção 1', value: '1' },
+  { id: '2', label: 'Opção 2', value: '2' },
+  { id: '3', label: 'Opção 3', value: '3' },
+]
+</script>
+        `.trim(),
+      },
+    },
+  },
 }
+
 
 export const WithSlotOptions: Story = {
   render: () => ({
@@ -186,7 +205,40 @@ export const WithSlotOptions: Story = {
       }
     },
   }),
-  name: 'Com slot options',
+  name: 'Com Slot Options',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericSelect v-model="selected" :options="options">
+  <template #options>
+    <option disabled value="">{{ placeholder }}</option>
+    <option
+      v-for="option in options"
+      :key="option.id"
+      :value="option.value"
+    >
+      {{ option.label }} (customizado)
+    </option>
+  </template>
+</GenericSelect>
+
+<script setup>
+import { ref } from 'vue'
+
+const selected = ref('')
+const placeholder = 'Escolha algo'
+const options = [
+  { id: '1', label: 'Opção 1', value: '1' },
+  { id: '2', label: 'Opção 2', value: '2' },
+  { id: '3', label: 'Opção 3', value: '3' },
+]
+</script>
+      `.trim(),
+      },
+    },
+  },
+
 }
 
 export const WithSlotError: Story = {
@@ -213,5 +265,33 @@ export const WithSlotError: Story = {
       }
     },
   }),
-  name: 'Com slot error',
+  name: 'Com Slot Error',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericSelect
+  v-model="selected"
+  :options="options"
+  state="error"
+>
+  <template #error>
+    <div style="color: red;">Erro personalizado via slot</div>
+  </template>
+</GenericSelect>
+
+<script setup>
+import { ref } from 'vue'
+
+const selected = ref('')
+const options = [
+  { id: '1', label: 'Opção 1', value: '1' },
+  { id: '2', label: 'Opção 2', value: '2' },
+]
+</script>
+      `.trim(),
+      },
+    },
+  },
+
 }

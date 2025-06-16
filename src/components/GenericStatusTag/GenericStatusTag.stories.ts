@@ -11,28 +11,20 @@ const meta: Meta<typeof GenericStatusTag> = {
         component: `
 **GenericStatusTag** é um componente para exibir tags de status com variantes visuais e suporte a slots.
 
-### Props principais:
 - \`text\`: texto da tag (se não usar slot).
 - \`variant\`: variantes visuais da tag (success, warning, disabled etc.).
-- Aceita classes adicionais via \`class\`.
+- Slots disponíveis:
+  - \`text\`: substitui o texto da tag;
 
-### Uso básico:
+### Exemplo:
 
 \`\`\`vue
 <GenericStatusTag text="Sucesso" variant="success" />
 \`\`\`
-
-### Uso com slot:
-
-\`\`\`vue
-<GenericStatusTag variant="warning">
-  <template #text>
-    <strong>Alerta personalizado</strong>
-  </template>
-</GenericStatusTag>
-\`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -78,8 +70,22 @@ export const CustomTextSlot: Story = {
       </GenericStatusTag>
     `,
   }),
-  name: 'Com slot text',
+  name: 'Com Slot Text',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericStatusTag variant="warning">
+  <template #text>
+    <strong>Alerta com slot</strong>
+  </template>
+</GenericStatusTag>
+        `.trim(),
+      },
+    },
+  },
 }
+
 
 export const Variants: Story = {
   render: () => ({
@@ -96,4 +102,21 @@ export const Variants: Story = {
     `,
   }),
   name: 'Variantes visuais',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="flex gap-2 flex-wrap">
+  <GenericStatusTag variant="success" text="Success" />
+  <GenericStatusTag variant="successOutline" text="Success Outline" />
+  <GenericStatusTag variant="warning" text="Warning" />
+  <GenericStatusTag variant="secondary" text="Secondary" />
+  <GenericStatusTag variant="secondaryDanger" text="Secondary Danger" />
+  <GenericStatusTag variant="disabled" text="Disabled" />
+</div>
+        `.trim(),
+      },
+    },
+  },
 }
+

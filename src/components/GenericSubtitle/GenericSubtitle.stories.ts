@@ -11,28 +11,21 @@ const meta: Meta<typeof GenericSubtitle> = {
         component: `
 **GenericSubtitle** é um componente simples para legendas/subtítulos com suporte a estados visuais e slot para conteúdo customizado.
 
-### Props principais:
 - \`text\`: texto do subtítulo (se não usar slot).
 - \`state\`: estado visual do subtítulo (default, error).
 - Permite adicionar classes via \`class\`.
+- Slots disponíveis:
+  - \`text\`: substitui o texto do subtitle;
 
-### Uso básico:
+### Exemplo:
 
 \`\`\`vue
 <GenericSubtitle text="Subtítulo padrão" />
 \`\`\`
-
-### Uso com slot:
-
-\`\`\`vue
-<GenericSubtitle state="error">
-  <template #text>
-    <em>Erro customizado no subtítulo</em>
-  </template>
-</GenericSubtitle>
-\`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -62,14 +55,14 @@ type Story = StoryObj<typeof GenericSubtitle>
 
 export const Default: Story = {
   args: {
-    text: 'Subtítulo padrão',
+    text: 'Subtítulo Padrão',
     state: 'default',
   },
 }
 
 export const ErrorState: Story = {
   args: {
-    text: 'Subtítulo com erro',
+    text: 'Subtítulo Com Erro',
     state: 'error',
   },
 }
@@ -85,5 +78,19 @@ export const CustomTextSlot: Story = {
       </GenericSubtitle>
     `,
   }),
-  name: 'Com slot text',
+  name: 'Com Slot Text',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericSubtitle state="error">
+  <template #text>
+    <em>Erro customizado no subtítulo via slot</em>
+  </template>
+</GenericSubtitle>
+        `.trim(),
+      },
+    },
+  },
 }
+

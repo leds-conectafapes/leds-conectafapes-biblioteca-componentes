@@ -13,15 +13,17 @@ const meta: Meta<typeof GenericRadioGroup> = {
         component: `
 **GenericRadioGroup** é um componente de grupo de botões de rádio tipado com suporte a genéricos.
 
-Principais características:
 - Suporta \`v-model\` com tipo genérico (string | number | undefined);
 - Aceita todos os atributos nativos de \`<input type="radio">\` (como \`name\`, \`disabled\`, \`required\`, etc);
 - Prop \`label\` para texto do rótulo (pode ser substituído via slot \`label\`);
 - Prop \`options\` para lista de opções com \`id\`, \`label\` e \`value\`;
 - Prop \`errorMessages\` para mensagens de erro, ou slot \`error\` para renderização customizada;
-- Suporte ao slot \`options\` para layout personalizado das opções.
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+  - \`error\`: personaliza a exibição de mensagens de erro;
+  - \`options\`: para layout personalizado das opções.
 
-### Exemplos:
+### Exemplo:
 
 \`\`\`vue
 <GenericRadioGroup
@@ -33,16 +35,10 @@ Principais características:
   label="Deseja receber notificações?"
 />
 \`\`\`
-
-\`\`\`vue
-<GenericRadioGroup v-model="value" :options="options" state="error">
-  <template #error>
-    <span style="color: red;">Erro personalizado via slot</span>
-  </template>
-</GenericRadioGroup>
-\`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -69,7 +65,7 @@ Principais características:
       },
     },
     errorMessages: {
-      control: 'object',
+      control: 'text',
       description: 'Mensagem(s) de erro (string ou array de strings)',
       table: {
         type: { summary: 'string | string[]' },
@@ -144,7 +140,7 @@ export const WithSlotError: Story = {
       }
     },
   }),
-  name: 'Com slot de erro',
+  name: 'Com Slot Erro',
   parameters: {
     docs: {
       source: {
@@ -191,7 +187,7 @@ export const WithSlotLabel: Story = {
       }
     },
   }),
-  name: 'Com slot de label',
+  name: 'Com Slot Label',
   parameters: {
     docs: {
       source: {
@@ -248,7 +244,7 @@ export const WithSlotOptions: Story = {
       }
     },
   }),
-  name: 'Com slot options (v-for no usuário)',
+  name: 'Com Slot Options',
   parameters: {
     docs: {
       source: {

@@ -11,11 +11,12 @@ const meta: Meta<typeof GenericButton> = {
         component: `
 **GenericButton** é um botão reutilizável que suporta múltiplas variações de estilo.
 
-Ele pode receber:
-- O texto do botão por meio da prop \`label\`;
+- Prop \`label\`;
 - Ou, de forma alternativa, através de um **slot nomeado \`label\`**, que permite inserir **qualquer conteúdo personalizado**, como ícones, HTML ou componentes;
-- O evento \`onClick\`, que é emitido ao ser clicado;
-- **Todos os atributos nativos de um \`<button>\` HTML**, como \`type\`, \`disabled\`, \`aria-*\`, \`autofocus\`, etc.
+- Evento \`onClick\`, que é emitido ao ser clicado;
+- Aceita atributos nativos do \`<button>\`;
+- Slots disponíveis:
+  - \`label\`: substitui o texto do botão;
 
 ### Exemplo
 
@@ -26,6 +27,8 @@ Ele pode receber:
 > 💡 Use o slot \`label\` quando quiser personalizar o conteúdo do botão com mais controle visual ou semântica adicional.
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -114,7 +117,7 @@ export const WithSlot: Story = {
       </GenericButton>
     `,
   }),
-  name: 'Com slot',
+  name: 'Com Slot Label',
   parameters: {
     docs: {
       source: {

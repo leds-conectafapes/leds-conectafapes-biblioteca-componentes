@@ -12,35 +12,25 @@ const meta: Meta<typeof GenericInput> = {
         component: `
 **GenericInput** é um componente de input genérico que aceita vários tipos de dados (\`string\`, \`number\`, \`boolean\` ou \`undefined\`).
 
-### Características:
-
 - Suporte a \`v-model\` genérico;
 - Aceita atributos nativos do \`<input>\`;
 - Prop \`state\`: \`default\` | \`error\` | \`warning\` | \`disabled\`;
-- Prop \`label\` ou slot \`label\`;
+- Prop \`label\`;
 - Prop \`errorMessages\` (\`string | string[]\`);
-- Slot \`error\` para erro customizado;
-- Se \`type="search"\`, dispara \`@search\`.
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+  - \`error\`: personaliza a exibição de mensagens de erro;
+- Se \`type="search"\`, exibe ícone de busca e emite \`@search\` com o valor atual;
 
-### Exemplos
-
-\`\`\`vue
-<GenericInput v-model="value" label="Nome" />
-\`\`\`
+### Exemplo
 
 \`\`\`vue
-<GenericInput v-model="busca" type="search" label="Buscar" @search="buscar" />
-\`\`\`
-
-\`\`\`vue
-<GenericInput v-model="value" state="error">
-  <template #error>
-    <div style="color: red">Erro customizado!</div>
-  </template>
-</GenericInput>
+<GenericInput v-model="value" type="search" label="Buscar" @search="buscar" />
 \`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -53,8 +43,9 @@ const meta: Meta<typeof GenericInput> = {
       },
     },
     type: {
-      control: 'text',
-      description: 'Tipo nativo do input (text, number, search...)',
+      control: { type: 'select' },
+      options: ['text', 'number', 'email', 'password', 'search', 'tel', 'url'],
+      description: 'Tipo nativo do input',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: "'text'" },
@@ -92,13 +83,6 @@ const meta: Meta<typeof GenericInput> = {
         type: { summary: 'string | string[]' },
       },
     },
-    search: {
-      action: 'search',
-      description: 'Evento emitido ao clicar no ícone de busca (type="search")',
-      table: {
-        category: 'Events',
-      },
-    },
   },
 }
 
@@ -116,33 +100,59 @@ export const Default: Story = {
   },
 }
 
-export const SearchWithEvent: Story = {
-  render: () => ({
+export const Search: Story = {
+  args: {
+    modelValue: '',
+    type: 'search',
+    label: 'Buscar usuário',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericInput
+  v-model="busca"
+  type="search"
+  label="Buscar usuário"
+  @search="onSearch"
+/>
+        `.trim(),
+      },
+    },
+  },
+  render: (args) => ({
     components: { GenericInput },
+    data() {
+      return {
+        busca: args.modelValue,
+      }
+    },
+    watch: {
+      busca(val) {
+        args['onUpdate:modelValue']?.(val)
+      },
+      'args.modelValue'(val) {
+        this.busca = val
+      },
+    },
+    methods: {
+      onSearch() {
+        alert('Buscando por: ' + this.busca)
+      },
+    },
     template: `
       <GenericInput
-        v-model="busca"
         type="search"
-        label="Buscar usuário"
+        :model-value="busca"
+        v-bind="args"
+        @update:modelValue="val => busca = val"
         @search="onSearch"
       />
     `,
-    data() {
-      return {
-        busca: '',
-      }
-    },
-    methods: {
-      onSearch(value: string) {
-        console.log('🔍 Busca:', value)
-        alert('Buscando por: ' + value)
-      },
-    },
   }),
-  name: 'Com type="search" e @search',
 }
 
-export const WithError: Story = {
+export const ComErro: Story = {
   args: {
     modelValue: '',
     type: 'text',
@@ -152,9 +162,25 @@ export const WithError: Story = {
   },
 }
 
-export const WithSlotError: Story = {
+export const ComSlotDeErro: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericInput v-model="valor" state="error">
+  <template #error>
+    <div style="color: red; font-weight: bold;">
+      Este campo é obrigatório!
+    </div>
+  </template>
+</GenericInput>
+        `.trim(),
+      },
+    },
+  },
   render: () => ({
     components: { GenericInput },
+    data: () => ({ valor: '' }),
     template: `
       <GenericInput v-model="valor" state="error">
         <template #error>
@@ -164,11 +190,5 @@ export const WithSlotError: Story = {
         </template>
       </GenericInput>
     `,
-    data() {
-      return {
-        valor: '',
-      }
-    },
   }),
-  name: 'Com slot de erro',
 }

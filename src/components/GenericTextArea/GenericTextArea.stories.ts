@@ -12,33 +12,24 @@ const meta: Meta<typeof GenericTextArea> = {
         component: `
 **GenericTextArea** é um componente textarea genérico com suporte a estados visuais, labels, mensagens de erro e slots para personalização.
 
-### Props principais:
 - \`modelValue\`: valor ligado ao textarea.
 - \`state\`: estado visual do textarea (default, error, warning, disabled).
 - \`label\`: texto do label (se não usar slot).
 - \`errorMessages\`: string ou array de strings para mensagens de erro.
 - \`containerClass\`: classes CSS customizadas para o container.
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+  - \`error\`: personaliza a exibição de mensagens de erro;
 
-### Exemplo básico:
+### Exemplo:
 
 \`\`\`vue
 <GenericTextArea v-model="text" label="Comentário" />
 \`\`\`
-
-### Exemplo com slot label e error:
-
-\`\`\`vue
-<GenericTextArea v-model="text" state="error">
-  <template #label>
-    <strong>Comentário obrigatório</strong>
-  </template>
-  <template #error>
-    <p>Campo inválido!</p>
-  </template>
-</GenericTextArea>
-\`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
@@ -84,7 +75,7 @@ export const Default: Story = {
   },
 }
 
-export const WithErrors: Story = {
+export const ComErro: Story = {
   args: {
     modelValue: '',
     label: 'Descrição',
@@ -119,5 +110,22 @@ export const CustomSlots: Story = {
       return { value: '' }
     },
   }),
-  name: 'Com slots label e error',
+  name: 'Com Slots Label e Error',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericTextArea v-model="value" state="error">
+  <template #label>
+    <strong>Descrição personalizada</strong>
+  </template>
+  <template #error>
+    <p>Erro customizado no campo</p>
+  </template>
+</GenericTextArea>
+        `.trim(),
+      },
+    },
+  },
 }
+

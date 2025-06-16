@@ -10,15 +10,17 @@ const meta: Meta<typeof GenericDatePicker> = {
     docs: {
       description: {
         component: `
-**GenericDatePicker** é um componente de seleção de data com suporte a estados visuais e mensagens de erro.
+**GenericDatePicker** é um componente de input com seleção de data com suporte a estados visuais e mensagens de erro.
 
-Ele suporta:
-- O estado visual da data via prop \`state\`, que pode ser 'default', 'error', 'warning' ou 'disabled';
-- A prop \`label\` para texto do rótulo do campo;
-- A prop \`errorMessages\` para mostrar mensagens de erro, que pode ser string ou array de strings;
-- A prop \`containerClass\` para customização do container externo;
-- Slots nomeados \`label\` e \`error\` para personalizar o conteúdo do label e das mensagens de erro;
-- **Todos os atributos nativos de um \`<input type="date">\` HTML** podem ser passados e serão aplicados diretamente no input (ex: \`id\`, \`name\`, \`disabled\`, \`required\`, \`min\`, \`max\`, etc).
+- Suporte a \`v-model\` genérico;
+- Aceita atributos nativos do \`<input>\`;
+- Prop \`state\`: \`default\` | \`error\` | \`warning\` | \`disabled\`;
+- Prop \`label\`;
+- Prop \`errorMessages\` (\`string | string[]\`);
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+  - \`error\`: personaliza a exibição de mensagens de erro;
+- Se \`type="search"\`, exibe ícone de busca e emite \`@search\` com o valor atual;
 
 ### Exemplo
 
@@ -31,6 +33,8 @@ Ele suporta:
 \`\`\`
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {

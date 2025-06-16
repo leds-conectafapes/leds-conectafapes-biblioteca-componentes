@@ -10,12 +10,15 @@ const meta: Meta<typeof GenericCheckbox> = {
     docs: {
       description: {
         component: `
-**GenericCheckbox** é um checkbox que aceita:
+**GenericCheckbox** é um componente de input que aceita vários tipos de dados (\`string\`, \`number\`, \`boolean\` ou \`undefined\`).
 
-- Label via prop \`label\` ou slot nomeado \`label\`;
+- Suporte a \`v-model\` genérico;
 - Todos os atributos nativos de \`<input type="checkbox">\`, incluindo \`true-value\` e \`false-value\` para valores customizados;
-- Evento \`update:modelValue\` para reatividade;
-- Classe customizável via \`containerClass\`.
+- Prop \`state\`: \`default\` | \`error\` | \`warning\` | \`disabled\`;
+- Prop \`label\`;
+- Slots disponíveis:
+  - \`label\`: substitui o texto do rótulo;
+- Se \`type="search"\`, exibe ícone de busca e emite \`@search\` com o valor atual;
 
 ### Exemplo
 
@@ -32,9 +35,19 @@ const meta: Meta<typeof GenericCheckbox> = {
 Nesse caso, \`selected\` será igual a \`"sim"\` quando marcado e \`"não"\` quando desmarcado.
         `.trim(),
       },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
   },
   argTypes: {
+    modelValue: {
+      control: 'text',
+      description: 'Valor do checkbox (string, number, boolean ou undefined)',
+      table: {
+        type: { summary: 'string | number | boolean | undefined' },
+        defaultValue: { summary: "''" },
+      },
+    },
     label: {
       control: 'text',
       description: 'Texto do label do checkbox (ignorado se usar slot `label`)',
@@ -48,13 +61,6 @@ Nesse caso, \`selected\` será igual a \`"sim"\` quando marcado e \`"não"\` qua
       description: 'Classe CSS customizada para o container do checkbox',
       table: {
         type: { summary: 'string | string[]' },
-      },
-    },
-    'onUpdate:modelValue': {
-      action: 'update:modelValue',
-      description: 'Evento emitido ao atualizar o valor',
-      table: {
-        category: 'Events',
       },
     },
   },
