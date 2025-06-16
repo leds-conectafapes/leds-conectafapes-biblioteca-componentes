@@ -4,7 +4,7 @@ import type { HTMLAttributes } from 'vue'
 import { cn } from '../../utils/cn';
 import type { flagVariant } from '../../types';
 
-type NativeFlagAttributes = HTMLAttributes
+type NativeFlagAttributes = /* @vue-ignore */ HTMLAttributes
 
 type flagProps = {
   variant?: flagVariant,

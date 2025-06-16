@@ -1,68 +1,79 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3'
+import GenericTitle from './GenericTitle.vue'
 
-import GenericTitle from './GenericTitle.vue';
-
-const meta = {
-  title: 'Basic Components/GenericTitle',
+const meta: Meta<typeof GenericTitle> = {
+  title: 'Components/GenericTitle',
   component: GenericTitle,
   tags: ['autodocs'],
-} satisfies Meta<typeof GenericTitle>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const SlotH1: Story = {
-  args: {
-    default: 'Title',
-    type: 'h1',
-  }
+  parameters: {
+    docs: {
+      description: {
+        component: 'Componente **GenericTitle** para exibir títulos com diferentes tipos e estilos, como h1, h2, h3, títulos, legendas, etc.'
+      }
+    }
+  },
+  argTypes: {
+    text: {
+      control: 'text',
+      description: 'Texto a ser exibido no título',
+      defaultValue: '',
+    },
+    type: {
+      control: {
+        type: 'select',
+        options: ['h1', 'h2', 'h3', 'title', 'subtitle', 'body', 'caption'],
+      },
+      description: 'Tipo do título que define o estilo visual',
+      defaultValue: 'h1',
+    },
+    class: {
+      control: 'text',
+      description: 'Classes CSS adicionais para customização',
+    },
+  },
 }
 
-export const h1: Story = {
+export default meta
+
+type Story = StoryObj<typeof GenericTitle>
+
+export const Default: Story = {
   args: {
-    text: 'Title',
+    text: 'Título Exemplo',
     type: 'h1',
   },
-};
+}
 
-export const h2: Story = {
+export const Variations: Story = {
+  render: () => ({
+    components: { GenericTitle },
+    template: `
+      <div class="space-y-4">
+        <GenericTitle type="h1" text="Título H1" />
+        <GenericTitle type="h2" text="Título H2" />
+        <GenericTitle type="h3" text="Título H3" />
+        <GenericTitle type="title" text="Título Title" />
+        <GenericTitle type="subtitle" text="Título Subtitle" />
+        <GenericTitle type="body" text="Título Body" />
+        <GenericTitle type="caption" text="Título Caption" />
+      </div>
+    `,
+  }),
+}
+
+export const WithSlot: Story = {
+  render: (args) => ({
+    components: { GenericTitle },
+    setup: () => ({ args }),
+    template: `
+      <GenericTitle v-bind="args">
+        <template #text>
+          <em>Conteúdo via slot de texto</em>
+        </template>
+      </GenericTitle>
+    `,
+  }),
   args: {
-    text: 'Title',
     type: 'h2',
   },
-};
-
-export const h3: Story = {
-  args: {
-    text: 'Title',
-    type: 'h3',
-  },
-};
-
-export const title: Story = {
-  args: {
-    text: 'Title',
-    type: 'title',
-  },
-};
-
-export const subtitle: Story = {
-  args: {
-    text: 'Title',
-    type: 'subtitle',
-  },
-};
-
-export const body: Story = {
-  args: {
-    text: 'Title',
-    type: 'body',
-  },
-};
-
-export const caption: Story = {
-  args: {
-    text: 'Title',
-    type: 'caption',
-  },
-};
+}
