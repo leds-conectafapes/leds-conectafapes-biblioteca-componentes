@@ -1,97 +1,128 @@
-<script lang="ts" setup>
-import { computed } from 'vue';
-import type { PropType } from 'vue';
-import type { inputState, inputType } from '../../types';
+<script lang="ts" setup generic="T extends string | number | undefined">
+import { computed, useAttrs, useSlots } from 'vue';
+import type { InputHTMLAttributes } from 'vue';
+import type { inputState } from '../../types';
+import { cn } from '../../utils/cn';
 
-const props = withDefaults(defineProps<{
-  type?: inputType,
-  placeholder: string,
-  state?: inputState,
-  label: string,
-  required?: boolean,
-  errorMessages?: string[],
-  id?: string,
-}>(), {
-  type: 'text',
+defineOptions({ inheritAttrs: false })
+
+type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes
+
+type inputProps = {
+  label?: string
+  state?: inputState
+  containerClass?: string | string[]
+  errorMessages?: string | string[]
+} & NativeInputAttributes
+
+const props = withDefaults(defineProps<inputProps>(), {
+  label: '',
   state: 'default',
-  required: false,
+  containerClass: () => [],
   errorMessages: () => [],
-  id: `input-${Math.random().toString(36).slice(2, 11)}`,
 })
 
-const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
+const emit = defineEmits<{
+  (e: 'search', value: T): void;
+}>();
 
-const inputTypes = computed(() => {
-  const type: Record<inputType, { type: inputType, icon: string | null }> = {
-    text: { type: 'text', icon: null },
-    search: { type: 'search', icon: 'search' },
-    number: { type: 'number', icon: null },
-    email: { type: 'email', icon: null },
-    password: { type: 'password', icon: 'visibility_off' },
-    tel: { type: 'tel', icon: null },
-    url: { type: 'url', icon: null },
-  }
-  return type[props.type as keyof typeof type] || type.text
+const handleSearch = () => {
+  emit("search", modelValue.value as T)
+};
+
+const modelValue = defineModel<T>()
+
+const slots = useSlots()
+const attrs = useAttrs()
+const id = computed(() => attrs.id as string | undefined)
+const type = computed(() => attrs.type as string | undefined)
+
+const isDisabled = computed(() => props.state === 'disabled')
+const isSearchType = computed(() => type.value === 'search')
+const hasLabelSlots = computed(() => !!slots.label)
+const hasErrorSlots = computed(() => !!slots.error)
+
+const INPUT_STATES: Record<inputState, string> = {
+  default: 'ring-gray-500',
+  error: 'ring-error-300 bg-error-100/10',
+  warning: 'ring-warning-100',
+  disabled: '!ring-0 bg-gray-100/40',
+} as const
+
+const inputState = computed(() => cn(
+  'w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400',
+  INPUT_STATES[props.errorMessages.length > 0 ? 'error' : props.state],
+  attrs.class as string | undefined,
+))
+
+const forwarded = computed(() => {
+  const { ...rest } = attrs
+  return rest
 })
-
-const inputStates = computed(() => {
-  const state = {
-    default: 'ring-gray-500',
-    error: 'ring-error-300 bg-error-100/10',
-    warning: 'ring-warning-100',
-    disabled: '!ring-0 bg-gray-100/40',
-  }
-  const verifyError = props.errorMessages.length > 0 ? 'error' : props.state
-  return state[verifyError as keyof typeof state] || state.default
-})
-
 </script>
 
 <template>
-  <div class="w-full relative gap-y-4 flex flex-col">
-    <label
-      :for="props.id"
-      class="
+  <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
+    <!-- label -->
+    <div v-if="!hasLabelSlots && props.label !== ''">
+      <label
+        :for="id"
+        class="
         w-fit
         text-base
         font-medium font-inter"
-    >
-      {{ props.label }}{{ props.required ? '*' : '' }}</label>
+      >
+        {{ props.label }}{{ props.required ? '*' : '' }}
+      </label>
+    </div>
+    <div v-else-if="hasLabelSlots">
+      <slot name="label" />
+    </div>
+    <!-- input -->
     <div class="relative">
       <input
-        :id="props.id"
-        v-model="model"
-        :type="inputTypes.type"
-        :placeholder="props.placeholder"
-        :class="inputStates"
-        :disabled="props.state === 'disabled'"
-        class="
-              w-full
-              p-4 leading-tight
-              font-inter
-              text-gray-600
-              ring hover:ring-2 rounded-lg outline-primary-400
-          "
+        v-bind="forwarded"
+        v-model="modelValue"
+        :class="inputState"
+        :disabled="isDisabled"
       >
-      <button
-        v-if="inputTypes.icon !== null "
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 cursor-pointer"
+      <svg
+        v-if="isSearchType"
+        xmlns="http://www.w3.org/2000/svg"
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700 transition"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        @click="handleSearch"
       >
-        <span
-          class="material-symbols-outlined w-full h-full"
-        >{{ inputTypes.icon }}</span>
-      </button>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+        />
+      </svg>
     </div>
+    <!-- errors -->
     <div
-      v-if="props.errorMessages.length > 0"
-      class="mt-1 text-sm text-error-300"
+      v-if="!hasErrorSlots && props.errorMessages.length > 0"
     >
-      <p
-        v-for="(error, index) in props.errorMessages"
-        :key="index"
-      >
-        {{ error }}
-      </p>
+      <div class="text-sm text-error-300">
+        <div v-if="Array.isArray(props.errorMessages)">
+          <p
+            v-for="(error, index) in props.errorMessages"
+            :key="index"
+          >
+            {{ error }}
+          </p>
+        </div>
+        <div v-else>
+          {{ props.errorMessages }}
+        </div>
+      </div>
+    </div>
+    <div v-else-if="hasErrorSlots">
+      <slot name="error" />
     </div>
   </div>
 </template>
@@ -102,10 +133,6 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 }
 
 input[type='search']::-webkit-search-cancel-button {
-  display: none;
-}
-
-input[type='password']::-ms-reveal {
   display: none;
 }
 </style>

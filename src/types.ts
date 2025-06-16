@@ -16,10 +16,9 @@ export { default as GenericTextArea } from './components/GenericTextArea/Generic
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
 export type flagVariant = 'informative' | 'success' | 'warning' | 'error';
-export type inputType = 'text' | 'search' | 'number' | 'email' | 'password' | 'tel' | 'url'
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
-export type selectOption<T> = { label: string, value: T }
+export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
@@ -27,4 +26,4 @@ export type tableHeaderType<K extends string = string> = {[key in K]: {title: st
 export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
-export type radioGroupOptions = { text: string, value: string }
+export type radioGroupOptions<T> = { id: string, label: string, value: T }

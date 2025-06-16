@@ -1,73 +1,135 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3'
+import GenericButton from './GenericButton.vue'
 
-import GenericButton from './GenericButton.vue';
-
-const meta = {
-  title: 'Basic Components/GenericButton',
+const meta: Meta<typeof GenericButton> = {
+  title: 'Components/GenericButton',
   component: GenericButton,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+**GenericButton** é um botão reutilizável que suporta múltiplas variações de estilo.
 
-  argTypes: {
-    label: { control: 'text', description: 'Texto do botão' ,required: true },
-    variant: { 
-      control: 'select',
-      options: [
-      'primary',
-      'danger',
-      'warning',
-      'secondary',
-      'secondaryDanger',
-      'disabled',
-      ],
-      description: 'Variante do botão',
-      required: false,
+- Prop \`label\`;
+- Ou, de forma alternativa, através de um **slot nomeado \`label\`**, que permite inserir **qualquer conteúdo personalizado**, como ícones, HTML ou componentes;
+- Evento \`onClick\`, que é emitido ao ser clicado;
+- Aceita atributos nativos do \`<button>\`;
+- Slots disponíveis:
+  - \`label\`: substitui o texto do botão;
+
+### Exemplo
+
+\`\`\`vue
+<GenericButton label="Salvar" variant="primary" @onClick="handleClick" type="submit" />
+\`\`\`
+
+> 💡 Use o slot \`label\` quando quiser personalizar o conteúdo do botão com mais controle visual ou semântica adicional.
+        `.trim(),
+      },
+      extractArgTypes: false,
+      extractComponentDescription: false,
     },
-
   },
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Texto do botão (ignorado se o slot `label` for usado)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: "''" },
+      },
+    },
+    variant: {
+      control: 'select',
+      options: ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled'],
+      description: 'Variação visual do botão',
+      table: {
+        type: { summary: `'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'` },
+        defaultValue: { summary: "'primary'" },
+      },
+    },
+    onClick: {
+      action: 'onClick',
+      description: 'Evento emitido ao clicar no botão',
+      table: {
+        category: 'Events',
+        type: { summary: '() => void' },
+      },
+    },
+  },
+}
 
-} satisfies Meta<typeof GenericButton>;
+export default meta
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof GenericButton>
 
 export const Primary: Story = {
   args: {
-    label: 'Button',
+    label: 'Confirmar',
     variant: 'primary',
   },
-};
+}
 
 export const Danger: Story = {
   args: {
-    label: 'Button',
+    label: 'Excluir',
     variant: 'danger',
   },
-};
+}
 
 export const Warning: Story = {
   args: {
-    label: 'Button',
+    label: 'Atenção',
     variant: 'warning',
   },
-};
+}
 
 export const Secondary: Story = {
   args: {
-    label: 'Button',
+    label: 'Cancelar',
     variant: 'secondary',
   },
-};
+}
 
 export const SecondaryDanger: Story = {
   args: {
-    label: 'Button',
+    label: 'Remover',
     variant: 'secondaryDanger',
   },
-};
+}
 
-export const Disable: Story = {
+export const Disabled: Story = {
   args: {
-    label: 'Button',
+    label: 'Indisponível',
     variant: 'disabled',
   },
-};
+}
+
+export const WithSlot: Story = {
+  render: () => ({
+    components: { GenericButton },
+    template: `
+      <GenericButton variant="primary">
+        <template #label>
+          <span class="text-sm text-white">🔒 Customizado</span>
+        </template>
+      </GenericButton>
+    `,
+  }),
+  name: 'Com Slot Label',
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericButton variant="primary">
+  <template #label>
+    <span class="text-sm text-white">🔒 Customizado</span>
+  </template>
+</GenericButton>
+        `.trim(),
+      },
+    },
+  },
+}
+

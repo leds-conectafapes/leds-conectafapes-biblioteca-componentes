@@ -5,37 +5,38 @@ import type { SelectHTMLAttributes } from 'vue';
 import type { selectState } from '../../types';
 import type { selectOption } from '../../types';
 
+defineOptions({ inheritAttrs: false })
+
 type NativeSelectAttributes = /* @vue-ignore */ SelectHTMLAttributes
 
 type selectProps<T> = {
-  modelValue: T
   options?: selectOption<T>[]
+  label?: string
   state?: selectState
   placeholder?: string
   containerClass?: string | string[]
   errorMessages?: string | string[]
-  castToNumber?: boolean // Provavelmente temporario
 } & NativeSelectAttributes
 
-const props = withDefaults(defineProps<selectProps<T>>(), {
-  state: 'default',
-  options: () => [],
-  placeholder: 'Selecione uma opção',
-  errorMessages: () => [],
-  containerClass: () => [],
-  castToNumber: false,
-})
+const modelValue = defineModel<T>()
 
-const emit = defineEmits<{
-  'update:modelValue': [value: T]
-}>();
+const props = withDefaults(defineProps<selectProps<T>>(), {
+  options: () => [],
+  label: '',
+  state: 'default',
+  placeholder: 'Selecione uma opção',
+  containerClass: () => [],
+  errorMessages: () => [],
+})
 
 const slots = useSlots()
 const attrs = useAttrs()
-const isDisabled = computed(() => props.state === 'disabled')
+const id = computed(() => attrs.id as string | undefined)
 
+const isDisabled = computed(() => props.state === 'disabled')
 const hasOptionSlots = computed(() => !!slots.options)
 const hasErrorSlots = computed(() => !!slots.error)
+const hasLabelSlots = computed(() => !!slots.label)
 
 const SELECT_STATES: Record<selectState, string> = {
   default: 'ring-gray-500',
@@ -51,37 +52,37 @@ const selectState = computed(() => cn(
 ))
 
 const forwarded = computed(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { class:  _unusedClass, style:  _unusedStyle, ...rest } = attrs
+  const { ...rest } = attrs
   return rest
 })
-
-function parseValue(value: string): T {
-  if (props.castToNumber && value !== '') {
-    const num = Number(value)
-    return (Number.isNaN(num) ? undefined : num) as T
-  }
-  return value as T
-}
-
-const handleInput = (event: Event) => {
-  const target = event.target as HTMLSelectElement
-  emit('update:modelValue', parseValue(target.value))
-}
 </script>
 
 <template>
   <div :class="cn('w-full relative gap-y-4 flex flex-col', props.containerClass, { '!bg-red-500': forwarded.multiple })">
+    <!-- label -->
+    <div v-if="!hasLabelSlots && props.label !== ''">
+      <label
+        :for="id"
+        class="
+        w-fit
+        text-base
+        font-medium font-inter"
+      >
+        {{ props.label }}{{ props.required ? '*' : '' }}
+      </label>
+    </div>
+    <div v-else-if="hasLabelSlots">
+      <slot name="label" />
+    </div>
+    <!-- input -->
     <div class="relative">
       <select
         v-bind="forwarded"
-        :id="props.id"
-        :value="props.modelValue"
+        v-model="modelValue"
         :class="selectState"
         :disabled="isDisabled"
-        @change="handleInput"
       >
-        <template v-if="!hasOptionSlots">
+        <div v-if="!hasOptionSlots">
           <option
             disabled
             hidden
@@ -91,16 +92,16 @@ const handleInput = (event: Event) => {
           </option>
           <option
             v-for="option in props.options"
-            :key="option.value"
+            :key="option.id"
             :value="option.value"
           >
             {{ option.label }}
           </option>
-        </template>
+        </div>
 
-        <template v-else>
+        <div v-else-if="hasOptionSlots">
           <slot name="options" />
-        </template>
+        </div>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
         <svg
@@ -118,7 +119,8 @@ const handleInput = (event: Event) => {
         </svg>
       </div>
     </div>
-    <template
+    <!-- errors -->
+    <div
       v-if="!hasErrorSlots && props.errorMessages.length > 0"
     >
       <div class="text-sm text-error-300">
@@ -134,10 +136,9 @@ const handleInput = (event: Event) => {
           {{ props.errorMessages }}
         </div>
       </div>
-    </template>
-
-    <template v-else>
+    </div>
+    <div v-else-if="hasErrorSlots">
       <slot name="error" />
-    </template>
+    </div>
   </div>
 </template>
