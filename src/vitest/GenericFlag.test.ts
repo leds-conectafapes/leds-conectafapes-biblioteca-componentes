@@ -1,7 +1,7 @@
 import { render } from '@testing-library/vue'
 import { describe, it, expect } from 'vitest'
 
-import GenericFlag from '../components/GenericFlag/GenericSnackBar.vue'
+import GenericFlag from '../components/GenericSnackBar/GenericSnackBar.vue'
 
 import type { flagVariant } from '../types'
 

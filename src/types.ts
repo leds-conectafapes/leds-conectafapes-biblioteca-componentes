@@ -10,12 +10,13 @@ export { default as GenericTable } from './components/GenericTable/GenericTable.
 export { default as GenericCheckbox } from './components/GenericCheckbox/GenericCheckbox.vue';
 export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
 export { default as GenericTextArea } from './components/GenericTextArea/GenericTextArea.vue';
+export { default as GenericSnackBar } from './components/GenericSnackBar/GenericSnackBar.vue';
 
 
 // Exportação de types da biblioteca
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
-export type flagVariant = 'informative' | 'success' | 'warning' | 'error';
+export type snackBarVariant = 'informative' | 'success' | 'warning' | 'error';
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type selectOption<T> = { id: string | number, value: T, label: string }

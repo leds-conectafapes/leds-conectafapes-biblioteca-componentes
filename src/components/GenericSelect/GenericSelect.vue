@@ -68,7 +68,7 @@ const forwarded = computed(() => {
         text-base
         font-medium font-inter"
       >
-        {{ props.label }}{{ props.required ? '*' : '' }}
+        {{ props.label }}{{ attrs.required ? '*' : '' }}
       </label>
     </div>
     <div v-else-if="hasLabelSlots">
