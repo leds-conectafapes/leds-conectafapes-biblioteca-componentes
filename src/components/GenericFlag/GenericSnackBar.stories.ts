@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import GenericFlag from './GenericFlag.vue';
+import GenericFlag from './GenericSnackBar.vue';
 
 const meta = {
   title: 'Basic Components/GenericFlag',

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue';
 import type { HTMLAttributes } from 'vue'
-import { cn } from '../../utils/cn';
 import type { flagVariant } from '../../types';
 
 type NativeFlagAttributes = /* @vue-ignore */ HTMLAttributes
@@ -17,6 +16,8 @@ const props = withDefaults(defineProps<flagProps>(), {
   title: '',
   description: '',
 })
+
+const model = defineModel<boolean>({ default: false })
 
 const FLAG_VARIANTS: Record<flagVariant, {style:{card:string, icon:string, title:string, description:string}, icon:string}> = {
   informative: {
@@ -66,8 +67,6 @@ const timeout = computed(() => {
     return -1
   }
 })
-
-const model = defineModel<boolean>({ default: false })
 
 const close = () => {
   model.value = false
