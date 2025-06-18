@@ -23,8 +23,9 @@ export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
-export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean}}
-export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
+export type headerActionType = 'edit' | 'delete' | 'view' | 'open_in_new'
+export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean, actions?: Array<headerActionType>} }
+export type tableItemType<H extends tableHeaderType> = {[K in keyof H]: string | Array<string> | number | Array<number> }
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupOptions<T> = { id: string, label: string, value: T }
