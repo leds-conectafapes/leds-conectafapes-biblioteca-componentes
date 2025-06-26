@@ -1,261 +1,136 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
-import GenericStatusTag from '../GenericStatusTag/GenericStatusTag.vue'
-import dayjs from 'dayjs'
-import * as utc from 'dayjs/plugin/utc';
-import type { PropType } from 'vue';
-import type { tableHeaderType, tableItemType } from '../../types';
-dayjs.extend(utc.default ?? utc);
+import { computed, ref, watch } from 'vue';
+import type { tableHeader } from '../../types';
 
-const props = withDefaults(defineProps<{
-  headers: tableHeaderType<string>,
-  items: tableItemType<tableHeaderType>[],
-  totalRecords?: number,
-  itemsPerPage?: number,
-  totalPages?: number
-}>(), {
-  itemsPerPage: 15,
-  totalRecords: ({ items }) => items.length,
-  totalPages: ({ items, itemsPerPage }) => Math.ceil(items.length / itemsPerPage!),
-});
+type TableProps = {
+  columns: tableHeader[];
+  data: unknown[];
+  loading?: boolean;
+  emptyText?: string
+}
 
+const props = withDefaults(defineProps<TableProps>(), {
+  loading: false,
+  emptyText: 'Nenhum resultado encontrado',
+})
 
-const emit = defineEmits<{
-  (e: 'action', action: string, itemKey: number): void;
-}>();
+const internalData = ref<unknown[]>([])
 
-const actionOnClick = (action: string, itemKey: number) => {
-  emit('action', action, itemKey)
-};
+watch(
+  () => props.data,
+  (newData) => {
+    internalData.value = [...newData]
+  },
+  { immediate: true },
+)
 
-const pageNumber = defineModel('page', { type: [Number] as PropType<number>, default: 1 });
-
-const paginatedItems = ref<Array<{ [key: string]: string | Array<string> | number | Array<number> }>>([]);
-const isPaginationEnabled = computed(() => props.totalRecords > props.items.length);
-
-const updateItems = () => {
-  if(isPaginationEnabled.value) {
-    paginatedItems.value = props.items
-  } else {
-    paginatedItems.value = props.items.slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
+function isVueComponent(content: unknown): boolean {
+  if (!content || typeof content !== 'object') {
+    return false
+  }
+  try {
+    return (
+      ('__v_isVNode' in content && content.__v_isVNode === true)
+      || ('type' in content && typeof content.type === 'object')
+      || ('render' in content && typeof content.render === 'function')
+    )
+  } catch {
+    return false
   }
 }
 
-onMounted(updateItems)
-
-watch(pageNumber, updateItems)
-
-const hasNextPage = computed(() => pageNumber.value < props.totalPages);
-const hasPreviousPage = computed(() => pageNumber.value > 1);
-
-const sortKey = ref('');
-const sortDirection = ref('asc');
-
-function sortTable(header: { title: string, type: string, sortable?: boolean}, key: string) {
-  if (!header.sortable) {
-    return
-  }
-  if (sortKey.value === key) {
-    if (sortDirection.value === 'desc') {
-      sortKey.value = '';
-      sortDirection.value = '';
-    } else {
-      sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
-    }
-  } else {
-    sortKey.value = key;
-    sortDirection.value = 'asc';
-  }
-}
-
-function compareDate(data1: string, data2: string) {
-  return dayjs(data1).isAfter(dayjs(data2));
-}
-
-const sortedData = computed(() => {
-  if(isPaginationEnabled.value) {
-    return [...paginatedItems.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number |  Array<number> }) => {
-      const modifier = sortDirection.value === 'asc' ? 1 : -1;
-      if (sortKey.value === 'date') {
-        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+const processedTableData = computed(() => {
+  return internalData.value.map((row, rowIndex) => ({
+    row: row as Record<string, unknown>,
+    rowIndex,
+    cells: props.columns.map((column, columnIndex) => {
+      const rawValue = (row as Record<string, unknown>)[column.key]
+      if (column.render) {
+        try {
+          const renderedContent = column.render(rawValue, row as Record<string, unknown>, rowIndex)
+          return {
+            content: renderedContent,
+            isComponent: isVueComponent(renderedContent),
+            columnIndex,
+          }
+        } catch (error) {
+          console.warn('Erro ao renderizar célula:', error)
+          return {
+            content: rawValue,
+            isComponent: false,
+            columnIndex,
+          }
+        }
       }
-      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-    })
-  } else {
-    return [...paginatedItems.value].sort((a: { [key: string]: string | string[] | number | Array<number> }, b: { [key: string]: string | string[] | number | Array<number> }) => {
-      const modifier = sortDirection.value === 'asc' ? 1 : -1;
-      if (sortKey.value === 'date') {
-        return compareDate(a[sortKey.value] as string, b[sortKey.value] as string) ? modifier : -modifier;
+      return {
+        content: rawValue,
+        isComponent: false,
+        columnIndex,
       }
-      return a[sortKey.value] > b[sortKey.value] ? modifier : -modifier;
-    }).slice((pageNumber.value -1) * props.itemsPerPage, pageNumber.value * props.itemsPerPage)
-  }
-});
-
-const visiblePages = computed(() => {
-  const currentPage = pageNumber.value;
-  const pagesToShow = 3;
-
-  const startPage = Math.max(1, currentPage - pagesToShow);
-  const endPage = Math.min(props.totalPages, currentPage + pagesToShow);
-
-  return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-});
-
-function goToPage(page: number) {
-  pageNumber.value = page;
-}
-
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-};
-
-const actionsIcon = {
-  view: {
-    icon: 'visibility',
-    color: 'text-primary-500',
-  },
-  delete: {
-    icon: 'dangerous',
-    color: 'text-error-300',
-  },
-  edit: {
-    icon: 'border_color',
-    color: 'text-primary-500',
-  },
-  open_in_new: {
-    icon: 'open_in_new',
-    color: 'text-primary-500',
-  },
-}
+    }),
+  }))
+})
 </script>
 
 <template>
   <div class="flex flex-col border-gray-300 border rounded-lg">
-    <table
-      class="table-auto"
-    >
-      <thead>
-        <tr class="border-b border-gray-300 font-inter">
-          <th
-            v-for="(header, key) in props.headers"
-            :key="key"
-            class="px-6 py-4 text-gray-700 font-semibold"
-            :class="{
-              'cursor-pointer': header.sortable,
-            }"
-            @click="sortTable(header, key as string)"
-          >
-            <div class="flex items-center gap-2">
-              {{ header.title }}
-              <span
-                v-if="header.sortable && sortKey === key"
-                class="material-symbols-outlined"
-              >
-                {{ sortDirection === 'asc' ? 'arrow_downward' : 'arrow_upward' }}
-              </span>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        <tr
-          v-for="(row, rowIndex) in sortedData"
-          :key="rowIndex"
-          class="border-b border-table-line"
-        >
-          <td
-            v-for="colKey in Object.keys(props.headers)"
-            :key="colKey"
-            class="px-6 py-4 font-inter text-gray-600"
-          >
-            <div
-              v-if="props.headers[colKey].type === 'actions'"
-              class="gap-2 flex"
-            >
-              <div
-                v-for="(action, actionIndex) in row[colKey]"
-                :key="actionIndex"
-              >
-                <button
-                  v-if="typeof action === 'string'"
-                  @click="actionOnClick(action, rowIndex)"
-                >
-                  <span
-                    class="material-symbols-outlined p-2 cursor-pointer !text-xl"
-                    :class="actionsIcon[action as keyof typeof actionsIcon].color"
-                  >
-                    {{ actionsIcon[action as keyof typeof actionsIcon].icon }}
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div v-else-if="props.headers[colKey].type === 'status' && typeof row[colKey] === 'string'">
-              <GenericStatusTag
-                :text="Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]"
-                variant="success"
-              />
-            </div>
-            <div v-else-if="props.headers[colKey].type === 'link'">
-              <button
-                class="text-primary-500 font-bold underline underline-offset-4 cursor-pointer"
-                @click="actionOnClick(colKey + '-link', rowIndex)"
-              >
-                {{ row[colKey] }}
-              </button>
-            </div>
-            <div v-else-if="props.headers[colKey].type === 'date'">
-              {{ dayjs(Array.isArray(row[colKey]) ? row[colKey][0] : row[colKey]).utc().format('DD/MM/YYYY') }}
-            </div>
-            <div v-else-if="props.headers[colKey].type === 'currency'">
-              {{ formatCurrency(row[colKey] as number) }}
-            </div>
-            <div v-else>
-              {{ row[colKey] }}
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Loading -->
     <div
-      v-if="props.totalRecords === 0"
-      class="relative flex pt-2 items-center justify-center font-inter"
+      v-if="loading"
+      class="flex items-center justify-center py-12"
     >
-      <span>Nenhum resultado encontrado</span>
+      <div class="text-gray-500">
+        Carregando...
+      </div>
     </div>
-    <div class="py-4 px-5  text-right flex items-center justify-between">
-      <span class="ml-1"><span class="font-semibold">{{ sortedData.length + ((pageNumber - 1) * props.itemsPerPage ) }}</span> de <span class="font-semibold">{{ props.totalRecords }}</span> resultados</span>
-      <div class="flex items-center justify-center h-9 border border-primary-200 rounded-lg align-middle">
-        <button
-          :disabled="!hasPreviousPage"
-          class="cursor-pointer w-9 flex items-center justify-center"
-          @click="pageNumber--"
-        >
-          <span class="material-symbols-outlined text-primary-500">chevron_left</span>
-        </button>
-        
-        <div class="flex items-center cursor-pointer">
-          <span 
-            v-for="page in visiblePages" 
-            :key="page"
-            :class="{ 
-              'text-primary-500 bg-primary-100/44': page === pageNumber,
-            }"
-            class="w-9 h-9 flex items-center justify-center"
-            @click="goToPage(page)"
+
+    <!-- Tabela -->
+    <div v-else>
+      <table class="table-auto w-full">
+        <thead>
+          <tr class="border-b border-gray-300">
+            <th
+              v-for="column in columns"
+              :key="column.key"
+              class="px-6 py-4 text-left font-semibold"
+            >
+              {{ column.title }}
+              <span v-if="column.tooltip">
+                
+              </span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="rowData in processedTableData"
+            :key="rowData.rowIndex"
+            class="border-b hover:bg-gray-50"
           >
-            {{ page }}
-          </span>
-        </div>
-        
-        <button
-          :disabled="!hasNextPage"
-          class="cursor-pointer w-9 flex items-center justify-center"
-          @click="pageNumber++"
-        >
-          <span class="material-symbols-outlined text-primary-500">chevron_right</span>
-        </button>
+            <td
+              v-for="cellData in rowData.cells"
+              :key="cellData.columnIndex"
+              class="px-6 py-4"
+            >
+              <component
+                :is="cellData.content"
+                v-if="cellData.isComponent"
+              />
+              <span v-else>
+                {{ cellData.content }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Estado vazio -->
+      <div
+        v-if="internalData.length === 0"
+        class="flex items-center justify-center py-12"
+      >
+        <span class="text-gray-500">{{ emptyText }}</span>
       </div>
     </div>
   </div>
