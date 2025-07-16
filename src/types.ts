@@ -11,6 +11,8 @@ export { default as GenericCheckbox } from './components/GenericCheckbox/Generic
 export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
 export { default as GenericTextArea } from './components/GenericTextArea/GenericTextArea.vue';
 export { default as GenericSnackBar } from './components/GenericSnackBar/GenericSnackBar.vue';
+export { default as GenericCompactButton } from './components/GenericCompactButton/GenericCompactButton.vue';
+export { default as GenericPagination } from './components/GenericPagination/GenericPagination.vue';
 
 
 // Exportação de types da biblioteca
