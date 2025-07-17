@@ -11,6 +11,8 @@ export { default as GenericCheckbox } from './components/GenericCheckbox/Generic
 export { default as GenericRadioGroup } from './components/GenericRadioGroup/GenericRadioGroup.vue';
 export { default as GenericTextArea } from './components/GenericTextArea/GenericTextArea.vue';
 export { default as GenericSnackBar } from './components/GenericSnackBar/GenericSnackBar.vue';
+export { default as GenericCompactButton } from './components/GenericCompactButton/GenericCompactButton.vue';
+export { default as GenericPagination } from './components/GenericPagination/GenericPagination.vue';
 
 
 // Exportação de types da biblioteca
@@ -23,8 +25,15 @@ export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
-export type tableHeaderType<K extends string = string> = {[key in K]: {title: string, type: tableHeaderColumnType, sortable?: boolean}}
-export type tableItemsType<H extends tableHeaderType> = Array<{[K in keyof H]: string | Array<string> | number | Array<number> }>
+export type headerActionType = 'edit' | 'delete' | 'view' | 'open_in_new'
+export type tableHeader<T extends Record<string, unknown> = Record<string, unknown>> = {
+  key: keyof T | (string & {});
+  title: string;
+  sortable?: boolean;
+  tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  render?: (value: any, row: T, index: number) => unknown
+}
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupOptions<T> = { id: string, label: string, value: T }

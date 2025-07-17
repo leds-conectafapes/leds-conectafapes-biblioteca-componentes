@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import GenericSelect from './components/GenericSelect/GenericSelect.vue';
+import GenericTable from './components/GenericTable/GenericTable.vue';
+import { ref, watch } from 'vue';
+import type { tableHeader } from './types';
 
-const options = [
-  { id: 1, label: 'Option 1', value: 1 },
-  { id: 2, label: 'Option 2', value: 2 },
-  { id: 3, label: 'Option 3', value: 3 },
+const columns: tableHeader[] = [
+  { key: 'name', title: 'Name' },
+  { key: 'date', title: 'Date' },
 ]
 
-const selected = ref()
+const data = [
+  { name: 'Item 1', date: '2024-05-01' },
+  { name: 'Item 2', date: '2024-04-15' },
+]
+
+const currentPage = ref(1)
+const itemsPerPage = 5
+const totalRecords = ref(42)
+const totalPages = ref(Math.ceil(totalRecords.value / itemsPerPage))
+
+watch(currentPage, (newPage) => {
+  console.log('newPage', newPage)
+})
 </script>
 
 <template>
-  <GenericSelect v-model="selected" :options="options" required="true" label="Selecione uma opção"/>
+  <div class="m-10">
+    <GenericTable
+      v-model:current-page="currentPage"
+      :columns="columns"
+      :data="data"
+      :total-pages="totalPages"
+      :total-records="totalRecords"
+      :items-per-page="5"
+      :actions="['edit', 'delete']"
+    />
+  </div>
 </template>
