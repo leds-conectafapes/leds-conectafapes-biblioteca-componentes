@@ -6,7 +6,7 @@ import type { tableHeader, headerActionType } from '../../types';
 
 type TableProps = {
   columns: tableHeader[];
-  data: unknown[];
+  data: Record<string, unknown>[];
   totalPages: number;
   totalRecords: number;
   itemsPerPage: number;
@@ -16,24 +16,30 @@ type TableProps = {
   emptyText?: string
 }
 
-const props = withDefaults(defineProps<TableProps>(), {
-  loading: false,
-  emptyText: 'Nenhum resultado encontrado',
-  actions: () => [],
-})
+const {
+  columns,
+  data,
+  totalPages,
+  totalRecords,
+  itemsPerPage,
+  currentPage,
+  actions = [],
+  loading = false,
+  emptyText = 'Nenhum resultado encontrado',
+} = defineProps<TableProps>()
 
-const page = ref(props.currentPage)
+const page = ref(currentPage)
 
 const emit = defineEmits<{
   (e: 'update:currentPage', value: number): void
 }>()
 
-watch(() => props.currentPage, (value) => {
+watch(() => currentPage, (value) => {
   page.value = value
 })
 
 watch(page, (newPage) => {
-  if (newPage !== props.currentPage) {
+  if (newPage !== currentPage) {
     emit('update:currentPage', newPage)
   }
 })
@@ -41,59 +47,22 @@ watch(page, (newPage) => {
 const internalData = ref<unknown[]>([])
 
 watch(
-  () => props.data,
+  () => data,
   (newData) => {
     internalData.value = [...newData]
   },
   { immediate: true },
 )
 
-function isVueComponent(content: unknown): boolean {
-  if (!content || typeof content !== 'object') {
-    return false
-  }
-  try {
-    return (
-      ('__v_isVNode' in content && content.__v_isVNode === true)
-      || ('type' in content && typeof content.type === 'object')
-      || ('render' in content && typeof content.render === 'function')
-    )
-  } catch {
-    return false
-  }
-}
-
-const processedTableData = computed(() => {
-  return internalData.value.map((row, rowIndex) => ({
-    row: row as Record<string, unknown>,
-    rowIndex,
-    cells: props.columns.map((column, columnIndex) => {
-      const rawValue = (row as Record<string, unknown>)[column.key]
-      if (column.render) {
-        try {
-          const renderedContent = column.render(rawValue, row as Record<string, unknown>, rowIndex)
-          return {
-            content: renderedContent,
-            isComponent: isVueComponent(renderedContent),
-            columnIndex,
-          }
-        } catch (error) {
-          console.warn('Erro ao renderizar célula:', error)
-          return {
-            content: rawValue,
-            isComponent: false,
-            columnIndex,
-          }
-        }
-      }
-      return {
-        content: rawValue,
-        isComponent: false,
-        columnIndex,
-      }
-    }),
-  }))
+const _internalRows = computed(() => {
+  return data.map((row) => {
+    return row
+  })
 })
+
+function getCellName(col: tableHeader) {
+  return `cell-${col.key}`
+}
 </script>
 
 <template>
@@ -131,35 +100,36 @@ const processedTableData = computed(() => {
         </thead>
 
         <tbody>
-          <tr
-            v-for="rowData in processedTableData"
-            :key="rowData.rowIndex"
-            class="border-b border-zinc-300"
+          <template
+            v-for="(row, index) in _internalRows"
+            :key="index"
           >
-            <td
-              v-for="cellData in rowData.cells"
-              :key="cellData.columnIndex"
-              class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
-            >
-              <component
-                :is="cellData.content"
-                v-if="cellData.isComponent"
-              />
-              <span v-else>
-                {{ cellData.content }}
-              </span>
-            </td>
-            <td
-              v-if="actions.length > 0"
-              class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
-            >
-              <GenericCompactButton
-                v-for="action in actions"
-                :key="action"
-                :icon="action"
-              />
-            </td>
-          </tr>
+            <slot name="row" :rowData="row" :rowIndex="index">
+              <tr
+                class="border-b border-zinc-300"
+              >
+                <td
+                  v-for="(col, colIndex) in columns"
+                  :key="colIndex"
+                  class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
+                >
+                  <slot :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
+                    {{ row[col.key] }}
+                  </slot>
+                </td>
+                <td
+                  v-if="actions.length > 0"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                >
+                  <GenericCompactButton
+                    v-for="action in actions"
+                    :key="action"
+                    :icon="action"
+                  />
+                </td>
+              </tr>
+            </slot>
+          </template>
         </tbody>
       </table>
       <div class="flex items-center justify-between py-4 px-5">
