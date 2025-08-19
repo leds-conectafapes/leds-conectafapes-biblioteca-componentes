@@ -1,3 +1,5 @@
+import type { VNode } from 'vue';
+
 // Exportação de componentes da biblioteca
 export { default as GenericButton } from './components/GenericButton/GenericButton.vue';
 export { default as GenericDatePicker } from './components/GenericDatePicker/GenericDatePicker.vue';
@@ -41,8 +43,7 @@ export type TableHeader<T extends Record<string, unknown>> = {
   title: string;
   sortable?: boolean;
   tooltip?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  render?: (value: any, row: T, index: number) => unknown
+  render?: (value: T[keyof T], row: T, index: number) => (VNode | (() => VNode) | (() => VNode[]))
 }
 export type TableAction<T extends Record<string, unknown>> = {
   type: 'edit',

@@ -112,7 +112,9 @@ const _actions = computed(() => {
                     :key="colIndex"
                     class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
                   >
-                    <slot :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
+                    <component v-if="col.render" :is="col.render(row[col.key], row, index)" />
+
+                    <slot v-else :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
                       {{ row[col.key] }}
                     </slot>
                   </td>

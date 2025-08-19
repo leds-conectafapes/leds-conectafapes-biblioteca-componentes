@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch, h } from 'vue';
 import type { TableAction, TableHeader } from './types';
 
 type Data = {
@@ -61,6 +61,25 @@ const selectedItemsNames = computed(() => {
     return 'Não há itens selecionados.'
   }
 })
+
+const columnsWithRender: TableHeader<Data>[] = [
+  { key: 'name', title: 'Name', sortable: true },
+  {
+    key: 'date',
+    title: 'Date',
+    render: (date, _row, index) => {
+      const text = index % 2 == 0
+        ? 'O evento começou no dia ' + date
+        : 'O evento se encerrou no dia ' + date
+      return h('span', { class: 'font-bold text-4xl' }, text)
+      // return () => h('span', { class: 'font-bold' }, text)
+      // return () => [
+      //   h('span', { class: 'font-bold' }, text),
+      //   h('button', null, 'clica-me')
+      // ]
+    }
+  },
+]
 </script>
 
 <template>
@@ -105,5 +124,13 @@ const selectedItemsNames = computed(() => {
         </td>
       </template>
     </GenericTable>
+
+    <h1>Coluna com <em>render function</em></h1>
+    <GenericTable
+      :columns="columnsWithRender"
+      :data="data"
+      :actions="actions"
+      class="mb-10"
+    />
   </div>
 </template>
