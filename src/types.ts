@@ -28,6 +28,9 @@ export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 
+export type TableRender<T extends Record<string, unknown>> =
+  (value: T[keyof T], row: T, index: number) => (VNode | (() => VNode) | (() => VNode[]))
+
 export type TableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
 export type TableProps<T extends Record<string, unknown>> = {
   columns: TableHeader<T>[];
@@ -43,7 +46,7 @@ export type TableHeader<T extends Record<string, unknown>> = {
   title: string;
   sortable?: boolean;
   tooltip?: string;
-  render?: (value: T[keyof T], row: T, index: number) => (VNode | (() => VNode) | (() => VNode[]))
+  render?: TableRender<T>
 }
 export type TableAction<T extends Record<string, unknown>> = {
   type: 'edit',

@@ -2,7 +2,7 @@
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
 import { computed, reactive, ref, watch, h } from 'vue';
-import type { TableAction, TableHeader } from './types';
+import type { TableRender, TableAction, TableHeader } from './types';
 
 type Data = {
   name: string;
@@ -80,6 +80,20 @@ const columnsWithRender: TableHeader<Data>[] = [
     }
   },
 ]
+
+const dataWithRender: (Data & { render?: TableRender<Data> })[] = [
+  {
+    name: 'Item 1',
+    date: '2024-05-01'
+  },
+  {
+    name: 'Item 2',
+    date: '2024-04-15',
+    render: (value) => {
+      return h('a', { href: 'https://youtu.be/f-gi8k4IRh8?t=2851', target: '_blank' }, value.toUpperCase())
+    }
+  },
+]
 </script>
 
 <template>
@@ -129,6 +143,14 @@ const columnsWithRender: TableHeader<Data>[] = [
     <GenericTable
       :columns="columnsWithRender"
       :data="data"
+      :actions="actions"
+      class="mb-10"
+    />
+
+    <h1>Linha com <em>render function</em></h1>
+    <GenericTable
+      :columns="columns"
+      :data="dataWithRender"
       :actions="actions"
       class="mb-10"
     />

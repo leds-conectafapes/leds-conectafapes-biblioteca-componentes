@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
-import type { TableHeader, TableProps } from '../../types';
+import type { TableRender, TableHeader, TableProps } from '../../types';
 
 
 const {
@@ -115,7 +115,11 @@ const _actions = computed(() => {
                     <component v-if="col.render" :is="col.render(row[col.key], row, index)" />
 
                     <slot v-else :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
-                      {{ row[col.key] }}
+                      <component v-if="row.render" :is="(row.render as TableRender<T>)(row[col.key], row, index)" />
+
+                      <template v-else>
+                        {{ row[col.key] }}
+                      </template>
                     </slot>
                   </td>
                 </slot>
