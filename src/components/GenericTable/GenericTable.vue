@@ -1,18 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
-import type { tableHeader, TableData, headerActionType } from '../../types';
+import type { TableHeader, TableProps } from '../../types';
 
-type TableProps = {
-  columns: tableHeader[];
-  data: TableData;
-  page?: number;
-  itemsPerPage?: number;
-  actions?: headerActionType[];
-  loading?: boolean;
-  emptyText?: string
-}
 
 const {
   columns,
@@ -22,7 +13,7 @@ const {
   actions = [],
   loading = false,
   emptyText = 'Nenhum resultado encontrado',
-} = defineProps<TableProps>()
+} = defineProps<TableProps<T>>()
 
 
 const emit = defineEmits<{
@@ -57,7 +48,7 @@ const totalPages = computed(() => {
   }
 })
 
-function getCellName(col: tableHeader) {
+function getCellName(col: TableHeader<T>) {
   return `cell-${col.key}`
 }
 

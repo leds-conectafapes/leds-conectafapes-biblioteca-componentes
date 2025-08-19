@@ -25,43 +25,52 @@ export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
-export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
-export type headerActionType = {
-  type: 'edit',
-  icon?: 'edit',
-  variant?: compactButtonVariant,
-  onClick: (row: Record<string, unknown>) => void;
-} | {
-  type: 'delete',
-  icon?: 'delete',
-  variant?: compactButtonVariant,
-  onClick: (row: Record<string, unknown>) => void;
-} | {
-  type: 'view',
-  icon?: 'view',
-  variant?: compactButtonVariant,
-  onClick: (row: Record<string, unknown>) => void;
-} | {
-  type: 'open_in_new',
-  icon?: 'open_in_new',
-  variant?: compactButtonVariant,
-  onClick: (row: Record<string, unknown>) => void;
-} | {
-  type: 'custom',
-  icon: string,
-  variant?: compactButtonVariant,
-  onClick: (row: Record<string, unknown>) => void;
+
+export type TableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
+export type TableProps<T extends Record<string, unknown>> = {
+  columns: TableHeader<T>[];
+  data: T[];
+  page?: number;
+  itemsPerPage?: number;
+  actions?: TableAction<T>[];
+  loading?: boolean;
+  emptyText?: string
 }
-export type tableHeader<T extends Record<string, unknown> = Record<string, unknown>> = {
-  key: keyof T | (string & {});
+export type TableHeader<T extends Record<string, unknown>> = {
+  key: keyof T & string;
   title: string;
   sortable?: boolean;
   tooltip?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render?: (value: any, row: T, index: number) => unknown
 }
-export type TableRow = Record<string, unknown>
-export type TableData = TableRow[]
+export type TableAction<T extends Record<string, unknown>> = {
+  type: 'edit',
+  icon?: 'edit',
+  variant?: compactButtonVariant,
+  onClick: (row: T) => void;
+} | {
+  type: 'delete',
+  icon?: 'delete',
+  variant?: compactButtonVariant,
+  onClick: (row: T) => void;
+} | {
+  type: 'view',
+  icon?: 'view',
+  variant?: compactButtonVariant,
+  onClick: (row: T) => void;
+} | {
+  type: 'open_in_new',
+  icon?: 'open_in_new',
+  variant?: compactButtonVariant,
+  onClick: (row: T) => void;
+} | {
+  type: 'custom',
+  icon: string,
+  variant?: compactButtonVariant,
+  onClick: (row: T) => void;
+}
+
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupOptions<T> = { id: string, label: string, value: T }

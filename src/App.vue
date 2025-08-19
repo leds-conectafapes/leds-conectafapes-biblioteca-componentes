@@ -2,19 +2,23 @@
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
 import { computed, reactive, ref, watch } from 'vue';
-import type { headerActionType, tableHeader } from './types';
+import type { TableAction, TableHeader } from './types';
 
-const columns: tableHeader[] = [
+type Data = {
+  name: string;
+  date: string;
+}
+const columns: TableHeader<Data>[] = [
   { key: 'name', title: 'Name', sortable: true },
   { key: 'date', title: 'Date', },
 ]
 
-const data = [
+const data: Data[] = [
   { name: 'Item 1', date: '2024-05-01' },
   { name: 'Item 2', date: '2024-04-15' },
 ]
 
-const actions: headerActionType[] = [
+const actions: TableAction<Data>[] = [
   {
     type: 'edit',
     onClick: (row) => {
