@@ -7,10 +7,8 @@ import type { tableHeader, headerActionType } from '../../types';
 type TableProps = {
   columns: tableHeader[];
   data: Record<string, unknown>[];
-  totalPages: number;
-  totalRecords: number;
-  itemsPerPage: number;
-  currentPage: number;
+  page?: number;
+  itemsPerPage?: number;
   actions?: headerActionType[];
   loading?: boolean;
   emptyText?: string
@@ -19,45 +17,44 @@ type TableProps = {
 const {
   columns,
   data,
-  totalPages,
-  totalRecords,
   itemsPerPage,
-  currentPage,
+  page,
   actions = [],
   loading = false,
   emptyText = 'Nenhum resultado encontrado',
 } = defineProps<TableProps>()
 
-const page = ref(currentPage)
 
 const emit = defineEmits<{
-  (e: 'update:currentPage', value: number): void
+  (e: 'update:page', value: number): void
 }>()
 
-watch(() => currentPage, (value) => {
-  page.value = value
-})
 
-watch(page, (newPage) => {
-  if (newPage !== currentPage) {
-    emit('update:currentPage', newPage)
+const _page = ref(page ?? 1)
+
+watch(() => page, (newValue) => {
+  if (newValue) {
+    _page.value = newValue
   }
 })
 
-const internalData = ref<unknown[]>([])
+function updatePage(value: number) {
+  _page.value = value
+  emit('update:page', value)
+}
 
-watch(
-  () => data,
-  (newData) => {
-    internalData.value = [...newData]
-  },
-  { immediate: true },
-)
-
-const _internalRows = computed(() => {
+const _rows = computed(() => {
   return data.map((row) => {
     return row
   })
+})
+
+const totalPages = computed(() => {
+  if (itemsPerPage && _rows.value.length > 0) {
+    return Math.ceil(_rows.value.length / itemsPerPage)
+  } else {
+    return 1
+  }
 })
 
 function getCellName(col: tableHeader) {
@@ -101,7 +98,7 @@ function getCellName(col: tableHeader) {
 
         <tbody>
           <template
-            v-for="(row, index) in _internalRows"
+            v-for="(row, index) in _rows"
             :key="index"
           >
             <slot name="row" :rowData="row" :rowIndex="index">
@@ -132,22 +129,28 @@ function getCellName(col: tableHeader) {
           </template>
         </tbody>
       </table>
-      <div class="flex items-center justify-between py-4 px-5">
-        <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsPerPage * currentPage }}</a> de <a class="font-bold">{{ totalRecords }}</a> resultados
-        </span>
-        <GenericPagination
-          v-model="page"
-          :length="totalPages"
-        />
-      </div>
 
       <!-- Estado vazio -->
       <div
-        v-if="internalData.length === 0"
+        v-if="_rows.length === 0"
         class="flex items-center justify-center py-12"
       >
         <span class="text-gray-500">{{ emptyText }}</span>
+      </div>
+
+      <div
+        v-if="itemsPerPage"
+        class="flex items-center justify-between py-4 px-5"
+      >
+        <span class="text-sm text-zinc-700 leading-tight font-inter">
+          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ _rows.length }}</a> resultados
+        </span>
+
+        <GenericPagination
+          :length="totalPages"
+          :model-value="_page"
+          @update:model-value="updatePage"
+        />
       </div>
     </div>
   </div>

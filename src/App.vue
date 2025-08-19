@@ -16,8 +16,6 @@ const data = [
 
 const currentPage = ref(1)
 const itemsPerPage = 5
-const totalRecords = ref(42)
-const totalPages = ref(Math.ceil(totalRecords.value / itemsPerPage))
 
 watch(currentPage, (newPage) => {
   console.log('newPage', newPage)
@@ -42,24 +40,18 @@ const selectedItemsNames = computed(() => {
   <div class="m-10">
     <h1>Exemplo Básico</h1>
     <GenericTable
-      v-model:current-page="currentPage"
+      v-model:page="currentPage"
       :columns="columns"
       :data="data"
-      :total-pages="totalPages"
-      :total-records="totalRecords"
-      :items-per-page="5"
+      :items-per-page="itemsPerPage"
       :actions="['edit', 'delete']"
       class="mb-10"
     />
 
     <h1>Exemplo de tabela com selecao de linhas</h1>
     <GenericTable
-      v-model:current-page="currentPage"
       :columns="columns"
       :data="data"
-      :total-pages="totalPages"
-      :total-records="totalRecords"
-      :items-per-page="5"
       :actions="['edit', 'delete']"
       class="mb-10"
     >
