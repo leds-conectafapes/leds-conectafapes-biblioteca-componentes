@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
-import type { tableHeader, headerActionType } from '../../types';
+import type { tableHeader, TableData, headerActionType } from '../../types';
 
 type TableProps = {
   columns: tableHeader[];
-  data: Record<string, unknown>[];
+  data: TableData;
   page?: number;
   itemsPerPage?: number;
   actions?: headerActionType[];
@@ -60,6 +60,16 @@ const totalPages = computed(() => {
 function getCellName(col: tableHeader) {
   return `cell-${col.key}`
 }
+
+const _actions = computed(() => {
+  return actions.map((action) => {
+    return {
+      icon: action.icon ?? action.type,
+      variant: action.variant ?? 'default',
+      ...action,
+    }
+  })
+})
 </script>
 
 <template>
@@ -88,7 +98,7 @@ function getCellName(col: tableHeader) {
               <span v-if="column.tooltip" />
             </th>
             <th
-              v-if="actions.length > 0"
+              v-if="_actions.length > 0"
               class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
             >
               Ações
@@ -118,13 +128,16 @@ function getCellName(col: tableHeader) {
                 </slot>
 
                 <td
-                  v-if="actions.length > 0"
+                  v-if="_actions.length > 0"
                   class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
                 >
                   <GenericCompactButton
-                    v-for="action in actions"
-                    :key="action"
-                    :icon="action"
+                    v-for="(action, index) in _actions"
+                    :key="index"
+                    :icon="action.icon"
+                    :variant="action.variant"
+                    @click="action.onClick(row)"
+
                   />
                 </td>
               </tr>

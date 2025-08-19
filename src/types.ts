@@ -17,6 +17,7 @@ export { default as GenericPagination } from './components/GenericPagination/Gen
 
 // Exportação de types da biblioteca
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
+export type compactButtonVariant = 'default' | 'danger'
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
 export type snackBarVariant = 'informative' | 'success' | 'warning' | 'error';
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
@@ -25,7 +26,32 @@ export type selectOption<T> = { id: string | number, value: T, label: string }
 export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
 export type subtitleState = 'default' | 'error'
 export type tableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
-export type headerActionType = 'edit' | 'delete' | 'view' | 'open_in_new'
+export type headerActionType = {
+  type: 'edit',
+  icon?: 'edit',
+  variant?: compactButtonVariant,
+  onClick: (row: Record<string, unknown>) => void;
+} | {
+  type: 'delete',
+  icon?: 'delete',
+  variant?: compactButtonVariant,
+  onClick: (row: Record<string, unknown>) => void;
+} | {
+  type: 'view',
+  icon?: 'view',
+  variant?: compactButtonVariant,
+  onClick: (row: Record<string, unknown>) => void;
+} | {
+  type: 'open_in_new',
+  icon?: 'open_in_new',
+  variant?: compactButtonVariant,
+  onClick: (row: Record<string, unknown>) => void;
+} | {
+  type: 'custom',
+  icon: string,
+  variant?: compactButtonVariant,
+  onClick: (row: Record<string, unknown>) => void;
+}
 export type tableHeader<T extends Record<string, unknown> = Record<string, unknown>> = {
   key: keyof T | (string & {});
   title: string;
@@ -34,6 +60,8 @@ export type tableHeader<T extends Record<string, unknown> = Record<string, unkno
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render?: (value: any, row: T, index: number) => unknown
 }
+export type TableRow = Record<string, unknown>
+export type TableData = TableRow[]
 export type textAreaState = 'default' | 'error' | 'warning' | 'disabled'
 export type titleType = 'h1' | 'h2' | 'h3' | 'title' | 'subtitle' | 'body' | 'caption'
 export type radioGroupOptions<T> = { id: string, label: string, value: T }

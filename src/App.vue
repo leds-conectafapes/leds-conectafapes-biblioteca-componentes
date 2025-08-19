@@ -2,16 +2,39 @@
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
 import { computed, reactive, ref, watch } from 'vue';
-import type { tableHeader } from './types';
+import type { headerActionType, tableHeader } from './types';
 
 const columns: tableHeader[] = [
   { key: 'name', title: 'Name', sortable: true },
-  { key: 'date', title: 'Date' },
+  { key: 'date', title: 'Date', },
 ]
 
 const data = [
   { name: 'Item 1', date: '2024-05-01' },
   { name: 'Item 2', date: '2024-04-15' },
+]
+
+const actions: headerActionType[] = [
+  {
+    type: 'edit',
+    onClick: (row) => {
+      alert(`O botao para editar a linha com nome "${row.name}" foi clicado.`)
+    }
+  },
+  {
+    type: 'delete',
+    variant: 'danger',
+    onClick: (row) => {
+      alert(`O botao para excluir a linha com nome "${row.name}" foi clicado.`)
+    }
+  },
+  {
+    type: 'custom',
+    icon: 'attach_file_add',
+    onClick: (row) => {
+      alert(`Um botao diferente de ação na linha com nome ${row.name} foi clicado.`)
+    }
+  }
 ]
 
 const currentPage = ref(1)
@@ -44,7 +67,7 @@ const selectedItemsNames = computed(() => {
       :columns="columns"
       :data="data"
       :items-per-page="itemsPerPage"
-      :actions="['edit', 'delete']"
+      :actions="actions"
       class="mb-10"
     />
 
@@ -52,7 +75,7 @@ const selectedItemsNames = computed(() => {
     <GenericTable
       :columns="columns"
       :data="data"
-      :actions="['edit', 'delete']"
+      :actions="actions"
     >
       <template #cell-name="{ cellData, rowIndex }">
         <GenericCheckbox v-model="selectedItems[rowIndex]" />
@@ -65,7 +88,7 @@ const selectedItemsNames = computed(() => {
     <GenericTable
       :columns="columns"
       :data="data"
-      :actions="['edit', 'delete']"
+      :actions="actions"
       class="mb-10"
     >
       <template #cell="{ rowData }">

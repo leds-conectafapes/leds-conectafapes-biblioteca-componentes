@@ -2,6 +2,7 @@
 import { computed, useAttrs, useSlots } from 'vue';
 import { cn } from '../../utils/cn';
 import type { ButtonHTMLAttributes } from 'vue';
+import type { compactButtonVariant } from '../../types';
 
 defineOptions({ inheritAttrs: false })
 
@@ -9,7 +10,7 @@ type NativeButtonAttributes = /* @vue-ignore */ ButtonHTMLAttributes
 
 type buttonProps = {
   icon: string,
-  variant?: "default" | "danger",
+  variant?: compactButtonVariant,
 } & NativeButtonAttributes
 
 const props = withDefaults(defineProps<buttonProps>(), {
