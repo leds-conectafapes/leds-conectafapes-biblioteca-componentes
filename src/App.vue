@@ -53,13 +53,30 @@ const selectedItemsNames = computed(() => {
       :columns="columns"
       :data="data"
       :actions="['edit', 'delete']"
-      class="mb-10"
     >
       <template #cell-name="{ cellData, rowIndex }">
         <GenericCheckbox v-model="selectedItems[rowIndex]" />
         {{ cellData }}
       </template>
     </GenericTable>
-    {{ selectedItemsNames }}
+    <p class="mb-10">{{ selectedItemsNames }}</p>
+
+    <h1>Modificando a aparência de todas as células, exceto de ações.</h1>
+    <GenericTable
+      :columns="columns"
+      :data="data"
+      :actions="['edit', 'delete']"
+      class="mb-10"
+    >
+      <template #cell="{ rowData }">
+        <td
+          v-for="(col, index) in columns"
+          :key="index"
+          class="font-bold p-2"
+        >
+          {{ rowData[col.key] }}
+        </td>
+      </template>
+    </GenericTable>
   </div>
 </template>

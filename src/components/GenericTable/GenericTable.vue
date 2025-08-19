@@ -105,15 +105,18 @@ function getCellName(col: tableHeader) {
               <tr
                 class="border-b border-zinc-300"
               >
-                <td
-                  v-for="(col, colIndex) in columns"
-                  :key="colIndex"
-                  class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
-                >
-                  <slot :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
-                    {{ row[col.key] }}
-                  </slot>
-                </td>
+                <slot name="cell" :rowData="row" :rowIndex="index">
+                  <td
+                    v-for="(col, colIndex) in columns"
+                    :key="colIndex"
+                    class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
+                  >
+                    <slot :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
+                      {{ row[col.key] }}
+                    </slot>
+                  </td>
+                </slot>
+
                 <td
                   v-if="actions.length > 0"
                   class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
