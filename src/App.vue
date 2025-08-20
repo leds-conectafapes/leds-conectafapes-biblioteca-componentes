@@ -16,6 +16,14 @@ const columns: TableHeader<Data>[] = [
 const data: Data[] = [
   { name: 'Item 1', date: '2024-05-01' },
   { name: 'Item 2', date: '2024-04-15' },
+  { name: 'Item 3', date: '2024-05-01' },
+  { name: 'Item 4', date: '2024-04-15' },
+  { name: 'Item 5', date: '2024-05-01' },
+  { name: 'Item 6', date: '2024-04-15' },
+  { name: 'Item 7', date: '2024-05-01' },
+  { name: 'Item 8', date: '2024-04-15' },
+  { name: 'Item 9', date: '2024-05-01' },
+  { name: 'Item 10', date: '2024-04-15' },
 ]
 
 const actions: TableAction<Data>[] = [
@@ -42,7 +50,7 @@ const actions: TableAction<Data>[] = [
 ]
 
 const currentPage = ref(1)
-const itemsPerPage = 5
+const itemsPerPage = 1
 
 watch(currentPage, (newPage) => {
   console.log('newPage', newPage)

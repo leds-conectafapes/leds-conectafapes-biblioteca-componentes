@@ -160,7 +160,8 @@ const _actions = computed(() => {
         </span>
 
         <GenericPagination
-          :length="totalPages"
+          :total-items="_rows.length"
+          :items-per-page="itemsPerPage"
           :model-value="_page"
           @update:model-value="updatePage"
         />
