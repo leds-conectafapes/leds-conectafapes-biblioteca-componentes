@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import GenericButton from '../GenericButton/GenericButton.vue'
 
 type PaginationProps = {
-  totalItems: number // ou string
+  totalItems: number
   itemsPerPage: number
   modelValue: number
 }

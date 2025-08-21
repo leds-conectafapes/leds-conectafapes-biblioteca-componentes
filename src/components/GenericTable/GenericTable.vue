@@ -38,12 +38,6 @@ function updatePage(value: number) {
   emit('update:page', value)
 }
 
-const _rows = computed(() => {
-  return data.map((row) => {
-    return row
-  })
-})
-
 function getCellName(col: TableHeader<T>) {
   return `cell-${col.key}`
 }
@@ -95,7 +89,7 @@ const _actions = computed(() => {
 
         <tbody>
           <template
-            v-for="(row, index) in _rows"
+            v-for="(row, index) in data"
             :key="index"
           >
             <slot name="row" :rowData="row" :rowIndex="index">
@@ -141,7 +135,7 @@ const _actions = computed(() => {
 
       <!-- Estado vazio -->
       <div
-        v-if="_rows.length === 0"
+        v-if="data.length === 0"
         class="flex items-center justify-center py-12"
       >
         <span class="text-gray-500">{{ emptyText }}</span>
@@ -152,11 +146,11 @@ const _actions = computed(() => {
         class="flex items-center justify-between py-4 px-5"
       >
         <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ _rows.length }}</a> resultados
+          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ data.length }}</a> resultados
         </span>
 
         <GenericPagination
-          :total-items="_rows.length"
+          :total-items="data.length"
           :items-per-page="itemsPerPage"
           :model-value="_page"
           @update:model-value="updatePage"
