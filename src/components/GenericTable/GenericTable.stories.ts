@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import GenericTable from './GenericTable.vue';
+import { computed, h, ref } from 'vue';
 
 const meta: Meta<typeof GenericTable> = {
   title: 'Components/GenericTable',
@@ -30,8 +31,8 @@ import type { TableHeader } from '@leds-ifes/components'
 type Data = {
   name: string
   link: string
-  date: string,
-  status 'Ativo' | 'Inativo'
+  date: string
+  status: 'Ativo' | 'Inativo'
   currency: number
 }
 
@@ -125,4 +126,82 @@ export const Default: Story = {
         { name: 'Nome 5', link: 'Link 5', date: '2025-02-15', status: 'Ativo', currency: 400 },
       ],
     }
+}
+
+export const withPagination: Story = {
+  name: 'Com Paginação',
+  render: () => {
+    const columns = [
+      { key: 'name', title: 'Nome', sortable: true },
+      { key: 'link', title: 'Link', sortable: true },
+      { key: 'date', title: 'Data', sortable: true },
+      { key: 'status', title: 'Status', sortable: true },
+      { key: 'currency', title: 'Dinheiro', sortable: true },
+    ]
+    const data = [
+      { name: 'Nome 1', link: 'Link 1', date: '2025-05-07', status: 'Ativo', currency: 1000 },
+      { name: 'Nome 2', link: 'Link 2', date: '2026-02-28', status: 'Inativo', currency: 2000 },
+      { name: 'Nome 3', link: 'Link 3', date: '2023-07-10', status: 'Ativo', currency: 2000 },
+      { name: 'Nome 4', link: 'Link 4', date: '2026-03-17', status: 'Ativo', currency: 7000 },
+      { name: 'Nome 5', link: 'Link 5', date: '2025-02-15', status: 'Ativo', currency: 400 },
+    ]
+    const page = ref(1)
+    const paginatedData = computed(() => {
+      const sliceStart = (page.value - 1) * 2
+      const sliceEnd = (page.value) * 2
+      return data.slice(sliceStart, sliceEnd)
+    })
+
+    return () => h(
+      // @ts-ignore
+      GenericTable,
+      {
+        columns,
+        data: paginatedData.value,
+        itemsPerPage: 2,
+        totalItems: data.length,
+        page: page.value,
+        'onUpdate:page': (value: number) => page.value = value
+      }
+    )
+  },
+    parameters: {
+    docs: {
+      source: {
+        code: `
+<script setup lang="ts">
+const columns = [
+  { key: 'name', title: 'Nome', sortable: true },
+  { key: 'link', title: 'Link', sortable: true },
+  { key: 'date', title: 'Data', sortable: true },
+  { key: 'status', title: 'Status', sortable: true },
+  { key: 'currency', title: 'Dinheiro', sortable: true },
+]
+const data = [
+  { name: 'Nome 1', link: 'Link 1', date: '2025-05-07', status: 'Ativo', currency: 1000 },
+  { name: 'Nome 2', link: 'Link 2', date: '2026-02-28', status: 'Inativo', currency: 2000 },
+  { name: 'Nome 3', link: 'Link 3', date: '2023-07-10', status: 'Ativo', currency: 2000 },
+  { name: 'Nome 4', link: 'Link 4', date: '2026-03-17', status: 'Ativo', currency: 7000 },
+  { name: 'Nome 5', link: 'Link 5', date: '2025-02-15', status: 'Ativo', currency: 400 },
+]
+const page = ref(1)
+const paginatedData = computed(() => {
+  const sliceStart = (page.value - 1) * 2
+  const sliceEnd = (page.value) * 2
+  return data.slice(sliceStart, sliceEnd)
+})
+</script>
+<template>
+  <GenericSelect
+      v-model:page="currentPage"
+      :columns="columns"
+      :data="paginatedData"
+      :items-per-page="2"
+      :total-items="data.length"
+  />
+</template>
+        `.trim(),
+      },
+    },
+  },
 }

@@ -142,7 +142,8 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
       v-model:page="currentPage"
       :columns="columns"
       :data="data"
-      :items-per-page="itemsPerPage"
+      :items-per-page="2"
+      :total-items="data.length"
       :actions="actions"
       class="mb-10"
     />
