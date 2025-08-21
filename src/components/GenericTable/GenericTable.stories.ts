@@ -4,6 +4,7 @@ import GenericTable from './GenericTable.vue';
 
 const meta: Meta<typeof GenericTable> = {
   title: 'Components/GenericTable',
+  // @ts-ignore
   component: GenericTable,
   tags: ['autodocs'],
 

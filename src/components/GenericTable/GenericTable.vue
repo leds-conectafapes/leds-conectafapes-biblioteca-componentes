@@ -38,7 +38,8 @@ function updatePage(value: number) {
   emit('update:page', value)
 }
 
-function getCellName(col: TableHeader<T>) {
+type CellName = `cell-${keyof T & string}`
+function getCellName(col: TableHeader<T>): CellName {
   return `cell-${col.key}`
 }
 
@@ -51,6 +52,14 @@ const _actions = computed(() => {
     }
   })
 })
+
+defineSlots<
+{
+  row: (_: { rowData: T, rowIndex: number }) => unknown,
+  cell: (_: { rowData: T, rowIndex: number }) => unknown
+} & {
+  [K in CellName]: (_: { rowData: T, rowIndex: number, cellData: T[keyof T] }) => unknown
+}>()
 </script>
 
 <template>
