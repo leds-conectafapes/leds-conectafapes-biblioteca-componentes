@@ -50,7 +50,6 @@ const actions: TableAction<Data>[] = [
 ]
 
 const currentPage = ref(1)
-const itemsPerPage = 10
 
 watch(currentPage, (newPage) => {
   console.log('newPage', newPage)
@@ -75,7 +74,7 @@ const columnsWithRender: TableHeader<Data>[] = [
   {
     key: 'date',
     title: 'Date',
-    render: (date, _row, index) => {
+    render: (date, _row, _col, index) => {
       const text = index % 2 == 0
         ? 'O evento começou no dia ' + date
         : 'O evento se encerrou no dia ' + date

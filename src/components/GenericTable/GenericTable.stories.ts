@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import GenericTable from './GenericTable.vue';
 import { computed, h, ref } from 'vue';
+import type { TableHeader, TableRender } from '../../types';
 
 const meta: Meta<typeof GenericTable> = {
   title: 'Components/GenericTable',
@@ -193,11 +194,93 @@ const paginatedData = computed(() => {
 </script>
 <template>
   <GenericSelect
-      v-model:page="currentPage"
-      :columns="columns"
-      :data="paginatedData"
-      :items-per-page="2"
-      :total-items="data.length"
+    v-model:page="currentPage"
+    :columns="columns"
+    :data="paginatedData"
+    :items-per-page="2"
+    :total-items="data.length"
+  />
+</template>
+        `.trim(),
+      },
+    },
+  },
+}
+
+export const withRenderFunctionPerRow: Story = {
+  name: 'Com Render Function em linha',
+  render: () => {
+    type Flag = {
+      bandeira: string
+      significado: string
+    }
+    const columns: TableHeader<Flag>[] = [
+      { key: 'bandeira', title: 'Bandeira' },
+      { key: 'significado', title: 'Significado' },
+    ]
+    const data: (Flag & { render?: TableRender<Flag> })[] = [
+      { bandeira: '🏴‍☠️', significado: 'Bandeira de pirata' },
+      { bandeira: '🪦', significado: 'Anuncio de um cemitério' },
+      {
+        bandeira: '💀',
+        significado: 'Prerigo!',
+        render: (value, _row, col, _index) => {
+          return h(
+            'span',
+            col === 'significado'
+              ? { class: 'font-bold' }
+              : null,
+            value
+          )
+        }
+      }
+    ]
+
+    return () => h(
+      // @ts-ignore
+      GenericTable,
+      {
+        columns,
+        data,
+      }
+    )
+  },
+    parameters: {
+    docs: {
+      source: {
+        code: `
+<script setup lang="ts">
+import type { TableHeader, TableRender } from '@leds-ifes/components'
+type Flag = {
+  bandeira: string
+  significado: string
+}
+const columns: TableHeader<Flag>[] = [
+  { key: 'bandeira', title: 'Bandeira' },
+  { key: 'significado', title: 'Significado' },
+]
+const data: (Flag & { render?: TableRender<Flag> })[] = [
+  { bandeira: '🏴‍☠️', significado: 'Bandeira de pirata' },
+  { bandeira: '🪦', significado: 'Anuncio de um cemitério' },
+  {
+    bandeira: '💀',
+    significado: 'Prerigo!',
+    render: (value, _row, col, _index) => {
+      return h(
+        'span',
+        col === 'significado'
+          ? { class: 'font-bold' }
+          : null,
+        value
+      )
+    }
+  }
+]
+</script>
+<template>
+  <GenericSelect
+    :columns="columns"
+    :data="data"
   />
 </template>
         `.trim(),
