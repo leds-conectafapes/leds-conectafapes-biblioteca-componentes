@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
-import { computed, reactive, ref, watch, h } from 'vue';
+import { computed, reactive, ref, watch, h, type VNode } from 'vue';
 import type { TableRender, TableAction, TableHeader } from './types';
 
 type Data = {
@@ -50,7 +50,7 @@ const actions: TableAction<Data>[] = [
 ]
 
 const currentPage = ref(1)
-const itemsPerPage = 1
+const itemsPerPage = 10
 
 watch(currentPage, (newPage) => {
   console.log('newPage', newPage)
@@ -81,10 +81,14 @@ const columnsWithRender: TableHeader<Data>[] = [
         : 'O evento se encerrou no dia ' + date
       return h('span', { class: 'font-bold text-4xl' }, text)
       // return () => h('span', { class: 'font-bold' }, text)
-      // return () => [
-      //   h('span', { class: 'font-bold' }, text),
-      //   h('button', null, 'clica-me')
-      // ]
+      /* return () => [
+        h('span', { class: 'font-bold' }, text),
+        h('button', null, 'clica-me')
+      ] */
+      /* const cellElements: VNode[] = []
+      cellElements.push(h('span', { class: 'font-bold' }, text))
+      cellElements.push(h('button', null, 'clica-me'))
+      return () => cellElements */
     }
   },
 ]

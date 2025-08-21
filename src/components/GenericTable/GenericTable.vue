@@ -18,8 +18,12 @@ const {
 
 const emit = defineEmits<{
   (e: 'update:page', value: number): void
+  (e: 'changePage', value: number): void
 }>()
 
+function changePage(value: number) {
+  emit('changePage', value)
+}
 
 const _page = ref(page ?? 1)
 
@@ -38,14 +42,6 @@ const _rows = computed(() => {
   return data.map((row) => {
     return row
   })
-})
-
-const totalPages = computed(() => {
-  if (itemsPerPage && _rows.value.length > 0) {
-    return Math.ceil(_rows.value.length / itemsPerPage)
-  } else {
-    return 1
-  }
 })
 
 function getCellName(col: TableHeader<T>) {
@@ -164,6 +160,7 @@ const _actions = computed(() => {
           :items-per-page="itemsPerPage"
           :model-value="_page"
           @update:model-value="updatePage"
+          @change="changePage"
         />
       </div>
     </div>

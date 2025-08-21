@@ -15,25 +15,32 @@ const {
 } = defineProps<PaginationProps>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
+  (e: 'change', value: number): void
 }>()
+
+
+function updateModelValue(value: number) {
+  emit('update:modelValue', value)
+  emit('change', value)
+}
 
 const totalPages = computed(() => Math.ceil(totalItems / itemsPerPage) || 1)
 
 function goToPage(page: number | string) {
   if (typeof page === 'number' && page !== modelValue) {
-    emit('update:modelValue', page)
+    updateModelValue(page)
   }
 }
 
 function prevPage() {
   if (modelValue > 1) {
-    emit('update:modelValue', modelValue - 1)
+    updateModelValue(modelValue - 1)
   }
 }
 
 function nextPage() {
   if (modelValue < totalPages.value) {
-    emit('update:modelValue', modelValue + 1)
+    updateModelValue(modelValue + 1)
   }
 }
 
@@ -62,7 +69,7 @@ const visiblePages = computed(() =>
 <template>
   <div class="flex w-fit border border-gray-300 rounded-lg overflow-hidden">
     <GenericButton
-      variant="secondary"
+      :variant="modelValue > 1 ? 'secondary' : 'disabled'"
       class="h-10 w-10 rounded-none"
       aria-label="Página anterior"
       @click="prevPage"
@@ -83,7 +90,7 @@ const visiblePages = computed(() =>
     />
 
     <GenericButton
-      variant="secondary"
+      :variant="modelValue < totalPages ? 'secondary' : 'disabled'"
       class="h-10 w-10 rounded-none"
       aria-label="Próxima página"
       @click="nextPage"
