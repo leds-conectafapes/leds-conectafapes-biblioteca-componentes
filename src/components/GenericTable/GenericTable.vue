@@ -152,10 +152,10 @@ defineSlots<
                     :key="colIndex"
                     class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
                   >
-                    <component v-if="col.render" :is="col.render(row[col.key], row, index)" />
+                    <component v-if="col.render" :is="col.render(row[col.key], row, col.key, index)" />
 
                     <slot v-else :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
-                      <component v-if="row.render" :is="(row.render as TableRender<T>)(row[col.key], row, index)" />
+                      <component v-if="row.render" :is="(row.render as TableRender<T>)(row[col.key], row, col.key, index)" />
 
                       <template v-else>
                         {{ row[col.key] }}

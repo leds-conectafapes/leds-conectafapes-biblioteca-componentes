@@ -29,7 +29,7 @@ export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secon
 export type subtitleState = 'default' | 'error'
 
 export type TableRender<T extends Record<string, unknown>> =
-  (value: T[keyof T], row: T, index: number) => (VNode | (() => VNode) | (() => VNode[]))
+  (value: T[keyof T], row: T, col: keyof T, index: number) => (VNode | (() => VNode) | (() => VNode[]))
 
 export type TableHeaderColumnType = 'text' | 'date' | 'currency' | 'link' | 'status' | 'actions'
 export type TableProps<T extends Record<string, unknown>> = {
