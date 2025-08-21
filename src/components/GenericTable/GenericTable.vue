@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
-import type { TableRender, TableHeader, TableProps } from '../../types';
+import type { TableRender, TableHeader, TableProps, TableAction } from '../../types';
 
 
 const {
@@ -43,12 +43,52 @@ function getCellName(col: TableHeader<T>): CellName {
   return `cell-${col.key}`
 }
 
+function actionWithDefaults(action: TableAction<T>) {
+  return {
+    icon: action.type === 'custom'
+      ? action.icon
+      : action.type === 'view'
+        ? 'visibility'
+        : action.type,
+    variant: action.variant ?? 'default',
+    ...action,
+  }
+}
+
 const _actions = computed(() => {
   return actions.map((action) => {
+    return actionWithDefaults(action)
+  })
+})
+
+const someRowsHaveActions = computed(() => {
+  return data.some((row) => row.hasOwnProperty('actions'))
+})
+
+const _rows = computed(() => {
+  return data.map((row) => {
+    if (row.hasOwnProperty('render') && typeof row.render !== 'function') {
+      throw new TypeError(
+        `Linha de dados passados a GenericTable possui 'render' que não é função:\n`
+        + JSON.stringify(row)
+      )
+    }
+    const rowHasActions = row.hasOwnProperty('actions')
+    if (rowHasActions && !Array.isArray(row.actions)) {
+      throw new TypeError(
+        `Linha de dados passados a GenericTable possui 'actions' que não é array:\n`
+        + JSON.stringify(row)
+      )
+    }
+    const actions: typeof _actions.value | undefined = someRowsHaveActions.value
+      ? rowHasActions
+        ? (row.actions as TableAction<T>[]).map((action) => actionWithDefaults(action))
+        : []
+      : _actions.value.length > 0 ? _actions.value : undefined
     return {
-      icon: action.icon ?? action.type,
-      variant: action.variant ?? 'default',
-      ...action,
+      ...row,
+      render: row.render as TableRender<T> | undefined,
+      actions
     }
   })
 })
@@ -88,7 +128,7 @@ defineSlots<
               <span v-if="column.tooltip" />
             </th>
             <th
-              v-if="_actions.length > 0"
+              v-if="someRowsHaveActions || _actions.length > 0"
               class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
             >
               Ações
@@ -98,7 +138,7 @@ defineSlots<
 
         <tbody>
           <template
-            v-for="(row, index) in data"
+            v-for="(row, index) in _rows"
             :key="index"
           >
             <slot name="row" :rowData="row" :rowIndex="index">
@@ -124,7 +164,20 @@ defineSlots<
                 </slot>
 
                 <td
-                  v-if="_actions.length > 0"
+                  v-if="someRowsHaveActions"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                >
+                  <GenericCompactButton
+                    v-for="(action, index) in row.actions"
+                    :key="index"
+                    :icon="action.icon"
+                    :variant="action.variant"
+                    @click="action.onClick(row)"
+
+                  />
+                </td>
+                <td
+                  v-else-if="_actions.length > 0"
                   class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
                 >
                   <GenericCompactButton

@@ -106,6 +106,33 @@ const dataWithRender: (Data & { render?: TableRender<Data> })[] = [
     }
   },
 ]
+
+const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
+  {
+    name: 'Item 1',
+    date: '2024-05-01',
+    actions: [
+      {
+        type: 'view',
+        onClick: (_) => {
+          console.log('Voce clicou no botao de visualizacao da linha com nome "Item 1"')
+          alert('Veja o console de desenvolvedor.')
+        }
+      }
+    ]
+  },
+  {
+    name: 'Item 2',
+    date: '2024-04-15',
+    actions: [
+      { type: 'view', onClick: (_) => alert('Voce clicou no botao de visualizacao da linha com nome "Item 2"') }
+    ]
+  },
+  {
+    name: 'Item 3',
+    date: '2024-04-15',
+  },
+]
 </script>
 
 <template>
@@ -164,6 +191,13 @@ const dataWithRender: (Data & { render?: TableRender<Data> })[] = [
       :columns="columns"
       :data="dataWithRender"
       :actions="actions"
+      class="mb-10"
+    />
+
+    <h1>Linha com ações</h1>
+    <GenericTable
+      :columns="columns"
+      :data="dataWithActions"
       class="mb-10"
     />
   </div>

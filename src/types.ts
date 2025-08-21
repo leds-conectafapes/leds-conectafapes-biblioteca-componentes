@@ -60,7 +60,7 @@ export type TableAction<T extends Record<string, unknown>> = {
   onClick: (row: T) => void;
 } | {
   type: 'view',
-  icon?: 'view',
+  icon?: 'visibility',
   variant?: compactButtonVariant,
   onClick: (row: T) => void;
 } | {
