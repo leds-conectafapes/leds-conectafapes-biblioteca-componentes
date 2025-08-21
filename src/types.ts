@@ -37,6 +37,7 @@ export type TableProps<T extends Record<string, unknown>> = {
   data: T[];
   page?: number;
   itemsPerPage?: number;
+  totalItems?: number;
   actions?: TableAction<T>[];
   loading?: boolean;
   emptyText?: string

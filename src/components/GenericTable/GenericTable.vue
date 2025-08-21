@@ -9,6 +9,7 @@ const {
   columns,
   data,
   itemsPerPage,
+  totalItems,
   page,
   actions = [],
   loading = false,
@@ -204,15 +205,15 @@ defineSlots<
       </div>
 
       <div
-        v-if="itemsPerPage"
+        v-if="itemsPerPage && totalItems"
         class="flex items-center justify-between py-4 px-5"
       >
         <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ data.length }}</a> resultados
+          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ totalItems }}</a> resultados
         </span>
 
         <GenericPagination
-          :total-items="data.length"
+          :total-items="totalItems"
           :items-per-page="itemsPerPage"
           :model-value="_page"
           @update:model-value="updatePage"
