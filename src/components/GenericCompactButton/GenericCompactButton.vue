@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useAttrs, useSlots } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { cn } from '../../utils/cn';
 import type { ButtonHTMLAttributes } from 'vue';
 import type { compactButtonVariant } from '../../types';
@@ -25,8 +25,6 @@ const onClick = () => {
   emit("onClick")
 };
 
-const hasIconSlots = computed(() => !!slots.icon)
-const slots = useSlots()
 const attrs = useAttrs()
 
 const BUTTON_VARIANTS: Record<"default" | "danger", string> = {
@@ -35,7 +33,7 @@ const BUTTON_VARIANTS: Record<"default" | "danger", string> = {
 } as const
 
 const buttonVariant = computed(() => cn(
-  'w-11 h-11 rounded-lg p-2.5 bg-white text-2xl leading-tight easy-in-out duration-300 cursor-auto',
+  'w-11 h-11 rounded-lg p-2.5 bg-white text-2xl leading-tight easy-in-out duration-300 cursor-pointer',
   BUTTON_VARIANTS[props.variant],
   attrs.class as string | undefined,
 ))
@@ -53,15 +51,10 @@ const forwarded = computed(() => {
     :class="buttonVariant"
     @click="onClick"
   >
-    <label v-if="hasIconSlots">
-      <span class="material-symbols-outlined">
-        <slot name="icon" />
-      </span>
-    </label>
-    <label v-else>
-      <span class="material-symbols-outlined">
+    <span class="material-symbols-outlined">
+      <slot name="icon">
         {{ props.icon }}
-      </span>
-    </label>
+      </slot>
+    </span>
   </button>
 </template>
