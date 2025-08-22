@@ -1,99 +1,117 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
-import type { tableHeader, headerActionType } from '../../types';
+import type { TableRender, TableHeader, TableProps, TableAction } from '../../types';
 
-type TableProps = {
-  columns: tableHeader[];
-  data: unknown[];
-  totalPages: number;
-  totalRecords: number;
-  itemsPerPage: number;
-  currentPage: number;
-  actions?: headerActionType[];
-  loading?: boolean;
-  emptyText?: string
-}
 
-const props = withDefaults(defineProps<TableProps>(), {
-  loading: false,
-  emptyText: 'Nenhum resultado encontrado',
-  actions: () => [],
-})
+const {
+  columns,
+  data,
+  itemsPerPage,
+  totalItems,
+  page,
+  actions = [],
+  loading = false,
+  emptyText = 'Nenhum resultado encontrado',
+} = defineProps<TableProps<T>>()
 
-const page = ref(props.currentPage)
 
 const emit = defineEmits<{
-  (e: 'update:currentPage', value: number): void
+  (e: 'update:page', value: number): void
+  (e: 'changePage', value: number): void
 }>()
 
-watch(() => props.currentPage, (value) => {
-  page.value = value
-})
+function changePage(value: number) {
+  emit('changePage', value)
+}
 
-watch(page, (newPage) => {
-  if (newPage !== props.currentPage) {
-    emit('update:currentPage', newPage)
+const _page = ref(page ?? 1)
+
+watch(() => page, (newValue) => {
+  if (newValue) {
+    _page.value = newValue
   }
 })
 
-const internalData = ref<unknown[]>([])
+function updatePage(value: number) {
+  _page.value = value
+  emit('update:page', value)
+}
 
-watch(
-  () => props.data,
-  (newData) => {
-    internalData.value = [...newData]
-  },
-  { immediate: true },
-)
-
-function isVueComponent(content: unknown): boolean {
-  if (!content || typeof content !== 'object') {
-    return false
+const itemsOfPage = computed(() => {
+  if (itemsPerPage && totalItems) {
+    const product = itemsPerPage * _page.value
+    if (product < totalItems) {
+      return product
+    } else {
+      return totalItems
+    }
   }
-  try {
-    return (
-      ('__v_isVNode' in content && content.__v_isVNode === true)
-      || ('type' in content && typeof content.type === 'object')
-      || ('render' in content && typeof content.render === 'function')
-    )
-  } catch {
-    return false
+})
+
+type CellName = `cell-${keyof T & string}`
+function getCellName(col: TableHeader<T>): CellName {
+  return `cell-${col.key}`
+}
+
+function actionWithDefaults(action: TableAction<T>) {
+  return {
+    icon: action.type === 'custom'
+      ? action.icon
+      : action.type === 'view'
+        ? 'visibility'
+        : action.type,
+    variant: action.variant ?? 'default',
+    ...action,
   }
 }
 
-const processedTableData = computed(() => {
-  return internalData.value.map((row, rowIndex) => ({
-    row: row as Record<string, unknown>,
-    rowIndex,
-    cells: props.columns.map((column, columnIndex) => {
-      const rawValue = (row as Record<string, unknown>)[column.key]
-      if (column.render) {
-        try {
-          const renderedContent = column.render(rawValue, row as Record<string, unknown>, rowIndex)
-          return {
-            content: renderedContent,
-            isComponent: isVueComponent(renderedContent),
-            columnIndex,
-          }
-        } catch (error) {
-          console.warn('Erro ao renderizar célula:', error)
-          return {
-            content: rawValue,
-            isComponent: false,
-            columnIndex,
-          }
-        }
-      }
-      return {
-        content: rawValue,
-        isComponent: false,
-        columnIndex,
-      }
-    }),
-  }))
+const _actions = computed(() => {
+  return actions.map((action) => {
+    return actionWithDefaults(action)
+  })
 })
+
+const someRowsHaveActions = computed(() => {
+  return data.some((row) => row.hasOwnProperty('actions'))
+})
+
+const _rows = computed(() => {
+  return data.map((row) => {
+    if (row.hasOwnProperty('render') && typeof row.render !== 'function') {
+      throw new TypeError(
+        `Linha de dados passados a GenericTable possui 'render' que não é função:\n`
+        + JSON.stringify(row)
+      )
+    }
+    const rowHasActions = row.hasOwnProperty('actions')
+    if (rowHasActions && !Array.isArray(row.actions)) {
+      throw new TypeError(
+        `Linha de dados passados a GenericTable possui 'actions' que não é array:\n`
+        + JSON.stringify(row)
+      )
+    }
+    const actions: typeof _actions.value | undefined = someRowsHaveActions.value
+      ? rowHasActions
+        ? (row.actions as TableAction<T>[]).map((action) => actionWithDefaults(action))
+        : []
+      : _actions.value.length > 0 ? _actions.value : undefined
+    return {
+      ...row,
+      render: row.render as TableRender<T> | undefined,
+      actions
+    }
+  })
+})
+
+defineSlots<
+{
+  row: (_: { rowData: T, rowIndex: number }) => unknown,
+  cell: (_: { rowData: T, rowIndex: number }) => unknown
+} & {
+  [K in CellName]: (_: { rowData: T, rowIndex: number, cellData: T[keyof T] }) => unknown
+}>()
 </script>
 
 <template>
@@ -122,7 +140,7 @@ const processedTableData = computed(() => {
               <span v-if="column.tooltip" />
             </th>
             <th
-              v-if="actions.length > 0"
+              v-if="someRowsHaveActions || _actions.length > 0"
               class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
             >
               Ações
@@ -131,53 +149,87 @@ const processedTableData = computed(() => {
         </thead>
 
         <tbody>
-          <tr
-            v-for="rowData in processedTableData"
-            :key="rowData.rowIndex"
-            class="border-b border-zinc-300"
+          <template
+            v-for="(row, index) in _rows"
+            :key="index"
           >
-            <td
-              v-for="cellData in rowData.cells"
-              :key="cellData.columnIndex"
-              class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
-            >
-              <component
-                :is="cellData.content"
-                v-if="cellData.isComponent"
-              />
-              <span v-else>
-                {{ cellData.content }}
-              </span>
-            </td>
-            <td
-              v-if="actions.length > 0"
-              class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
-            >
-              <GenericCompactButton
-                v-for="action in actions"
-                :key="action"
-                :icon="action"
-              />
-            </td>
-          </tr>
+            <slot name="row" :rowData="row" :rowIndex="index">
+              <tr
+                class="border-b border-zinc-300"
+              >
+                <slot name="cell" :rowData="row" :rowIndex="index">
+                  <td
+                    v-for="(col, colIndex) in columns"
+                    :key="colIndex"
+                    class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
+                  >
+                    <component v-if="col.render" :is="col.render(row[col.key], row, col.key, index)" />
+
+                    <slot v-else :name="getCellName(col)" :rowData="row" :rowIndex="index" :cellData="row[col.key]">
+                      <component v-if="row.render" :is="(row.render as TableRender<T>)(row[col.key], row, col.key, index)" />
+
+                      <template v-else>
+                        {{ row[col.key] }}
+                      </template>
+                    </slot>
+                  </td>
+                </slot>
+
+                <td
+                  v-if="someRowsHaveActions"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                >
+                  <GenericCompactButton
+                    v-for="(action, index) in row.actions"
+                    :key="index"
+                    :icon="action.icon"
+                    :variant="action.variant"
+                    @click="action.onClick(row)"
+
+                  />
+                </td>
+                <td
+                  v-else-if="_actions.length > 0"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                >
+                  <GenericCompactButton
+                    v-for="(action, index) in _actions"
+                    :key="index"
+                    :icon="action.icon"
+                    :variant="action.variant"
+                    @click="action.onClick(row)"
+
+                  />
+                </td>
+              </tr>
+            </slot>
+          </template>
         </tbody>
       </table>
-      <div class="flex items-center justify-between py-4 px-5">
-        <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsPerPage * currentPage }}</a> de <a class="font-bold">{{ totalRecords }}</a> resultados
-        </span>
-        <GenericPagination
-          v-model="page"
-          :length="totalPages"
-        />
-      </div>
 
       <!-- Estado vazio -->
       <div
-        v-if="internalData.length === 0"
+        v-if="data.length === 0"
         class="flex items-center justify-center py-12"
       >
         <span class="text-gray-500">{{ emptyText }}</span>
+      </div>
+
+      <div
+        v-if="itemsPerPage && totalItems"
+        class="flex items-center justify-between py-4 px-5"
+      >
+        <span class="text-sm text-zinc-700 leading-tight font-inter">
+          <a class="font-bold">{{ itemsOfPage }}</a> de <a class="font-bold">{{ totalItems }}</a> resultados
+        </span>
+
+        <GenericPagination
+          :total-items="totalItems"
+          :items-per-page="itemsPerPage"
+          :model-value="_page"
+          @update:model-value="updatePage"
+          @change="changePage"
+        />
       </div>
     </div>
   </div>

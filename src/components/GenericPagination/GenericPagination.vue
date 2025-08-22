@@ -3,34 +3,49 @@ import { computed } from 'vue'
 import GenericButton from '../GenericButton/GenericButton.vue'
 
 type PaginationProps = {
-  length: number
+  totalItems: number
+  itemsPerPage: number
   modelValue: number
 }
 
-const props = defineProps<PaginationProps>()
+const {
+  totalItems,
+  itemsPerPage,
+  modelValue,
+} = defineProps<PaginationProps>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
+  (e: 'change', value: number): void
 }>()
 
-function goToPage(page: number) {
-  if (typeof page === 'number' && page !== props.modelValue) {
-    emit('update:modelValue', page)
+
+function updateModelValue(value: number) {
+  emit('update:modelValue', value)
+  emit('change', value)
+}
+
+const totalPages = computed(() => Math.ceil(totalItems / itemsPerPage) || 1)
+
+function goToPage(page: number | string) {
+  if (typeof page === 'number' && page !== modelValue) {
+    updateModelValue(page)
   }
 }
 
 function prevPage() {
-  if (props.modelValue > 1) {
-    emit('update:modelValue', props.modelValue - 1)
+  if (modelValue > 1) {
+    updateModelValue(modelValue - 1)
   }
 }
 
 function nextPage() {
-  if (props.modelValue < props.length) {
-    emit('update:modelValue', props.modelValue + 1)
+  if (modelValue < totalPages.value) {
+    updateModelValue(modelValue + 1)
   }
 }
 
-function getPages(current: number, total: number): (number | string)[] {
+function getPages(current: number): (number | string)[] {
+  const total = totalPages.value
   const pages: (number | string)[] = []
 
   if (total <= 5) {
@@ -47,14 +62,14 @@ function getPages(current: number, total: number): (number | string)[] {
 }
 
 const visiblePages = computed(() =>
-  getPages(props.modelValue, props.length)
+  getPages(modelValue)
 )
 </script>
 
 <template>
   <div class="flex w-fit border border-gray-300 rounded-lg overflow-hidden">
     <GenericButton
-      variant="secondary"
+      :variant="modelValue > 1 ? 'secondary' : 'disabled'"
       class="h-10 w-10 rounded-none"
       aria-label="Página anterior"
       @click="prevPage"
@@ -68,14 +83,14 @@ const visiblePages = computed(() =>
       v-for="(item, index) in visiblePages"
       :key="index"
       :label="item.toString()"
-      :variant="item === props.modelValue ? 'primary' : 'secondary'"
+      :variant="item === modelValue ? 'primary' : 'secondary'"
       class="h-10 w-10 rounded-none"
       :disabled="item === '...'"
-      @click="goToPage(item as number)"
+      @click="goToPage(item)"
     />
 
     <GenericButton
-      variant="secondary"
+      :variant="modelValue < totalPages ? 'secondary' : 'disabled'"
       class="h-10 w-10 rounded-none"
       aria-label="Próxima página"
       @click="nextPage"
