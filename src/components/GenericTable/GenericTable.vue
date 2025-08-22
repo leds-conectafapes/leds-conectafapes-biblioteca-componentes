@@ -39,6 +39,17 @@ function updatePage(value: number) {
   emit('update:page', value)
 }
 
+const itemsOfPage = computed(() => {
+  if (itemsPerPage && totalItems) {
+    const product = itemsPerPage * _page.value
+    if (product < totalItems) {
+      return product
+    } else {
+      return totalItems
+    }
+  }
+})
+
 type CellName = `cell-${keyof T & string}`
 function getCellName(col: TableHeader<T>): CellName {
   return `cell-${col.key}`
@@ -209,7 +220,7 @@ defineSlots<
         class="flex items-center justify-between py-4 px-5"
       >
         <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsPerPage * _page }}</a> de <a class="font-bold">{{ totalItems }}</a> resultados
+          <a class="font-bold">{{ itemsOfPage }}</a> de <a class="font-bold">{{ totalItems }}</a> resultados
         </span>
 
         <GenericPagination

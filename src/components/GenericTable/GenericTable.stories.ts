@@ -37,7 +37,7 @@ type Data = {
   currency: number
 }
 
-const columns: TableHeader<Data> = [
+const columns: TableHeader<Data>[] = [
     { key: 'name', title: 'Nome', sortable: true },
     { key: 'link', title: 'Link', sortable: true },
     { key: 'date', title: 'Data', sortable: true },
