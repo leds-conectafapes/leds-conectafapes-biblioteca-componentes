@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useAttrs, useSlots } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { cn } from '../../utils/cn';
 import type { ButtonHTMLAttributes } from 'vue';
 import type { buttonVariant } from '../../types';
@@ -27,8 +27,6 @@ const onClick = () => {
 };
 
 const isDisabled = computed(() => props.variant === 'disabled')
-const hasLabelSlots = computed(() => !!slots.label)
-const slots = useSlots()
 const attrs = useAttrs()
 
 const BUTTON_VARIANTS: Record<buttonVariant, string> = {
@@ -41,8 +39,9 @@ const BUTTON_VARIANTS: Record<buttonVariant, string> = {
 } as const
 
 const buttonVariant = computed(() => cn(
-  'w-full flex gap-2.5 items-center justify-center px-6 py-4 leading-tight rounded-lg text-base font-inter font-medium easy-in-out duration-300 cursor-auto',
+  'w-full flex gap-2.5 items-center justify-center px-6 py-4 leading-tight rounded-lg text-base font-inter font-medium easy-in-out duration-300',
   BUTTON_VARIANTS[props.variant],
+  isDisabled.value ? undefined : 'cursor-pointer',
   attrs.class as string | undefined,
 ))
 
@@ -60,11 +59,8 @@ const forwarded = computed(() => {
     :disabled="isDisabled"
     @click="onClick"
   >
-    <label v-if="hasLabelSlots">
-      <slot name="label" />
-    </label>
-    <label v-else>
+    <slot name="label">
       {{ props.label }}
-    </label>
+    </slot>
   </button>
 </template>
