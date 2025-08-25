@@ -44,6 +44,7 @@ const actions: TableAction<Data>[] = [
   {
     type: 'custom',
     icon: 'attach_file_add',
+    tooltip: 'Subir arquivo ?',
     onClick: (row) => {
       alert(`Um botao diferente de ação na linha com nome ${row.name} foi clicado.`)
     }
@@ -114,6 +115,7 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
     actions: [
       {
         type: 'view',
+        tooltip: 'Visualizar',
         onClick: (_) => {
           console.log('Voce clicou no botao de visualizacao da linha com nome "Item 1"')
           alert('Veja o console de desenvolvedor.')

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.vue';
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
 import type { TableRender, TableHeader, TableProps, TableAction } from '../../types';
+import GenericTooltip from '../GenericTooltip/GenericTooltip.vue';
 
 
 const {
@@ -179,27 +180,55 @@ defineSlots<
                   v-if="someRowsHaveActions"
                   class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
                 >
-                  <GenericCompactButton
+                  <template
                     v-for="(action, index) in row.actions"
                     :key="index"
-                    :icon="action.icon"
-                    :variant="action.variant"
-                    @click="action.onClick(row)"
+                  >
+                    <GenericTooltip
+                      v-if="action.tooltip"
+                      :text="action.tooltip"
+                    >
+                      <GenericCompactButton
+                        :icon="action.icon"
+                        :variant="action.variant"
+                        @click="action.onClick(row)"
+                      />
+                    </GenericTooltip>
 
-                  />
+                    <GenericCompactButton
+                      v-else
+                      :icon="action.icon"
+                      :variant="action.variant"
+                      @click="action.onClick(row)"
+                    />
+                  </template>
                 </td>
                 <td
                   v-else-if="_actions.length > 0"
                   class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
                 >
-                  <GenericCompactButton
+                  <template
                     v-for="(action, index) in _actions"
                     :key="index"
-                    :icon="action.icon"
-                    :variant="action.variant"
-                    @click="action.onClick(row)"
+                  >
+                    <GenericTooltip
+                      v-if="action.tooltip"
+                      :text="action.tooltip"
+                    >
+                      <GenericCompactButton
+                        :icon="action.icon"
+                        :variant="action.variant"
+                        @click="action.onClick(row)"
+                      />
+                    </GenericTooltip>
 
-                  />
+                    <GenericCompactButton
+                      v-else
+                      :icon="action.icon"
+                      :variant="action.variant"
+                      @click="action.onClick(row)"
+                    />
+                  </template>
                 </td>
               </tr>
             </slot>

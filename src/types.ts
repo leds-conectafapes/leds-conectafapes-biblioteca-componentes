@@ -53,25 +53,30 @@ export type TableAction<T extends Record<string, unknown>> = {
   type: 'edit',
   icon?: 'edit',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'delete',
   icon?: 'delete',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'view',
   icon?: 'visibility',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'open_in_new',
   icon?: 'open_in_new',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'custom',
   icon: string,
+  tooltip?: string,
   variant?: compactButtonVariant,
   onClick: (row: T) => void;
 }
