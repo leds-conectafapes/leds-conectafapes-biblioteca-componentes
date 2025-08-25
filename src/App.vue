@@ -4,6 +4,7 @@ import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
 import GenericTooltip from './components/GenericTooltip/GenericTooltip.vue';
 import { computed, reactive, ref, watch, h, type VNode } from 'vue';
 import type { TableRender, TableAction, TableHeader } from './types';
+import GenericStatusTag from './components/GenericStatusTag/GenericStatusTag.vue';
 
 type Data = {
   name: string;
@@ -135,6 +136,43 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
     date: '2024-04-15',
   },
 ]
+
+const columnsWithStatus: TableHeader<Data & { status?: string }>[] = [
+  {
+    key: 'name',
+    title: 'Name',
+    sortable: true,
+  },
+  {
+    key: 'date',
+    title: 'Date',
+    tooltip: 'Date of event',
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    tooltip: 'status',
+    render: (_, row, _c) => {
+      if (row.date.endsWith('5')) {
+        return h(
+          GenericStatusTag,
+          {
+            text: 'sim',
+            variant: 'success',
+          }
+        )
+      } else {
+        return h(
+          GenericStatusTag,
+          {
+            text: 'nao',
+            variant: 'warn',
+          }
+        )
+      }
+    }
+  },
+]
 </script>
 
 <template>
@@ -211,5 +249,12 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
     >
       <h1>header com tooltip</h1>
     </GenericTooltip>
+
+    <h1>sei la</h1>
+    <GenericTable
+      :columns="columnsWithStatus"
+      :data="data"
+      class="mb-10"
+    />
   </div>
 </template>

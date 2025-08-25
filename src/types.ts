@@ -25,7 +25,7 @@ export type snackBarVariant = 'informative' | 'success' | 'warning' | 'error';
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type selectOption<T> = { id: string | number, value: T, label: string }
-export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
+export type StatusTagVariant = 'info' | 'infoStrong' | 'success' | 'warn' | 'warnStrong' | 'critical' | 'custom'
 export type subtitleState = 'default' | 'error'
 
 export type TableRender<T extends Record<string, unknown>> =
