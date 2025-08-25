@@ -11,7 +11,7 @@ type Data = {
 }
 const columns: TableHeader<Data>[] = [
   { key: 'name', title: 'Name', sortable: true },
-  { key: 'date', title: 'Date', },
+  { key: 'date', title: 'Date', tooltip: 'Date of event', },
 ]
 
 const data: Data[] = [

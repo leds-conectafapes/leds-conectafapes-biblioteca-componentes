@@ -132,14 +132,33 @@ defineSlots<
       <table class="table-auto w-full">
         <thead>
           <tr class="border-b bg-zinc-100 border-zinc-300 gap-x-2 text-zinc-800 leading-tight rounded-t-lg">
-            <th
+            <template
               v-for="column in columns"
               :key="column.key"
-              class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
             >
-              {{ column.title }}
-              <span v-if="column.tooltip" />
-            </th>
+              <th
+                v-if="column.tooltip"
+                class="text-left font-semibold text-base rounded-t-lg font-inter"
+              >
+                <GenericTooltip
+                  :text="column.tooltip"
+                  class="px-5 py-4 w-full"
+                >
+                  {{ column.title }}
+
+                  <span class="material-symbols-outlined text-primary-500 text-xl leading-tight relative ml-1 top-1">
+                    info
+                  </span>
+                </GenericTooltip>
+              </th>
+
+              <th
+                v-else
+                class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
+              >
+                {{ column.title }}
+              </th>
+            </template>
             <th
               v-if="someRowsHaveActions || _actions.length > 0"
               class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
