@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
+import GenericTooltip from './components/GenericTooltip/GenericTooltip.vue';
 import { computed, reactive, ref, watch, h, type VNode } from 'vue';
 import type { TableRender, TableAction, TableHeader } from './types';
 
@@ -200,5 +201,13 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
       :data="dataWithActions"
       class="mb-10"
     />
+
+    <GenericTooltip
+      class="w-fit ml-100"
+      text="texto da tooltip aosethusnteoahuansotheusnatoheusntoaheusaonthue"
+      position="top"
+    >
+      <h1>header com tooltip</h1>
+    </GenericTooltip>
   </div>
 </template>
