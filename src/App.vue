@@ -5,6 +5,7 @@ import GenericTooltip from './components/GenericTooltip/GenericTooltip.vue';
 import { computed, reactive, ref, watch, h, type VNode } from 'vue';
 import type { TableRender, TableAction, TableHeader } from './types';
 import GenericStatusTag from './components/GenericStatusTag/GenericStatusTag.vue';
+import GenericSelect from './components/GenericSelect/GenericSelect.vue';
 
 type Data = {
   name: string;
@@ -173,6 +174,18 @@ const columnsWithStatus: TableHeader<Data & { status?: string }>[] = [
     }
   },
 ]
+
+type SelectData = {
+  id: number,
+  value: number,
+  label: string
+}
+const selectValue = ref<number | undefined>()
+const selectOptions = ref<SelectData[]>([
+  { id: 0, value: 0, label: 'primeiro' },
+  { id: 1, value: 1, label: 'segundo' },
+  { id: 2, value: 2, label: 'terceiro' },
+])
 </script>
 
 <template>
@@ -256,5 +269,16 @@ const columnsWithStatus: TableHeader<Data & { status?: string }>[] = [
       :data="data"
       class="mb-10"
     />
+
+    <GenericSelect
+      label="teste de select"
+      placeholder="escolha uma opcao"
+      v-model="selectValue"
+      :options="selectOptions"
+      error-messages="oaeusthoaesu"
+      required
+    >
+    </GenericSelect>
+    {{ selectValue }}
   </div>
 </template>
