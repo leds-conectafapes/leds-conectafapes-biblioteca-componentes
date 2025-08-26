@@ -15,6 +15,7 @@ export { default as GenericTextArea } from './components/GenericTextArea/Generic
 export { default as GenericSnackBar } from './components/GenericSnackBar/GenericSnackBar.vue';
 export { default as GenericCompactButton } from './components/GenericCompactButton/GenericCompactButton.vue';
 export { default as GenericPagination } from './components/GenericPagination/GenericPagination.vue';
+export { default as GenericTooltip } from './components/GenericTooltip/GenericTooltip.vue';
 
 
 // Exportação de types da biblioteca

@@ -86,6 +86,7 @@ const forwarded = computed(() => {
         v-model="modelValue"
         :class="selectState"
         :disabled="isDisabled"
+        :required="required"
       >
         <slot name="options">
           <option
