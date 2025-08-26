@@ -38,13 +38,22 @@ const meta: Meta<typeof GenericStatusTag> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['success', 'successOutline', 'warning', 'secondary', 'secondaryDanger', 'disabled'],
+      options: ['info', 'infoStrong', 'success', 'warn', 'warnStrong', 'critical', 'custom'],
       description: 'Variante visual da tag',
       table: {
-        type: { summary: 'statusTagVariant' },
+        type: { summary: 'StatusTagVariant' },
         defaultValue: { summary: 'success' },
       },
     },
+    dontUppercase: {
+      control: { type: 'select' },
+      options: [true, false],
+      description: 'Controla capitalização do texto.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    }
   },
 }
 
@@ -59,26 +68,22 @@ export const Default: Story = {
   },
 }
 
-export const CustomTextSlot: Story = {
+export const CustomSlot: Story = {
   render: () => ({
     components: { GenericStatusTag },
     template: `
-      <GenericStatusTag variant="warning">
-        <template #text>
-          <strong>Alerta com slot</strong>
-        </template>
+      <GenericStatusTag variant="warn">
+        <strong>Alerta com slot</strong>
       </GenericStatusTag>
     `,
   }),
-  name: 'Com Slot Text',
+  name: 'Com Slot',
   parameters: {
     docs: {
       source: {
         code: `
-<GenericStatusTag variant="warning">
-  <template #text>
-    <strong>Alerta com slot</strong>
-  </template>
+<GenericStatusTag variant="warn">
+  <strong>Alerta com slot</strong>
 </GenericStatusTag>
         `.trim(),
       },
@@ -92,12 +97,12 @@ export const Variants: Story = {
     components: { GenericStatusTag },
     template: `
       <div class="flex gap-2 flex-wrap">
+        <GenericStatusTag variant="info" text="Info" />
+        <GenericStatusTag variant="infoStrong" text="Info Strong" />
         <GenericStatusTag variant="success" text="Success" />
-        <GenericStatusTag variant="successOutline" text="Success Outline" />
-        <GenericStatusTag variant="warning" text="Warning" />
-        <GenericStatusTag variant="secondary" text="Secondary" />
-        <GenericStatusTag variant="secondaryDanger" text="Secondary Danger" />
-        <GenericStatusTag variant="disabled" text="Disabled" />
+        <GenericStatusTag variant="warn" text="Warn" />
+        <GenericStatusTag variant="warnStrong" text="Warn Strong" />
+        <GenericStatusTag variant="critical" text="Critical" />
       </div>
     `,
   }),
@@ -107,12 +112,12 @@ export const Variants: Story = {
       source: {
         code: `
 <div class="flex gap-2 flex-wrap">
+  <GenericStatusTag variant="info" text="Info" />
+  <GenericStatusTag variant="infoStrong" text="Info Strong" />
   <GenericStatusTag variant="success" text="Success" />
-  <GenericStatusTag variant="successOutline" text="Success Outline" />
-  <GenericStatusTag variant="warning" text="Warning" />
-  <GenericStatusTag variant="secondary" text="Secondary" />
-  <GenericStatusTag variant="secondaryDanger" text="Secondary Danger" />
-  <GenericStatusTag variant="disabled" text="Disabled" />
+  <GenericStatusTag variant="warn" text="Warn" />
+  <GenericStatusTag variant="warnStrong" text="Warn Strong" />
+  <GenericStatusTag variant="critical" text="Critical" />
 </div>
         `.trim(),
       },

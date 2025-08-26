@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import GenericTable from './components/GenericTable/GenericTable.vue';
 import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
+import GenericTooltip from './components/GenericTooltip/GenericTooltip.vue';
 import { computed, reactive, ref, watch, h, type VNode } from 'vue';
 import type { TableRender, TableAction, TableHeader } from './types';
+import GenericStatusTag from './components/GenericStatusTag/GenericStatusTag.vue';
+import GenericSelect from './components/GenericSelect/GenericSelect.vue';
 
 type Data = {
   name: string;
@@ -10,7 +13,7 @@ type Data = {
 }
 const columns: TableHeader<Data>[] = [
   { key: 'name', title: 'Name', sortable: true },
-  { key: 'date', title: 'Date', },
+  { key: 'date', title: 'Date', tooltip: 'Date of event', },
 ]
 
 const data: Data[] = [
@@ -43,6 +46,7 @@ const actions: TableAction<Data>[] = [
   {
     type: 'custom',
     icon: 'attach_file_add',
+    tooltip: 'Subir arquivo ?',
     onClick: (row) => {
       alert(`Um botao diferente de ação na linha com nome ${row.name} foi clicado.`)
     }
@@ -113,6 +117,7 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
     actions: [
       {
         type: 'view',
+        tooltip: 'Visualizar',
         onClick: (_) => {
           console.log('Voce clicou no botao de visualizacao da linha com nome "Item 1"')
           alert('Veja o console de desenvolvedor.')
@@ -132,6 +137,55 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
     date: '2024-04-15',
   },
 ]
+
+const columnsWithStatus: TableHeader<Data & { status?: string }>[] = [
+  {
+    key: 'name',
+    title: 'Name',
+    sortable: true,
+  },
+  {
+    key: 'date',
+    title: 'Date',
+    tooltip: 'Date of event',
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    tooltip: 'status',
+    render: (_, row, _c) => {
+      if (row.date.endsWith('5')) {
+        return h(
+          GenericStatusTag,
+          {
+            text: 'sim',
+            variant: 'success',
+          }
+        )
+      } else {
+        return h(
+          GenericStatusTag,
+          {
+            text: 'nao',
+            variant: 'warn',
+          }
+        )
+      }
+    }
+  },
+]
+
+type SelectData = {
+  id: number,
+  value: number,
+  label: string
+}
+const selectValue = ref<number | undefined>()
+const selectOptions = ref<SelectData[]>([
+  { id: 0, value: 0, label: 'primeiro' },
+  { id: 1, value: 1, label: 'segundo' },
+  { id: 2, value: 2, label: 'terceiro' },
+])
 </script>
 
 <template>
@@ -200,5 +254,31 @@ const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
       :data="dataWithActions"
       class="mb-10"
     />
+
+    <GenericTooltip
+      class="w-fit ml-100"
+      text="texto da tooltip aosethusnteoahuansotheusnatoheusntoaheusaonthue"
+      position="top"
+    >
+      <h1>header com tooltip</h1>
+    </GenericTooltip>
+
+    <h1>sei la</h1>
+    <GenericTable
+      :columns="columnsWithStatus"
+      :data="data"
+      class="mb-10"
+    />
+
+    <GenericSelect
+      label="teste de select"
+      placeholder="escolha uma opcao"
+      v-model="selectValue"
+      :options="selectOptions"
+      error-messages="oaeusthoaesu"
+      required
+    >
+    </GenericSelect>
+    {{ selectValue }}
   </div>
 </template>

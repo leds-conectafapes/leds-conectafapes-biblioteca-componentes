@@ -15,6 +15,7 @@ export { default as GenericTextArea } from './components/GenericTextArea/Generic
 export { default as GenericSnackBar } from './components/GenericSnackBar/GenericSnackBar.vue';
 export { default as GenericCompactButton } from './components/GenericCompactButton/GenericCompactButton.vue';
 export { default as GenericPagination } from './components/GenericPagination/GenericPagination.vue';
+export { default as GenericTooltip } from './components/GenericTooltip/GenericTooltip.vue';
 
 
 // Exportação de types da biblioteca
@@ -25,7 +26,7 @@ export type snackBarVariant = 'informative' | 'success' | 'warning' | 'error';
 export type inputState = 'default' | 'disabled' | 'error' | 'warning'
 export type selectState = 'default' | 'error' | 'warning' | 'disabled'
 export type selectOption<T> = { id: string | number, value: T, label: string }
-export type statusTagVariant = 'success' | 'successOutline' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'
+export type StatusTagVariant = 'info' | 'infoStrong' | 'success' | 'warn' | 'warnStrong' | 'critical' | 'custom'
 export type subtitleState = 'default' | 'error'
 
 export type TableRender<T extends Record<string, unknown>> =
@@ -53,25 +54,30 @@ export type TableAction<T extends Record<string, unknown>> = {
   type: 'edit',
   icon?: 'edit',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'delete',
   icon?: 'delete',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'view',
   icon?: 'visibility',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'open_in_new',
   icon?: 'open_in_new',
   variant?: compactButtonVariant,
+  tooltip?: string,
   onClick: (row: T) => void;
 } | {
   type: 'custom',
   icon: string,
+  tooltip?: string,
   variant?: compactButtonVariant,
   onClick: (row: T) => void;
 }

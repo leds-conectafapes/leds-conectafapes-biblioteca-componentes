@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, useSlots, useAttrs } from 'vue'
-import type { statusTagVariant } from '../../types';
+import { computed, useAttrs } from 'vue'
+import type { StatusTagVariant } from '../../types';
 import type { HTMLAttributes } from 'vue';
 import { cn } from '../../utils/cn';
 
@@ -10,31 +10,28 @@ type NativeStatusTagAttributes = /* @vue-ignore */ HTMLAttributes
 
 type statusTagProps = {
   text?: string,
-  variant?: statusTagVariant
+  variant?: StatusTagVariant,
+  dontUppercase?: boolean,
 } & NativeStatusTagAttributes
 
-const props = withDefaults(defineProps<statusTagProps>(), {
-  text: '',
-  variant: 'success'
-})
+const { text, variant = 'success', dontUppercase, } = defineProps<statusTagProps>()
 
-const slots = useSlots()
 const attrs = useAttrs()
 
-const hasTextSlots = computed(() => !!slots.text)
-
-const STATUSTAG_VARIANTS: Record<statusTagVariant, string> = {
+const STATUSTAG_VARIANTS = {
+  info: 'bg-zinc-300 text-zinc-700',
+  infoStrong: 'bg-gray-600 text-white',
   success: 'bg-success-400',
-  successOutline: 'bg-white border border-success-100 !text-success-400',
-  warning: 'bg-error-200',
-  secondary: 'bg-gray-600',
-  secondaryDanger: 'bg-white border border-gray-400 !text-gray-600',
-  disabled: 'bg-warning-200',
+  warn: 'bg-amber-300 text-zinc-800',
+  warnStrong: 'bg-amber-700 text-white',
+  critical: 'bg-red-800 text-white',
+  custom: ''
 } as const
 
 const statusTagVariant = computed(() => cn(
   'inline-flex items-center rounded-lg px-3 py-1 text-sm font-medium text-white',
-  STATUSTAG_VARIANTS[props.variant],
+  STATUSTAG_VARIANTS[variant],
+  !dontUppercase && 'uppercase',
   attrs.class as string | undefined,
 ))
 
@@ -50,11 +47,8 @@ const forwarded = computed(() => {
     v-bind="forwarded"
     :class="statusTagVariant"
   >
-    <div v-if="!hasTextSlots">
-      {{ props.text }}
-    </div>
-    <div v-else-if="hasTextSlots">
-      <slot name="text" />
-    </div>
+    <slot>
+      {{ text }}
+    </slot>
   </span>
 </template>
