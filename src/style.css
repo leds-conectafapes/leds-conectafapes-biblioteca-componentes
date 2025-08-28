@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import './assets/fonts/Inter/Inter.css';
+@import './assets/fonts/MaterialSymbols/MaterialSymbols.css';
 @import "tailwindcss";
 @theme {
 
@@ -51,4 +52,5 @@
 
     /* Fonts */
     --font-inter: Inter, sans-serif;
+    --font-sans: Inter, sans-serif;
 }

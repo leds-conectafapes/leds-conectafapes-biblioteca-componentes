@@ -29,7 +29,7 @@ const STATUSTAG_VARIANTS = {
 } as const
 
 const statusTagVariant = computed(() => cn(
-  'inline-flex items-center rounded-lg px-3 py-1 text-sm font-medium text-white',
+  'w-max inline-flex items-center rounded-lg px-3 py-1 text-sm font-bold text-white',
   STATUSTAG_VARIANTS[variant],
   !dontUppercase && 'uppercase',
   attrs.class as string | undefined,
