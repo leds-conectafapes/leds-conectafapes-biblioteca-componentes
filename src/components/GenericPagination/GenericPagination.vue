@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import GenericButton from '../GenericButton/GenericButton.vue'
+import GenericIcon from '../GenericIcon/GenericIcon.vue'
 
 type PaginationProps = {
   totalItems: number
@@ -75,7 +76,7 @@ const visiblePages = computed(() =>
       @click="prevPage"
     >
       <template #label>
-        <span class="material-symbols-outlined">arrow_back_ios</span>
+        <GenericIcon name="chevron_left" variant="rounded" class="text-2xl" />
       </template>
     </GenericButton>
 
@@ -96,7 +97,7 @@ const visiblePages = computed(() =>
       @click="nextPage"
     >
       <template #label>
-        <span class="material-symbols-outlined">arrow_forward_ios</span>
+        <GenericIcon name="chevron_right" variant="rounded" class="text-2xl" />
       </template>
     </GenericButton>
   </div>
