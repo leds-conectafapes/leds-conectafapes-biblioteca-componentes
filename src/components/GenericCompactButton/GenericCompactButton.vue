@@ -3,6 +3,7 @@ import { computed, useAttrs } from 'vue';
 import { cn } from '../../utils/cn';
 import type { ButtonHTMLAttributes } from 'vue';
 import type { compactButtonVariant } from '../../types';
+import GenericIcon from '../GenericIcon/GenericIcon.vue';
 
 defineOptions({ inheritAttrs: false })
 
@@ -51,10 +52,8 @@ const forwarded = computed(() => {
     :class="buttonVariant"
     @click="onClick"
   >
-    <span class="material-symbols-outlined">
-      <slot name="icon">
-        {{ props.icon }}
-      </slot>
-    </span>
+    <slot name="icon">
+      <GenericIcon :name="props.icon" filled />
+    </slot>
   </button>
 </template>
