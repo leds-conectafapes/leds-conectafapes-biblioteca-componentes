@@ -9,7 +9,8 @@
   "files": [
     "src/components/**/*.vue",
     "src/style.css",
-    "src/utils/**/*.ts"
+    "src/utils/**/*.ts",
+    "src/assets/fonts/**/*.{woff2,css}"
   ],
   "exports": {
     ".": {
