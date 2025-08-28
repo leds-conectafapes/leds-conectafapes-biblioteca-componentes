@@ -16,9 +16,10 @@ export { default as GenericSnackBar } from './components/GenericSnackBar/Generic
 export { default as GenericCompactButton } from './components/GenericCompactButton/GenericCompactButton.vue';
 export { default as GenericPagination } from './components/GenericPagination/GenericPagination.vue';
 export { default as GenericTooltip } from './components/GenericTooltip/GenericTooltip.vue';
-
+export { default as GenericIcon } from './components/GenericIcon/GenericIcon.vue';
 
 // Exportação de types da biblioteca
+export type IconVariant = 'outlined' | 'rounded' | 'sharp'
 export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
 export type compactButtonVariant = 'default' | 'danger'
 export type datePickerState = 'default' | 'error' | 'warning' | 'disabled'
