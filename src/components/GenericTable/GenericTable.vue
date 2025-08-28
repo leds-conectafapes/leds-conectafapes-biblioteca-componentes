@@ -4,6 +4,7 @@ import GenericCompactButton from '../GenericCompactButton/GenericCompactButton.v
 import GenericPagination from '../GenericPagination/GenericPagination.vue';
 import type { TableRender, TableHeader, TableProps, TableAction } from '../../types';
 import GenericTooltip from '../GenericTooltip/GenericTooltip.vue';
+import GenericIcon from '../GenericIcon/GenericIcon.vue';
 
 
 const {
@@ -146,9 +147,11 @@ defineSlots<
                 >
                   {{ column.title }}
 
-                  <span class="material-symbols-outlined text-primary-500 text-xl leading-tight relative ml-1 top-1">
-                    info
-                  </span>
+                  <GenericIcon
+                    class="text-primary-500 text-xl leading-tight relative ml-1 top-1"
+                    name="info"
+                    :weight="400"
+                  />
                 </GenericTooltip>
               </th>
 
