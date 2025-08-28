@@ -200,57 +200,61 @@ defineSlots<
 
                 <td
                   v-if="someRowsHaveActions"
-                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-5 py-4"
+                  class="bg-white rounded-lg px-5 py-4"
                 >
-                  <template
-                    v-for="(action, index) in row.actions"
-                    :key="index"
-                  >
-                    <GenericTooltip
-                      v-if="action.tooltip"
-                      :text="action.tooltip"
+                  <div class="flex gap-x-2 items-center justify-start">
+                    <template
+                      v-for="(action, index) in row.actions"
+                      :key="index"
                     >
+                      <GenericTooltip
+                        v-if="action.tooltip"
+                        :text="action.tooltip"
+                      >
+                        <GenericCompactButton
+                          :icon="action.icon"
+                          :variant="action.variant"
+                          @click="action.onClick(row)"
+                        />
+                      </GenericTooltip>
+
                       <GenericCompactButton
+                        v-else
                         :icon="action.icon"
                         :variant="action.variant"
                         @click="action.onClick(row)"
                       />
-                    </GenericTooltip>
-
-                    <GenericCompactButton
-                      v-else
-                      :icon="action.icon"
-                      :variant="action.variant"
-                      @click="action.onClick(row)"
-                    />
-                  </template>
+                    </template>
+                  </div>
                 </td>
                 <td
                   v-else-if="_actions.length > 0"
-                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-5 py-4"
+                  class="bg-white rounded-lg px-5 py-4"
                 >
-                  <template
-                    v-for="(action, index) in _actions"
-                    :key="index"
-                  >
-                    <GenericTooltip
-                      v-if="action.tooltip"
-                      :text="action.tooltip"
+                  <div class="flex gap-x-2 items-center justify-start">
+                    <template
+                      v-for="(action, index) in _actions"
+                      :key="index"
                     >
+                      <GenericTooltip
+                        v-if="action.tooltip"
+                        :text="action.tooltip"
+                      >
+                        <GenericCompactButton
+                          :icon="action.icon"
+                          :variant="action.variant"
+                          @click="action.onClick(row)"
+                        />
+                      </GenericTooltip>
+
                       <GenericCompactButton
+                        v-else
                         :icon="action.icon"
                         :variant="action.variant"
                         @click="action.onClick(row)"
                       />
-                    </GenericTooltip>
-
-                    <GenericCompactButton
-                      v-else
-                      :icon="action.icon"
-                      :variant="action.variant"
-                      @click="action.onClick(row)"
-                    />
-                  </template>
+                    </template>
+                  </div>
                 </td>
               </tr>
             </slot>
