@@ -3,6 +3,7 @@ import { computed, watch, ref, useAttrs, onMounted } from 'vue';
 import type { HTMLAttributes } from 'vue'
 import type { snackBarVariant } from '../../types';
 import { cn } from '../../utils/cn';
+import GenericIcon from '../GenericIcon/GenericIcon.vue';
 
 type NativeFlagAttributes = /* @vue-ignore */ HTMLAttributes
 
@@ -110,10 +111,13 @@ const forwarded = computed(() => {
           v-bind="forwarded"
           :class="cn('flex flex-row justify-between gap-x-4 w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-[420px] md:max-w-[700px] font-inter',flagVariant.style.card)"
         >
-          <span
+          <GenericIcon
             id="icon"
-            :class="cn('material-symbols-outlined text-xl select-none',flagVariant.style.icon)"
-          >{{ flagVariant.icon }}</span>
+            :name="flagVariant.icon"
+            :class="cn(flagVariant.style.icon)"
+            :weight="400"
+            filled
+          />
           <div class="flex flex-col justify-start w-full h-full text-base leading-normal">
             <span
               :class="cn('font-bold',flagVariant.style.title)"
@@ -130,10 +134,12 @@ const forwarded = computed(() => {
               </slot>
             </span>
           </div>
-          <span
-            :class="cn('material-symbols-outlined text-xl cursor-pointer select-none',flagVariant.style.title)"
+          <GenericIcon
+            :class="cn('text-xl cursor-pointer select-none',flagVariant.style.title)"
+            name="close"
+            :weight="400"
             @click="close"
-          >close</span>
+          />
         </div>
       </Transition>
     </div>
