@@ -181,7 +181,7 @@ defineSlots<
                   <td
                     v-for="(col, colIndex) in columns"
                     :key="colIndex"
-                    class="text-zinc-600 leading-relaxed text-sm px-2 py-3 bg-white rounded-lg font-inter"
+                    class="text-zinc-600 leading-relaxed text-sm px-5 py-4 bg-white rounded-lg font-inter"
                   >
                     <component v-if="col.render" :is="col.render(row[col.key], row, col.key, index)" />
 
@@ -197,7 +197,7 @@ defineSlots<
 
                 <td
                   v-if="someRowsHaveActions"
-                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-5 py-4"
                 >
                   <template
                     v-for="(action, index) in row.actions"
@@ -224,7 +224,7 @@ defineSlots<
                 </td>
                 <td
                   v-else-if="_actions.length > 0"
-                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-2 py-3"
+                  class="flex gap-x-2 bg-white items-center justify-start rounded-lg px-5 py-4"
                 >
                   <template
                     v-for="(action, index) in _actions"
