@@ -1,51 +1,49 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { cn } from '../../utils/cn';
-import type { HTMLAttributes } from 'vue';
+import { computed } from "vue";
+import { cn } from "../../utils/cn";
+import type { HTMLAttributes } from "vue";
 
-type NativeHTMLAttributes = /* @vue-ignore */ HTMLAttributes
+type NativeHTMLAttributes = /* @vue-ignore */ HTMLAttributes;
 
-type TooltipPosition = 'top' | 'right' | 'bottom' | 'left' | 'custom'
+type TooltipPosition = "top" | "right" | "bottom" | "left" | "custom";
 
 type TooltipProps = {
-  text?: string
-  position?: TooltipPosition
-  customPosition?: string
-  width?: string
-} & NativeHTMLAttributes
+  text?: string;
+  position?: TooltipPosition;
+  customPosition?: string;
+  width?: string;
+} & NativeHTMLAttributes;
 
 const {
   text,
-  position = 'top',
+  position = "top",
   customPosition,
-  width = 'w-max'
-} = defineProps<TooltipProps>()
+  width = "w-max",
+} = defineProps<TooltipProps>();
 
 const positionClasses = {
-  top: 'triangle-bottom bottom-full left-1/2 -translate-x-1/2 mb-2',
-  right: 'left-full top-1/2 -translate-y-1/2 ml-2',
-  bottom: 'triangle-top top-full left-1/2 -translate-x-1/2 mt-2',
-  left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-  custom: '',
-} as const
+  top: "triangle-bottom bottom-full left-1/2 -translate-x-1/2 mb-2",
+  right: "left-full top-1/2 -translate-y-1/2 ml-2",
+  bottom: "triangle-top top-full left-1/2 -translate-x-1/2 mt-2",
+  left: "right-full top-1/2 -translate-y-1/2 mr-2",
+  custom: "",
+} as const;
 
 const tooltipClass = computed(() => {
-  const base = `${width} ${customPosition || positionClasses[position]}`
+  const base = `${width} ${customPosition || positionClasses[position]}`;
   return cn(
-    'absolute hidden group-hover:block bg-gray-900 text-sm text-white font-medium rounded-lg px-2 py-3',
-    'shadow-lg shadow-zinc-600/10',
-    base
-  )
-})
+    "absolute hidden group-hover:block bg-gray-900 text-sm text-white font-medium rounded-lg px-2 py-3",
+    "shadow-lg shadow-zinc-600/10",
+    base,
+  );
+});
 </script>
 
 <template>
   <div class="relative group w-fit">
     <slot></slot>
 
-    <div
-      :class="tooltipClass"
-    >
+    <div :class="tooltipClass">
       <slot name="text">
         {{ text }}
       </slot>
@@ -54,7 +52,8 @@ const tooltipClass = computed(() => {
 </template>
 
 <style scoped>
-.triangle-top, .triangle-bottom {
+.triangle-top,
+.triangle-bottom {
   &::before {
     content: "";
 

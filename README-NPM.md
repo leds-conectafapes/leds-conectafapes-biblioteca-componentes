@@ -33,18 +33,20 @@ npm i '@leds-ifes/components'
 Adicione o seguinte trecho ao seu arquivo CSS principal do projeto:
 
 ```css
-@import '../../node_modules/@leds-ifes/components/src/style.css';
+@import "../../node_modules/@leds-ifes/components/src/style.css";
 @source '../../node_modules/@leds-ifes/components/*/.vue';
 ```
 
 ### Usando um componente da biblioteca
 
 No bloco `<script>`, importe o componente:
+
 ```ts
-import { GenericButton } from '@leds-ifes/components'
+import { GenericButton } from "@leds-ifes/components";
 ```
 
 No bloco `<template>`, utilize o componente:
+
 ```html
 <GenericButton label="Botão" />
 ```
@@ -52,6 +54,7 @@ No bloco `<template>`, utilize o componente:
 ### Usando um tipo da biblioteca
 
 No bloco `<script>`, importe o tipo:
+
 ```ts
-import type { buttonVariant } from '@leds-ifes/components'
+import type { buttonVariant } from "@leds-ifes/components";
 ```

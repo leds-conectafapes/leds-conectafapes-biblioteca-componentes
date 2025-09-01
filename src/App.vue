@@ -1,88 +1,91 @@
 <script setup lang="ts">
-import GenericTable from './components/GenericTable/GenericTable.vue';
-import GenericCheckbox from './components/GenericCheckbox/GenericCheckbox.vue';
-import GenericTooltip from './components/GenericTooltip/GenericTooltip.vue';
-import { computed, reactive, ref, watch, h, type VNode } from 'vue';
-import type { TableRender, TableAction, TableHeader } from './types';
-import GenericStatusTag from './components/GenericStatusTag/GenericStatusTag.vue';
-import GenericSelect from './components/GenericSelect/GenericSelect.vue';
+import GenericTable from "./components/GenericTable/GenericTable.vue";
+import GenericCheckbox from "./components/GenericCheckbox/GenericCheckbox.vue";
+import GenericTooltip from "./components/GenericTooltip/GenericTooltip.vue";
+import { computed, reactive, ref, watch, h, type VNode } from "vue";
+import type { TableRender, TableAction, TableHeader } from "./types";
+import GenericStatusTag from "./components/GenericStatusTag/GenericStatusTag.vue";
+import GenericSelect from "./components/GenericSelect/GenericSelect.vue";
 
 type Data = {
   name: string;
   date: string;
-}
+};
 const columns: TableHeader<Data>[] = [
-  { key: 'name', title: 'Name', sortable: true },
-  { key: 'date', title: 'Date', tooltip: 'Date of event', },
-]
+  { key: "name", title: "Name", sortable: true },
+  { key: "date", title: "Date", tooltip: "Date of event" },
+];
 
 const data: Data[] = [
-  { name: 'Item 1', date: '2024-05-01' },
-  { name: 'Item 2', date: '2024-04-15' },
-  { name: 'Item 3', date: '2024-05-01' },
-  { name: 'Item 4', date: '2024-04-15' },
-  { name: 'Item 5', date: '2024-05-01' },
-  { name: 'Item 6', date: '2024-04-15' },
-  { name: 'Item 7', date: '2024-05-01' },
-  { name: 'Item 8', date: '2024-04-15' },
-  { name: 'Item 9', date: '2024-05-01' },
-  { name: 'Item 10', date: '2024-04-15' },
-]
+  { name: "Item 1", date: "2024-05-01" },
+  { name: "Item 2", date: "2024-04-15" },
+  { name: "Item 3", date: "2024-05-01" },
+  { name: "Item 4", date: "2024-04-15" },
+  { name: "Item 5", date: "2024-05-01" },
+  { name: "Item 6", date: "2024-04-15" },
+  { name: "Item 7", date: "2024-05-01" },
+  { name: "Item 8", date: "2024-04-15" },
+  { name: "Item 9", date: "2024-05-01" },
+  { name: "Item 10", date: "2024-04-15" },
+];
 
 const actions: TableAction<Data>[] = [
   {
-    type: 'edit',
+    type: "edit",
     onClick: (row) => {
-      alert(`O botao para editar a linha com nome "${row.name}" foi clicado.`)
-    }
+      alert(`O botao para editar a linha com nome "${row.name}" foi clicado.`);
+    },
   },
   {
-    type: 'delete',
-    variant: 'danger',
+    type: "delete",
+    variant: "danger",
     onClick: (row) => {
-      alert(`O botao para excluir a linha com nome "${row.name}" foi clicado.`)
-    }
+      alert(`O botao para excluir a linha com nome "${row.name}" foi clicado.`);
+    },
   },
   {
-    type: 'custom',
-    icon: 'attach_file_add',
-    tooltip: 'Subir arquivo ?',
+    type: "custom",
+    icon: "attach_file_add",
+    tooltip: "Subir arquivo ?",
     onClick: (row) => {
-      alert(`Um botao diferente de ação na linha com nome ${row.name} foi clicado.`)
-    }
-  }
-]
+      alert(
+        `Um botao diferente de ação na linha com nome ${row.name} foi clicado.`,
+      );
+    },
+  },
+];
 
-const currentPage = ref(1)
+const currentPage = ref(1);
 
 watch(currentPage, (newPage) => {
-  console.log('newPage', newPage)
-})
+  console.log("newPage", newPage);
+});
 
-const selectedItems = reactive<Record<number, boolean>>({})
+const selectedItems = reactive<Record<number, boolean>>({});
 const selectedItemsNames = computed(() => {
   const selected = Object.entries(selectedItems)
     .filter(([_, isSelected]) => isSelected)
     .map(([index, _]) => data[Number(index)].name)
-    .join(', ')
+    .join(", ");
 
   if (selected.length > 0) {
-    return `Itens selecionados: ${selected}.`
+    return `Itens selecionados: ${selected}.`;
   } else {
-    return 'Não há itens selecionados.'
+    return "Não há itens selecionados.";
   }
-})
+});
 
 const columnsWithRender: TableHeader<Data>[] = [
-  { key: 'name', title: 'Name', sortable: true },
+  { key: "name", title: "Name", sortable: true },
   {
-    key: 'date',
-    title: 'Date',
+    key: "date",
+    title: "Date",
     render: (date, _row, _col, index) => {
-      const text = index % 2 == 0
-        ? 'O evento começou no dia ' + date
-        : 'O evento se encerrou no dia ' + date
-      return h('span', { class: 'font-bold text-4xl' }, text)
+      const text =
+        index % 2 == 0
+          ? "O evento começou no dia " + date
+          : "O evento se encerrou no dia " + date;
+      return h("span", { class: "font-bold text-4xl" }, text);
       // return () => h('span', { class: 'font-bold' }, text)
       /* return () => [
         h('span', { class: 'font-bold' }, text),
@@ -92,100 +95,106 @@ const columnsWithRender: TableHeader<Data>[] = [
       cellElements.push(h('span', { class: 'font-bold' }, text))
       cellElements.push(h('button', null, 'clica-me'))
       return () => cellElements */
-    }
+    },
   },
-]
+];
 
 const dataWithRender: (Data & { render?: TableRender<Data> })[] = [
   {
-    name: 'Item 1',
-    date: '2024-05-01'
+    name: "Item 1",
+    date: "2024-05-01",
   },
   {
-    name: 'Item 2',
-    date: '2024-04-15',
+    name: "Item 2",
+    date: "2024-04-15",
     render: (value) => {
-      return h('a', { href: 'https://youtu.be/f-gi8k4IRh8?t=2851', target: '_blank' }, value.toUpperCase())
-    }
+      return h(
+        "a",
+        { href: "https://youtu.be/f-gi8k4IRh8?t=2851", target: "_blank" },
+        value.toUpperCase(),
+      );
+    },
   },
-]
+];
 
 const dataWithActions: (Data & { actions?: TableAction<Data>[] })[] = [
   {
-    name: 'Item 1',
-    date: '2024-05-01',
+    name: "Item 1",
+    date: "2024-05-01",
     actions: [
       {
-        type: 'view',
-        tooltip: 'Visualizar',
+        type: "view",
+        tooltip: "Visualizar",
         onClick: (_) => {
-          console.log('Voce clicou no botao de visualizacao da linha com nome "Item 1"')
-          alert('Veja o console de desenvolvedor.')
-        }
-      }
-    ]
+          console.log(
+            'Voce clicou no botao de visualizacao da linha com nome "Item 1"',
+          );
+          alert("Veja o console de desenvolvedor.");
+        },
+      },
+    ],
   },
   {
-    name: 'Item 2',
-    date: '2024-04-15',
+    name: "Item 2",
+    date: "2024-04-15",
     actions: [
-      { type: 'view', onClick: (_) => alert('Voce clicou no botao de visualizacao da linha com nome "Item 2"') }
-    ]
+      {
+        type: "view",
+        onClick: (_) =>
+          alert(
+            'Voce clicou no botao de visualizacao da linha com nome "Item 2"',
+          ),
+      },
+    ],
   },
   {
-    name: 'Item 3',
-    date: '2024-04-15',
+    name: "Item 3",
+    date: "2024-04-15",
   },
-]
+];
 
 const columnsWithStatus: TableHeader<Data & { status?: string }>[] = [
   {
-    key: 'name',
-    title: 'Name',
+    key: "name",
+    title: "Name",
     sortable: true,
   },
   {
-    key: 'date',
-    title: 'Date',
-    tooltip: 'Date of event',
+    key: "date",
+    title: "Date",
+    tooltip: "Date of event",
   },
   {
-    key: 'status',
-    title: 'Status',
-    tooltip: 'status',
+    key: "status",
+    title: "Status",
+    tooltip: "status",
     render: (_, row, _c) => {
-      if (row.date.endsWith('5')) {
-        return h(
-          GenericStatusTag,
-          {
-            text: 'sim',
-            variant: 'success',
-          }
-        )
+      if (row.date.endsWith("5")) {
+        return h(GenericStatusTag, {
+          text: "sim",
+          variant: "success",
+        });
       } else {
-        return h(
-          GenericStatusTag,
-          {
-            text: 'nao',
-            variant: 'warn',
-          }
-        )
+        return h(GenericStatusTag, {
+          text: "nao",
+          variant: "warn",
+        });
       }
-    }
+    },
   },
-]
+];
 
 type SelectData = {
-  id: number,
-  value: number,
-  label: string
-}
-const selectValue = ref<number | undefined>()
+  id: number;
+  value: number;
+  label: string;
+};
+const selectValue = ref<number | undefined>();
 const selectOptions = ref<SelectData[]>([
-  { id: 0, value: 0, label: 'primeiro' },
-  { id: 1, value: 1, label: 'segundo' },
-  { id: 2, value: 2, label: 'terceiro' },
-])
+  { id: 0, value: 0, label: "primeiro" },
+  { id: 1, value: 1, label: "segundo" },
+  { id: 2, value: 2, label: "terceiro" },
+]);
 </script>
 
 <template>
@@ -202,11 +211,7 @@ const selectOptions = ref<SelectData[]>([
     />
 
     <h1>Exemplo de tabela com selecao de linhas</h1>
-    <GenericTable
-      :columns="columns"
-      :data="data"
-      :actions="actions"
-    >
+    <GenericTable :columns="columns" :data="data" :actions="actions">
       <template #cell-name="{ cellData, rowIndex }">
         <GenericCheckbox v-model="selectedItems[rowIndex]" />
         {{ cellData }}
@@ -222,11 +227,7 @@ const selectOptions = ref<SelectData[]>([
       class="mb-10"
     >
       <template #cell="{ rowData }">
-        <td
-          v-for="(col, index) in columns"
-          :key="index"
-          class="font-bold p-2"
-        >
+        <td v-for="(col, index) in columns" :key="index" class="font-bold p-2">
           {{ rowData[col.key] }}
         </td>
       </template>
@@ -249,11 +250,7 @@ const selectOptions = ref<SelectData[]>([
     />
 
     <h1>Linha com ações</h1>
-    <GenericTable
-      :columns="columns"
-      :data="dataWithActions"
-      class="mb-10"
-    />
+    <GenericTable :columns="columns" :data="dataWithActions" class="mb-10" />
 
     <GenericTooltip
       class="w-fit ml-100"
@@ -264,11 +261,7 @@ const selectOptions = ref<SelectData[]>([
     </GenericTooltip>
 
     <h1>sei la</h1>
-    <GenericTable
-      :columns="columnsWithStatus"
-      :data="data"
-      class="mb-10"
-    />
+    <GenericTable :columns="columnsWithStatus" :data="data" class="mb-10" />
 
     <GenericSelect
       label="teste de select"

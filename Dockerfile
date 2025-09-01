@@ -10,6 +10,9 @@ COPY . .
 # Instala dependências
 RUN npm install
 
+# Gera o build da aplicação Vue.js sem verificação de tipos
+RUN npm run build-only
+
 # Gera o build do Storybook
 RUN npm run build-storybook
 

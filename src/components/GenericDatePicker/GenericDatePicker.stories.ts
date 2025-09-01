@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericDatePicker from './GenericDatePicker.vue'
-import type { ConcreteComponent } from 'vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericDatePicker from "./GenericDatePicker.vue";
+import type { ConcreteComponent } from "vue";
 
 const meta: Meta<typeof GenericDatePicker> = {
-  title: 'Components/GenericDatePicker',
+  title: "Components/GenericDatePicker",
   component: GenericDatePicker as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -39,78 +39,78 @@ const meta: Meta<typeof GenericDatePicker> = {
   },
   argTypes: {
     modelValue: {
-      control: 'text',
-      description: 'Data selecionada no formato ISO (YYYY-MM-DD)',
+      control: "text",
+      description: "Data selecionada no formato ISO (YYYY-MM-DD)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     state: {
-      control: 'select',
-      options: ['default', 'error', 'warning', 'disabled'],
-      description: 'Estado visual do componente',
+      control: "select",
+      options: ["default", "error", "warning", "disabled"],
+      description: "Estado visual do componente",
       table: {
         type: { summary: "'default' | 'error' | 'warning' | 'disabled'" },
         defaultValue: { summary: "'default'" },
       },
     },
     label: {
-      control: 'text',
-      description: 'Texto do rótulo (ignorado se o slot `label` for usado)',
+      control: "text",
+      description: "Texto do rótulo (ignorado se o slot `label` for usado)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     errorMessages: {
-      control: 'object',
-      description: 'Mensagem(s) de erro (string ou array de strings)',
+      control: "object",
+      description: "Mensagem(s) de erro (string ou array de strings)",
       table: {
-        type: { summary: 'string | string[]' },
-        defaultValue: { summary: '[]' },
+        type: { summary: "string | string[]" },
+        defaultValue: { summary: "[]" },
       },
     },
     containerClass: {
-      control: { type: 'object' },
-      description: 'Classe CSS para o container externo',
+      control: { type: "object" },
+      description: "Classe CSS para o container externo",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericDatePicker>
+type Story = StoryObj<typeof GenericDatePicker>;
 
 export const Default: Story = {
   args: {
-    modelValue: '',
-    state: 'default',
-    label: 'Data',
+    modelValue: "",
+    state: "default",
+    label: "Data",
     errorMessages: [],
   },
-}
+};
 
 export const ComErro: Story = {
   args: {
-    modelValue: '',
-    state: 'error',
-    label: 'Data',
-    errorMessages: ['Data inválida', 'Por favor escolha uma data válida'],
+    modelValue: "",
+    state: "error",
+    label: "Data",
+    errorMessages: ["Data inválida", "Por favor escolha uma data válida"],
   },
-}
+};
 
 export const Disabled: Story = {
   args: {
-    modelValue: '',
-    state: 'disabled',
-    label: 'Data',
+    modelValue: "",
+    state: "disabled",
+    label: "Data",
     errorMessages: [],
   },
-}
+};
 
 export const ComSlotLabel: Story = {
   render: () => ({
@@ -125,7 +125,7 @@ export const ComSlotLabel: Story = {
       </GenericDatePicker>
     `,
     data() {
-      return { selectedDate: '' }
+      return { selectedDate: "" };
     },
   }),
   parameters: {
@@ -143,7 +143,7 @@ export const ComSlotLabel: Story = {
       },
     },
   },
-}
+};
 
 export const ComSlotError: Story = {
   render: () => ({
@@ -158,7 +158,7 @@ export const ComSlotError: Story = {
       </GenericDatePicker>
     `,
     data() {
-      return { selectedDate: '' }
+      return { selectedDate: "" };
     },
   }),
   parameters: {
@@ -176,4 +176,4 @@ export const ComSlotError: Story = {
       },
     },
   },
-}
+};

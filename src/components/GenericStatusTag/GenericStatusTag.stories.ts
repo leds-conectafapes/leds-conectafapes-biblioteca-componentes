@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericStatusTag from './GenericStatusTag.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericStatusTag from "./GenericStatusTag.vue";
 
 const meta: Meta<typeof GenericStatusTag> = {
-  title: 'Components/GenericStatusTag',
+  title: "Components/GenericStatusTag",
   component: GenericStatusTag,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -29,44 +29,52 @@ const meta: Meta<typeof GenericStatusTag> = {
   },
   argTypes: {
     text: {
-      control: 'text',
-      description: 'Texto exibido na tag, se não usar slot',
+      control: "text",
+      description: "Texto exibido na tag, se não usar slot",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     variant: {
-      control: { type: 'select' },
-      options: ['info', 'infoStrong', 'success', 'warn', 'warnStrong', 'critical', 'custom'],
-      description: 'Variante visual da tag',
+      control: { type: "select" },
+      options: [
+        "info",
+        "infoStrong",
+        "success",
+        "warn",
+        "warnStrong",
+        "critical",
+        "custom",
+      ],
+      description: "Variante visual da tag",
       table: {
-        type: { summary: 'StatusTagVariant' },
-        defaultValue: { summary: 'success' },
+        type: { summary: "StatusTagVariant" },
+        defaultValue: { summary: "success" },
       },
     },
     dontUppercase: {
-      control: { type: 'select' },
+      control: { type: "select" },
       options: [true, false],
-      description: 'Controla capitalização do texto.',
+      description: "Controla capitalização do texto.",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
       },
-    }
+    },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericStatusTag>
+type Story = StoryObj<typeof GenericStatusTag>;
 
 export const Default: Story = {
   args: {
-    text: 'Sucesso',
-    variant: 'success',
+    text: "Sucesso",
+    variant: "success",
   },
-}
+};
 
 export const CustomSlot: Story = {
   render: () => ({
@@ -77,7 +85,7 @@ export const CustomSlot: Story = {
       </GenericStatusTag>
     `,
   }),
-  name: 'Com Slot',
+  name: "Com Slot",
   parameters: {
     docs: {
       source: {
@@ -89,8 +97,7 @@ export const CustomSlot: Story = {
       },
     },
   },
-}
-
+};
 
 export const Variants: Story = {
   render: () => ({
@@ -106,7 +113,7 @@ export const Variants: Story = {
       </div>
     `,
   }),
-  name: 'Variantes visuais',
+  name: "Variantes visuais",
   parameters: {
     docs: {
       source: {
@@ -123,5 +130,4 @@ export const Variants: Story = {
       },
     },
   },
-}
-
+};

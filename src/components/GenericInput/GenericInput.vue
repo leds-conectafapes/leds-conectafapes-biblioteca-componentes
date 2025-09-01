@@ -1,78 +1,74 @@
 <script lang="ts" setup generic="T extends string | number | undefined">
-import { computed, useAttrs, useSlots } from 'vue';
-import type { InputHTMLAttributes } from 'vue';
-import type { inputState } from '../../types';
-import { cn } from '../../utils/cn';
+import { computed, useAttrs, useSlots } from "vue";
+import type { InputHTMLAttributes } from "vue";
+import type { inputState } from "../../types";
+import { cn } from "../../utils/cn";
 
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
-type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes
+type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type inputProps = {
-  label?: string
-  state?: inputState
-  containerClass?: string | string[]
-  errorMessages?: string | string[]
-} & NativeInputAttributes
+  label?: string;
+  state?: inputState;
+  containerClass?: string | string[];
+  errorMessages?: string | string[];
+} & NativeInputAttributes;
 
 const props = withDefaults(defineProps<inputProps>(), {
-  label: '',
-  state: 'default',
+  label: "",
+  state: "default",
   containerClass: () => [],
   errorMessages: () => [],
-})
+});
 
 const emit = defineEmits<{
-  (e: 'search', value: T): void;
+  (e: "search", value: T): void;
 }>();
 
 const handleSearch = () => {
-  emit("search", modelValue.value as T)
+  emit("search", modelValue.value as T);
 };
 
-const modelValue = defineModel<T>()
+const modelValue = defineModel<T>();
 
-const slots = useSlots()
-const attrs = useAttrs()
-const id = computed(() => attrs.id as string | undefined)
-const type = computed(() => attrs.type as string | undefined)
+const slots = useSlots();
+const attrs = useAttrs();
+const id = computed(() => attrs.id as string | undefined);
+const type = computed(() => attrs.type as string | undefined);
 
-const isDisabled = computed(() => props.state === 'disabled')
-const isSearchType = computed(() => type.value === 'search')
-const hasLabelSlots = computed(() => !!slots.label)
-const hasErrorSlots = computed(() => !!slots.error)
+const isDisabled = computed(() => props.state === "disabled");
+const isSearchType = computed(() => type.value === "search");
+const hasLabelSlots = computed(() => !!slots.label);
+const hasErrorSlots = computed(() => !!slots.error);
 
 const INPUT_STATES: Record<inputState, string> = {
-  default: 'ring-gray-500',
-  error: 'ring-error-300 bg-error-100/10',
-  warning: 'ring-warning-100',
-  disabled: '!ring-0 bg-gray-100/40',
-} as const
+  default: "ring-gray-500",
+  error: "ring-error-300 bg-error-100/10",
+  warning: "ring-warning-100",
+  disabled: "!ring-0 bg-gray-100/40",
+} as const;
 
-const inputState = computed(() => cn(
-  'w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400',
-  INPUT_STATES[props.errorMessages.length > 0 ? 'error' : props.state],
-  attrs.class as string | undefined,
-))
+const inputState = computed(() =>
+  cn(
+    "w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400",
+    INPUT_STATES[props.errorMessages.length > 0 ? "error" : props.state],
+    attrs.class as string | undefined,
+  ),
+);
 
 const forwarded = computed(() => {
-  const { ...rest } = attrs
-  return rest
-})
+  const { ...rest } = attrs;
+  return rest;
+});
 </script>
 
 <template>
   <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
-      <label
-        :for="id"
-        class="
-        w-fit
-        text-base
-        font-medium font-inter"
-      >
-        {{ props.label }}{{ attrs.required ? '*' : '' }}
+      <label :for="id" class="w-fit text-base font-medium font-inter">
+        {{ props.label }}{{ attrs.required ? "*" : "" }}
       </label>
     </div>
     <div v-else-if="hasLabelSlots">
@@ -85,7 +81,7 @@ const forwarded = computed(() => {
         v-model="modelValue"
         :class="inputState"
         :disabled="isDisabled"
-      >
+      />
       <svg
         v-if="isSearchType"
         xmlns="http://www.w3.org/2000/svg"
@@ -104,15 +100,10 @@ const forwarded = computed(() => {
       </svg>
     </div>
     <!-- errors -->
-    <div
-      v-if="!hasErrorSlots && props.errorMessages.length > 0"
-    >
+    <div v-if="!hasErrorSlots && props.errorMessages.length > 0">
       <div class="text-sm text-error-300">
         <div v-if="Array.isArray(props.errorMessages)">
-          <p
-            v-for="(error, index) in props.errorMessages"
-            :key="index"
-          >
+          <p v-for="(error, index) in props.errorMessages" :key="index">
             {{ error }}
           </p>
         </div>
@@ -128,11 +119,12 @@ const forwarded = computed(() => {
 </template>
 
 <style scoped>
-input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-input[type='search']::-webkit-search-cancel-button {
+input[type="search"]::-webkit-search-cancel-button {
   display: none;
 }
 </style>

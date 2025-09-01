@@ -1,0 +1,7 @@
+input[type="number"][data-v-dd764f48]::-webkit-inner-spin-button,
+input[type="number"][data-v-dd764f48]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+input[type="search"][data-v-dd764f48]::-webkit-search-cancel-button {
+  display: none;
+}

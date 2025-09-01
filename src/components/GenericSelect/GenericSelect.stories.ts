@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericSelect from './GenericSelect.vue'
-import type { selectOption } from '../../types'
-import type { ConcreteComponent } from 'vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericSelect from "./GenericSelect.vue";
+import type { selectOption } from "../../types";
+import type { ConcreteComponent } from "vue";
 
 const meta: Meta<typeof GenericSelect> = {
-  title: 'Components/GenericSelect',
+  title: "Components/GenericSelect",
   component: GenericSelect as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -45,79 +45,79 @@ const meta: Meta<typeof GenericSelect> = {
   argTypes: {
     // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o modelValue tem um type genérico
     modelValue: {
-      control: 'text',
-      description: 'Valor selecionado do select',
+      control: "text",
+      description: "Valor selecionado do select",
       table: {
-        type: { summary: 'string | number | undefined' },
+        type: { summary: "string | number | undefined" },
       },
     },
     options: {
-      control: 'object',
-      description: 'Lista de opções para o select',
+      control: "object",
+      description: "Lista de opções para o select",
       table: {
-        type: { summary: 'selectOption<T>[]' },
+        type: { summary: "selectOption<T>[]" },
       },
     },
     label: {
-      control: 'text',
-      description: 'Texto do label (ignorando se usar slot label)',
+      control: "text",
+      description: "Texto do label (ignorando se usar slot label)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
       },
     },
     state: {
-      control: { type: 'select' },
-      options: ['default', 'error', 'warning', 'disabled'],
-      description: 'Estado visual do componente',
+      control: { type: "select" },
+      options: ["default", "error", "warning", "disabled"],
+      description: "Estado visual do componente",
       table: {
-        type: { summary: 'selectState' },
-        defaultValue: { summary: 'default' },
+        type: { summary: "selectState" },
+        defaultValue: { summary: "default" },
       },
     },
     placeholder: {
-      control: 'text',
-      description: 'Texto do placeholder quando nenhuma opção está selecionada',
+      control: "text",
+      description: "Texto do placeholder quando nenhuma opção está selecionada",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'Selecione uma opção' },
+        type: { summary: "string" },
+        defaultValue: { summary: "Selecione uma opção" },
       },
     },
     containerClass: {
-      control: 'text',
-      description: 'Classes adicionais para o container',
+      control: "text",
+      description: "Classes adicionais para o container",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
     errorMessages: {
-      control: 'text',
-      description: 'Mensagens de erro a serem exibidas',
+      control: "text",
+      description: "Mensagens de erro a serem exibidas",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericSelect>
+type Story = StoryObj<typeof GenericSelect>;
 
 export const Default: Story = {
   args: {
     modelValue: undefined,
-    label: 'Escolha uma opção',
+    label: "Escolha uma opção",
     options: [
       // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o options tem um type genérico
-      { id: 'opt1', label: 'Opção 1', value: '1' },
-      { id: 'opt2', label: 'Opção 2', value: '2' },
-      { id: 'opt3', label: 'Opção 3', value: '3' },
+      { id: "opt1", label: "Opção 1", value: "1" },
+      { id: "opt2", label: "Opção 2", value: "2" },
+      { id: "opt3", label: "Opção 3", value: "3" },
     ] satisfies selectOption<string>[],
-    placeholder: 'Selecione uma opção',
-    state: 'default',
+    placeholder: "Selecione uma opção",
+    state: "default",
     errorMessages: [],
   },
-}
+};
 
 export const WithSlotLabel: Story = {
   render: () => ({
@@ -135,16 +135,16 @@ export const WithSlotLabel: Story = {
     `,
     data() {
       return {
-        selected: '2',
+        selected: "2",
         options: [
-          { id: '1', label: 'Opção 1', value: '1' },
-          { id: '2', label: 'Opção 2', value: '2' },
-          { id: '3', label: 'Opção 3', value: '3' },
+          { id: "1", label: "Opção 1", value: "1" },
+          { id: "2", label: "Opção 2", value: "2" },
+          { id: "3", label: "Opção 3", value: "3" },
         ],
-      }
+      };
     },
   }),
-  name: 'Com Slot Label',
+  name: "Com Slot Label",
   parameters: {
     docs: {
       source: {
@@ -173,8 +173,7 @@ const options = [
       },
     },
   },
-}
-
+};
 
 export const WithSlotOptions: Story = {
   render: () => ({
@@ -195,17 +194,17 @@ export const WithSlotOptions: Story = {
     `,
     data() {
       return {
-        selected: '',
-        placeholder: 'Escolha algo',
+        selected: "",
+        placeholder: "Escolha algo",
         options: [
-          { id: '1', label: 'Opção 1', value: '1' },
-          { id: '2', label: 'Opção 2', value: '2' },
-          { id: '3', label: 'Opção 3', value: '3' },
+          { id: "1", label: "Opção 1", value: "1" },
+          { id: "2", label: "Opção 2", value: "2" },
+          { id: "3", label: "Opção 3", value: "3" },
         ],
-      }
+      };
     },
   }),
-  name: 'Com Slot Options',
+  name: "Com Slot Options",
   parameters: {
     docs: {
       source: {
@@ -238,8 +237,7 @@ const options = [
       },
     },
   },
-
-}
+};
 
 export const WithSlotError: Story = {
   render: () => ({
@@ -257,15 +255,15 @@ export const WithSlotError: Story = {
     `,
     data() {
       return {
-        selected: '',
+        selected: "",
         options: [
-          { id: '1', label: 'Opção 1', value: '1' },
-          { id: '2', label: 'Opção 2', value: '2' },
+          { id: "1", label: "Opção 1", value: "1" },
+          { id: "2", label: "Opção 2", value: "2" },
         ],
-      }
+      };
     },
   }),
-  name: 'Com Slot Error',
+  name: "Com Slot Error",
   parameters: {
     docs: {
       source: {
@@ -293,5 +291,4 @@ const options = [
       },
     },
   },
-
-}
+};

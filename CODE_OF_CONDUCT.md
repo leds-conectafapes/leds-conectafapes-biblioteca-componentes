@@ -30,7 +30,7 @@ Os mantenedores têm o direito e a responsabilidade de remover, editar ou rejeit
 
 ## Escopo
 
-Este Código de Conduta se aplica tanto dentro dos espaços do projeto quanto em espaços públicos quando um indivíduo está representando o projeto ou sua comunidade. 
+Este Código de Conduta se aplica tanto dentro dos espaços do projeto quanto em espaços públicos quando um indivíduo está representando o projeto ou sua comunidade.
 
 ## Aplicação
 

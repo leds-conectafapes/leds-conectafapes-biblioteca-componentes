@@ -5,7 +5,7 @@ on:
     types: [published]
   push:
     tags:
-      - '*' # Qualquer tag criada
+      - "*" # Qualquer tag criada
   workflow_dispatch:
 
 jobs:

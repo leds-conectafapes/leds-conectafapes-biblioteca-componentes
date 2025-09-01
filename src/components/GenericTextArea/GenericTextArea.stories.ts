@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericTextArea from './GenericTextArea.vue'
-import type { ConcreteComponent } from 'vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericTextArea from "./GenericTextArea.vue";
+import type { ConcreteComponent } from "vue";
 
 const meta: Meta<typeof GenericTextArea> = {
-  title: 'Components/GenericTextArea',
+  title: "Components/GenericTextArea",
   component: GenericTextArea as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -34,64 +34,64 @@ const meta: Meta<typeof GenericTextArea> = {
   },
   argTypes: {
     modelValue: {
-      control: 'text',
-      description: 'Valor ligado ao textarea',
-      table: { type: { summary: 'string | number | undefined' } },
+      control: "text",
+      description: "Valor ligado ao textarea",
+      table: { type: { summary: "string | number | undefined" } },
     },
     state: {
-      control: { type: 'select' },
-      options: ['default', 'error', 'warning', 'disabled'],
-      description: 'Estado visual do textarea',
-      table: { defaultValue: { summary: 'default' } },
+      control: { type: "select" },
+      options: ["default", "error", "warning", "disabled"],
+      description: "Estado visual do textarea",
+      table: { defaultValue: { summary: "default" } },
     },
     label: {
-      control: 'text',
-      description: 'Texto do label (se não usar slot)',
+      control: "text",
+      description: "Texto do label (se não usar slot)",
       table: { defaultValue: { summary: "''" } },
     },
     errorMessages: {
-      control: 'object',
-      description: 'Mensagens de erro, pode ser string ou array de strings',
+      control: "object",
+      description: "Mensagens de erro, pode ser string ou array de strings",
       table: { defaultValue: { summary: "[]" } },
     },
     containerClass: {
-      control: 'object',
-      description: 'Classes CSS para o container (string ou array de strings)',
+      control: "object",
+      description: "Classes CSS para o container (string ou array de strings)",
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericTextArea>
+type Story = StoryObj<typeof GenericTextArea>;
 
 export const Default: Story = {
   args: {
-    modelValue: '',
-    label: 'Descrição',
-    state: 'default',
+    modelValue: "",
+    label: "Descrição",
+    state: "default",
     errorMessages: [],
     containerClass: [],
   },
-}
+};
 
 export const ComErro: Story = {
   args: {
-    modelValue: '',
-    label: 'Descrição',
-    state: 'error',
-    errorMessages: ['Campo obrigatório', 'Mínimo de 10 caracteres'],
+    modelValue: "",
+    label: "Descrição",
+    state: "error",
+    errorMessages: ["Campo obrigatório", "Mínimo de 10 caracteres"],
   },
-}
+};
 
 export const Disabled: Story = {
   args: {
-    modelValue: 'Texto desabilitado',
-    label: 'Descrição',
-    state: 'disabled',
+    modelValue: "Texto desabilitado",
+    label: "Descrição",
+    state: "disabled",
     errorMessages: [],
   },
-}
+};
 
 export const CustomSlots: Story = {
   render: () => ({
@@ -107,10 +107,10 @@ export const CustomSlots: Story = {
       </GenericTextArea>
     `,
     data() {
-      return { value: '' }
+      return { value: "" };
     },
   }),
-  name: 'Com Slots Label e Error',
+  name: "Com Slots Label e Error",
   parameters: {
     docs: {
       source: {
@@ -127,5 +127,4 @@ export const CustomSlots: Story = {
       },
     },
   },
-}
-
+};

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericSnackBar from './GenericSnackBar.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericSnackBar from "./GenericSnackBar.vue";
 
 const meta: Meta<typeof GenericSnackBar> = {
-  title: 'Components/GenericSnackBar',
+  title: "Components/GenericSnackBar",
   component: GenericSnackBar,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -32,28 +32,28 @@ const meta: Meta<typeof GenericSnackBar> = {
   },
   argTypes: {
     title: {
-      control: 'text',
-      description: 'Título da notificação',
+      control: "text",
+      description: "Título da notificação",
     },
     description: {
-      control: 'text',
-      description: 'Descrição da notificação',
+      control: "text",
+      description: "Descrição da notificação",
     },
     variant: {
-      control: { type: 'select' },
-      options: ['informative', 'success', 'warning', 'error'],
-      description: 'Estilo visual do alerta',
+      control: { type: "select" },
+      options: ["informative", "success", "warning", "error"],
+      description: "Estilo visual do alerta",
     },
     timeout: {
-      control: 'number',
-      description: 'Tempo (ms) para desaparecer (0 = permanente)',
+      control: "number",
+      description: "Tempo (ms) para desaparecer (0 = permanente)",
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericSnackBar>
+type Story = StoryObj<typeof GenericSnackBar>;
 
 export const Informative: Story = {
   render: (args) => ({
@@ -62,11 +62,11 @@ export const Informative: Story = {
       return {
         key: 0,
         localArgs: args,
-      }
+      };
     },
     methods: {
       show() {
-        this.key++
+        this.key++;
       },
     },
     template: `
@@ -77,9 +77,9 @@ export const Informative: Story = {
     `,
   }),
   args: {
-    title: 'Aviso Informativo',
-    description: 'Esta é uma mensagem de informação.',
-    variant: 'informative',
+    title: "Aviso Informativo",
+    description: "Esta é uma mensagem de informação.",
+    variant: "informative",
     timeout: 8000,
   },
   parameters: {
@@ -91,14 +91,14 @@ export const Informative: Story = {
       },
     },
   },
-}
+};
 
 export const Success: Story = {
   render: Informative.render,
   args: {
-    title: 'Sucesso!',
-    description: 'A operação foi realizada corretamente.',
-    variant: 'success',
+    title: "Sucesso!",
+    description: "A operação foi realizada corretamente.",
+    variant: "success",
     timeout: 5000,
   },
   parameters: {
@@ -110,14 +110,14 @@ export const Success: Story = {
       },
     },
   },
-}
+};
 
 export const Warning: Story = {
   render: Informative.render,
   args: {
-    title: 'Atenção',
-    description: 'Algo pode estar errado.',
-    variant: 'warning',
+    title: "Atenção",
+    description: "Algo pode estar errado.",
+    variant: "warning",
     timeout: 0,
   },
   parameters: {
@@ -129,14 +129,14 @@ export const Warning: Story = {
       },
     },
   },
-}
+};
 
 export const Error: Story = {
   render: Informative.render,
   args: {
-    title: 'Erro',
-    description: 'Ocorreu um problema inesperado.',
-    variant: 'error',
+    title: "Erro",
+    description: "Ocorreu um problema inesperado.",
+    variant: "error",
     timeout: 7000,
   },
   parameters: {
@@ -148,7 +148,7 @@ export const Error: Story = {
       },
     },
   },
-}
+};
 
 export const CustomSlots: Story = {
   render: (args) => ({
@@ -157,11 +157,11 @@ export const CustomSlots: Story = {
       return {
         key: 0,
         localArgs: args,
-      }
+      };
     },
     methods: {
       show() {
-        this.key++
+        this.key++;
       },
     },
     template: `
@@ -179,10 +179,10 @@ export const CustomSlots: Story = {
     `,
   }),
   args: {
-    variant: 'success',
+    variant: "success",
     timeout: 9000,
   },
-  name: 'Com Slots Title e Description',
+  name: "Com Slots Title e Description",
   parameters: {
     docs: {
       source: {
@@ -198,5 +198,5 @@ export const CustomSlots: Story = {
         `.trim(),
       },
     },
-  }
-} 
+  },
+};

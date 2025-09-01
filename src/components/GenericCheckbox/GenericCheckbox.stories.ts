@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericCheckbox from './GenericCheckbox.vue'
-import type { ConcreteComponent } from 'vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericCheckbox from "./GenericCheckbox.vue";
+import type { ConcreteComponent } from "vue";
 
 const meta: Meta<typeof GenericCheckbox> = {
-  title: 'Components/GenericCheckbox',
+  title: "Components/GenericCheckbox",
   component: GenericCheckbox as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -41,34 +41,34 @@ Nesse caso, \`selected\` será igual a \`"sim"\` quando marcado e \`"não"\` qua
   },
   argTypes: {
     modelValue: {
-      control: 'text',
-      description: 'Valor do checkbox (string, number, boolean ou undefined)',
+      control: "text",
+      description: "Valor do checkbox (string, number, boolean ou undefined)",
       table: {
-        type: { summary: 'string | number | boolean | undefined' },
+        type: { summary: "string | number | boolean | undefined" },
         defaultValue: { summary: "''" },
       },
     },
     label: {
-      control: 'text',
-      description: 'Texto do label do checkbox (ignorado se usar slot `label`)',
+      control: "text",
+      description: "Texto do label do checkbox (ignorado se usar slot `label`)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     containerClass: {
-      control: 'text',
-      description: 'Classe CSS customizada para o container do checkbox',
+      control: "text",
+      description: "Classe CSS customizada para o container do checkbox",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericCheckbox>
+type Story = StoryObj<typeof GenericCheckbox>;
 
 export const Default: Story = {
   render: () => ({
@@ -76,7 +76,7 @@ export const Default: Story = {
     data() {
       return {
         checked: false,
-      }
+      };
     },
     template: `
       <GenericCheckbox v-model="checked" label="Aceito os termos" />
@@ -96,15 +96,15 @@ const checked = ref(false)
       },
     },
   },
-}
+};
 
 export const ComValoresCustomizados: Story = {
   render: () => ({
     components: { GenericCheckbox },
     data() {
       return {
-        selected: 'não',
-      }
+        selected: "não",
+      };
     },
     template: `
       <GenericCheckbox
@@ -134,7 +134,7 @@ const selected = ref('não')
       },
     },
   },
-}
+};
 
 export const ComSlotLabel: Story = {
   render: () => ({
@@ -142,7 +142,7 @@ export const ComSlotLabel: Story = {
     data() {
       return {
         checked: false,
-      }
+      };
     },
     template: `
       <GenericCheckbox v-model="checked" id="slot-checkbox">
@@ -151,7 +151,7 @@ export const ComSlotLabel: Story = {
         </template>
       </GenericCheckbox>
     `,
-    name: 'Com slot label',
+    name: "Com slot label",
   }),
   parameters: {
     docs: {
@@ -171,4 +171,4 @@ const checked = ref(false)
       },
     },
   },
-}
+};

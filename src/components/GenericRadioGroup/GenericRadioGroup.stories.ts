@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericRadioGroup from './GenericRadioGroup.vue'
-import type { ConcreteComponent } from 'vue'
-import type { radioGroupOptions } from '../../types'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericRadioGroup from "./GenericRadioGroup.vue";
+import type { ConcreteComponent } from "vue";
+import type { radioGroupOptions } from "../../types";
 
 const meta: Meta<typeof GenericRadioGroup> = {
-  title: 'Components/GenericRadioGroup',
+  title: "Components/GenericRadioGroup",
   component: GenericRadioGroup as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -44,55 +44,55 @@ const meta: Meta<typeof GenericRadioGroup> = {
   argTypes: {
     // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o modelValue tem um type genérico
     modelValue: {
-      control: 'text',
-      description: 'Valor selecionado do grupo',
+      control: "text",
+      description: "Valor selecionado do grupo",
       table: {
-        type: { summary: 'string | number | undefined' },
+        type: { summary: "string | number | undefined" },
       },
     },
     label: {
-      control: 'text',
-      description: 'Texto do label (ignorado se usar slot `label`)',
+      control: "text",
+      description: "Texto do label (ignorado se usar slot `label`)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
       },
     },
     options: {
-      control: 'object',
-      description: 'Lista de opções para renderização',
+      control: "object",
+      description: "Lista de opções para renderização",
       table: {
-        type: { summary: 'radioGroupOptions<T>[]' },
+        type: { summary: "radioGroupOptions<T>[]" },
       },
     },
     errorMessages: {
-      control: 'text',
-      description: 'Mensagem(s) de erro (string ou array de strings)',
+      control: "text",
+      description: "Mensagem(s) de erro (string ou array de strings)",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
     containerClass: {
-      control: 'text',
-      description: 'Classe(s) adicionais para o container',
+      control: "text",
+      description: "Classe(s) adicionais para o container",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericRadioGroup>
+type Story = StoryObj<typeof GenericRadioGroup>;
 
 export const Default: Story = {
   args: {
-    modelValue: 'yes',
-    label: 'Você aceita os termos?',
+    modelValue: "yes",
+    label: "Você aceita os termos?",
     options: [
-    // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o radioGroupOptions tem um type genérico
-      { id: 'yes', label: 'Sim', value: 'yes' },
-      { id: 'no', label: 'Não', value: 'no' },
+      // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o radioGroupOptions tem um type genérico
+      { id: "yes", label: "Sim", value: "yes" },
+      { id: "no", label: "Não", value: "no" },
     ] satisfies radioGroupOptions<string>[],
   },
   parameters: {
@@ -116,7 +116,7 @@ const selected = ref('yes')
       },
     },
   },
-}
+};
 
 export const WithSlotError: Story = {
   render: () => ({
@@ -136,11 +136,11 @@ export const WithSlotError: Story = {
     `,
     data() {
       return {
-        selected: 'A',
-      }
+        selected: "A",
+      };
     },
   }),
-  name: 'Com Slot Erro',
+  name: "Com Slot Erro",
   parameters: {
     docs: {
       source: {
@@ -163,7 +163,7 @@ const options = [
       },
     },
   },
-}
+};
 
 export const WithSlotLabel: Story = {
   render: () => ({
@@ -183,11 +183,11 @@ export const WithSlotLabel: Story = {
     `,
     data() {
       return {
-        selected: 'yes',
-      }
+        selected: "yes",
+      };
     },
   }),
-  name: 'Com Slot Label',
+  name: "Com Slot Label",
   parameters: {
     docs: {
       source: {
@@ -210,7 +210,7 @@ const options = [
       },
     },
   },
-}
+};
 
 export const WithSlotOptions: Story = {
   render: () => ({
@@ -235,16 +235,16 @@ export const WithSlotOptions: Story = {
     `,
     data() {
       return {
-        selected: 'op2',
+        selected: "op2",
         options: [
-          { id: 'op1', label: 'Opção 1', value: 'op1' },
-          { id: 'op2', label: 'Opção 2', value: 'op2' },
-          { id: 'op3', label: 'Opção 3', value: 'op3' },
+          { id: "op1", label: "Opção 1", value: "op1" },
+          { id: "op2", label: "Opção 2", value: "op2" },
+          { id: "op3", label: "Opção 3", value: "op3" },
         ],
-      }
+      };
     },
   }),
-  name: 'Com Slot Options',
+  name: "Com Slot Options",
   parameters: {
     docs: {
       source: {
@@ -279,4 +279,4 @@ const options = [
       },
     },
   },
-}
+};

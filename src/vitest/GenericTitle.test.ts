@@ -1,66 +1,74 @@
-import { render } from '@testing-library/vue'
-import { describe, it, expect } from 'vitest'
-import GenericTitle from '../components/GenericTitle/GenericTitle.vue'
-import type { titleType } from '../types'
+import { render } from "@testing-library/vue";
+import { describe, it, expect } from "vitest";
+import GenericTitle from "../components/GenericTitle/GenericTitle.vue";
+import type { titleType } from "../types";
 
-const titleTypes: titleType[] = ['h1', 'h2', 'h3', 'title', 'subtitle', 'body', 'caption']
-const titleStyleMap: Record<titleType, {
-  text_size: string
-  font_weight: string | undefined
-}> = {
+const titleTypes: titleType[] = [
+  "h1",
+  "h2",
+  "h3",
+  "title",
+  "subtitle",
+  "body",
+  "caption",
+];
+const titleStyleMap: Record<
+  titleType,
+  {
+    text_size: string;
+    font_weight: string | undefined;
+  }
+> = {
   h1: {
-    text_size: 'text-3xl/[38px]',
-    font_weight: 'font-semibold',
+    text_size: "text-3xl/[38px]",
+    font_weight: "font-semibold",
   },
   h2: {
-    text_size: 'text-2xl',
+    text_size: "text-2xl",
     font_weight: undefined,
   },
   h3: {
-    text_size: 'text-xl',
-    font_weight: undefined
+    text_size: "text-xl",
+    font_weight: undefined,
   },
   title: {
-    text_size: 'text-lg/[26px]',
+    text_size: "text-lg/[26px]",
     font_weight: undefined,
   },
   subtitle: {
-    text_size: 'text-base',
+    text_size: "text-base",
     font_weight: undefined,
   },
   body: {
-    text_size: 'text-sm/[22px]',
+    text_size: "text-sm/[22px]",
     font_weight: undefined,
   },
   caption: {
-    text_size: 'text-xs/[18px]',
+    text_size: "text-xs/[18px]",
     font_weight: undefined,
   },
-}
+};
 
-describe('GenericTitle.vue', () => {
-  describe('testes de estilização', () => {
+describe("GenericTitle.vue", () => {
+  describe("testes de estilização", () => {
     // Testes de estilização para cada type
-    it.each(titleTypes)(
-      'estilização correta com type "%s"',
-      (type) => {
-        const { getAllByRole } = render(GenericTitle, {
-          props: { text: `Title ${type}`, type }
-        })
+    it.each(titleTypes)('estilização correta com type "%s"', (type) => {
+      const { getAllByRole } = render(GenericTitle, {
+        props: { text: `Title ${type}`, type },
+      });
 
-        const title = getAllByRole('generic')[1]
+      const title = getAllByRole("generic")[1];
 
-        // Verifica a aplicação do tamanho do texto
-        expect(title).toHaveClass(`${titleStyleMap[type].text_size}`)
+      // Verifica a aplicação do tamanho do texto
+      expect(title).toHaveClass(`${titleStyleMap[type].text_size}`);
 
-        // Verifica a aplicação do peso da fonte
-        if (titleStyleMap[type].font_weight) {
-          expect(title).toHaveClass(`${titleStyleMap[type].font_weight}`)
-        }
-
-        // Verifica a aplicação do texto no Title
-        expect(title).toHaveTextContent('Title')
+      // Verifica a aplicação do peso da fonte
+      if (titleStyleMap[type].font_weight) {
+        expect(title).toHaveClass(`${titleStyleMap[type].font_weight}`);
       }
-    )
-  })
-})
+
+      // Verifica a aplicação do texto no Title
+      expect(title).toHaveTextContent("Title");
+    });
+  });
+});

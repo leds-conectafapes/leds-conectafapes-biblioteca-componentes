@@ -4,15 +4,20 @@ Biblioteca de componentes globais para os diferentes sistemas do Conecta Fapes.
 
 ## Sumário
 
-- [Sobre o projeto](#sobre-o-projeto)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Estrutura de diretórios](#estrutura-de-diretórios)
-- [O que é Storybook?](#o-que-é-storybook)
-- [Criação](#criação)
-- [Desenvolvimento](#desenvolvimento)
-- [Disponibilizando o componente para uso na biblioteca](#disponibilizando-o-componente-para-uso-na-biblioteca)
-- [Publicando uma nova versão](#publicando-uma-nova-versão)
+- [Biblioteca de componentes LEDS-CONECTAFAPES](#biblioteca-de-componentes-leds-conectafapes)
+  - [Sumário](#sumário)
+  - [Sobre o projeto](#sobre-o-projeto)
+  - [Pré-requisitos](#pré-requisitos)
+  - [Instalação](#instalação)
+  - [Estrutura de diretórios](#estrutura-de-diretórios)
+  - [O que é Storybook?](#o-que-é-storybook)
+  - [Criação](#criação)
+  - [Desenvolvimento](#desenvolvimento)
+    - [Quando o props for um v-model](#quando-o-props-for-um-v-model)
+  - [Disponibilizando o componente para uso na biblioteca](#disponibilizando-o-componente-para-uso-na-biblioteca)
+  - [Publicando uma nova versão](#publicando-uma-nova-versão)
+  - [Git Hooks](#git-hooks)
+    - [Scripts Úteis](#scripts-úteis)
 
 ## Sobre o projeto
 
@@ -103,9 +108,10 @@ leds-conectafapes-biblioteca-componentes/
 ```
 
 ## O que é Storybook?
+
 O Storybook é uma ferramenta que permite um workshop para a construção de UI de maneira isolada, ajudando ao desenvolvimento de cada componente sem a necessidade de rodar o app inteiro.
 
-## Criação 
+## Criação
 
 Percebe-se que, na pasta `components/`, teremos uma pasta para cada componente. Por exemplo, o componente de botão, teremos a pasta:
 
@@ -123,9 +129,10 @@ Note que há o arquivo `Button.stories.ts`. Esse arquivo será utilizado pelo St
 
 ## Desenvolvimento
 
-Quando criado os arquivos, o primeiro passo é desenvolver o componente em si com o `<template>`. 
+Quando criado os arquivos, o primeiro passo é desenvolver o componente em si com o `<template>`.
 
 `Button.vue`
+
 ```html
 <template>
   <button
@@ -139,8 +146,7 @@ Quando criado os arquivos, o primeiro passo é desenvolver o componente em si co
       easy-in-out duration-300
       cursor-auto
       font-inter font-medium"
-  >
-  </button>
+  ></button>
 </template>
 ```
 
@@ -149,31 +155,44 @@ Como exemplo, temos esse botão feito utilizando o tailwind. Note que o botão n
 Após desenvolver o estilo do botão, o próximo passo é a parte do `<script>`. Deve-se pensar em quais informações o botão deve receber da tela/componente pai, informações externas que não serão definidas no botão, os **`props`**.
 
 No `<script>`:
-```ts
-import type { buttonVariant } from '../../types';
 
-const props = withDefaults(defineProps<{
-  label: string,
-  variant?: buttonVariant,
-}>(), {
-  variant: 'primary'
-});
-```
-Note que a propriedade variant é do tipo `buttonVarian`, o qual está sendo importado a partir do arquivo `types.ts`. Nesse arquivo, o tipo é definido da seguinte forma:
 ```ts
-export type buttonVariant = 'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled';
+import type { buttonVariant } from "../../types";
+
+const props = withDefaults(
+  defineProps<{
+    label: string;
+    variant?: buttonVariant;
+  }>(),
+  {
+    variant: "primary",
+  },
+);
+```
+
+Note que a propriedade variant é do tipo `buttonVarian`, o qual está sendo importado a partir do arquivo `types.ts`. Nesse arquivo, o tipo é definido da seguinte forma:
+
+```ts
+export type buttonVariant =
+  | "primary"
+  | "danger"
+  | "warning"
+  | "secondary"
+  | "secondaryDanger"
+  | "disabled";
 ```
 
 ### Quando o props for um v-model
+
 Quando queremos passar um ref ou um valor dinâmico do Parent para o componente, utilizamos o `defineModel()`, como no exemplo a seguir:
+
 ```ts
 import type { PropType } from 'vue';
 
 const model = defineModel({ type: [String, Number, Object, undefined] as PropType<string | number | { value: string | undefined } | undefined> })
 
-<input v-model="model"/> 
+<input v-model="model"/>
 ```
-
 
 Definimos quais variáveis o botão irá receber do Parent, como no exemplo, a label e a variante. Note que, caso não seja informado a label ou a variante, essas variáveis receberão um valor pré definido, tornando-as opcionais.
 
@@ -182,15 +201,15 @@ Quando queremos criar variações de estilo, podemos fazer da seguinte forma:
 ```ts
 const btnVariants = computed(() => {
   const variant: Record<buttonVariant, string> = {
-    primary: 'bg-primary-500 text-white hover:bg-primary-hover',
-    danger: 'bg-error-300 text-white hover:bg-error-hover',
-    warning: 'bg-warning-100 text-white hover:bg-warning-hover',
-    secondary: 'bg-white text-gray-700 hover:bg-gray-hover',
-    secondaryDanger: 'bg-white text-error-300 hover:bg-error-secondaryHover',
-    disabled: 'bg-gray-200 text-gray-500',
-  }
+    primary: "bg-primary-500 text-white hover:bg-primary-hover",
+    danger: "bg-error-300 text-white hover:bg-error-hover",
+    warning: "bg-warning-100 text-white hover:bg-warning-hover",
+    secondary: "bg-white text-gray-700 hover:bg-gray-hover",
+    secondaryDanger: "bg-white text-error-300 hover:bg-error-secondaryHover",
+    disabled: "bg-gray-200 text-gray-500",
+  };
   return variant[props.variant as keyof typeof variant] || variant.primary;
-})
+});
 ```
 
 Criamos um tipo Classes para definir quais variantes vamos utilizar. Dentro do computed definimos quais são os estilos de cada variação e retornamos aquele baseado no props.
@@ -217,6 +236,7 @@ Dessa forma, o componente fica assim:
   </button>
 </template>
 ```
+
 Adicionamos o estilo da variante junto a estilização padrão do botão.
 
 Para finalizar, o botão precisa de um evento de click para funcionar. Para isso, utilizamos **`emit`**.
@@ -224,15 +244,17 @@ Para finalizar, o botão precisa de um evento de click para funcionar. Para isso
 Quando usamos emit, emitimos um evento qualquer. No caso do botão, estamos emitindo um evento de click. Dessa forma, quando chamamos o botão no Parent, podemos passar uma função para quando o usuário clicar.
 
 No componente:
+
 ```ts
 const emit = defineEmits<{
-  (e: 'onClick'): void;
+  (e: "onClick"): void;
 }>();
 
 const onClick = () => {
-  emit("onClick")
+  emit("onClick");
 };
 ```
+
 ```html
 <template>
   <button
@@ -254,13 +276,15 @@ const onClick = () => {
 ```
 
 No Parent:
+
 ```html
-<GenericButton label="Label" variant="primary" @click="buscar"/>
+<GenericButton label="Label" variant="primary" @click="buscar" />
 ```
+
 `buscar` é uma função do Parent.
 
-
 Assim, o componente final ficaria assim:
+
 ```ts
 <script lang="ts" setup>
 import { computed } from 'vue';
@@ -314,11 +338,15 @@ const btnVariants = computed(() => {
   </button>
 </template>
 ```
+
 ## Disponibilizando o componente para uso na biblioteca
+
 Para tornar o componente disponível para uso externo, abra o arquivo `types.ts` e adicione a seguinte linha de exportação:
+
 ```ts
-export { default as GenericButton } from './components/GenericButton/GenericButton.vue';
+export { default as GenericButton } from "./components/GenericButton/GenericButton.vue";
 ```
+
 Isso permite que o componente `GenericButton` seja importado diretamente a partir da biblioteca.
 
 ## Publicando uma nova versão
@@ -334,3 +362,19 @@ Note que, antes de ser executado, o workflow solicita um parâmetro de versão. 
 - **Major**: incrementa o primeiro número (ex: `x.1.1`).
 
 Essa escolha segue a convenção [SemVer (Versionamento Semântico)](https://semver.org/).
+
+## Git Hooks
+
+Esse projeto conta com a ferramenta [Lefthook](https://github.com/evilmartians/lefthook) para auxílio do gerenciamento do repositório.
+
+> ⚠️ **Faça uso do comando `npx lefthook install` sempre que o arquivo `lefthook.yml` for atualizado!**
+
+### Scripts Úteis
+
+Para rodar manualmente os hooks, utilize:
+
+```
+npx lefthook run pre-commit
+npx lefthook run pre-push
+npx lefthook run <nome_do_hook>
+```

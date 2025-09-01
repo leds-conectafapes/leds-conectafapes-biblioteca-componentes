@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericButton from './GenericButton.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericButton from "./GenericButton.vue";
 
 const meta: Meta<typeof GenericButton> = {
-  title: 'Components/GenericButton',
+  title: "Components/GenericButton",
   component: GenericButton,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -33,78 +33,87 @@ const meta: Meta<typeof GenericButton> = {
   },
   argTypes: {
     label: {
-      control: 'text',
-      description: 'Texto do botão (ignorado se o slot `label` for usado)',
+      control: "text",
+      description: "Texto do botão (ignorado se o slot `label` for usado)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     variant: {
-      control: 'select',
-      options: ['primary', 'danger', 'warning', 'secondary', 'secondaryDanger', 'disabled'],
-      description: 'Variação visual do botão',
+      control: "select",
+      options: [
+        "primary",
+        "danger",
+        "warning",
+        "secondary",
+        "secondaryDanger",
+        "disabled",
+      ],
+      description: "Variação visual do botão",
       table: {
-        type: { summary: `'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'` },
+        type: {
+          summary: `'primary' | 'danger' | 'warning' | 'secondary' | 'secondaryDanger' | 'disabled'`,
+        },
         defaultValue: { summary: "'primary'" },
       },
     },
     onClick: {
-      action: 'onClick',
-      description: 'Evento emitido ao clicar no botão',
+      action: "onClick",
+      description: "Evento emitido ao clicar no botão",
       table: {
-        category: 'Events',
-        type: { summary: '() => void' },
+        category: "Events",
+        type: { summary: "() => void" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericButton>
+type Story = StoryObj<typeof GenericButton>;
 
 export const Primary: Story = {
   args: {
-    label: 'Confirmar',
-    variant: 'primary',
+    label: "Confirmar",
+    variant: "primary",
   },
-}
+};
 
 export const Danger: Story = {
   args: {
-    label: 'Excluir',
-    variant: 'danger',
+    label: "Excluir",
+    variant: "danger",
   },
-}
+};
 
 export const Warning: Story = {
   args: {
-    label: 'Atenção',
-    variant: 'warning',
+    label: "Atenção",
+    variant: "warning",
   },
-}
+};
 
 export const Secondary: Story = {
   args: {
-    label: 'Cancelar',
-    variant: 'secondary',
+    label: "Cancelar",
+    variant: "secondary",
   },
-}
+};
 
 export const SecondaryDanger: Story = {
   args: {
-    label: 'Remover',
-    variant: 'secondaryDanger',
+    label: "Remover",
+    variant: "secondaryDanger",
   },
-}
+};
 
 export const Disabled: Story = {
   args: {
-    label: 'Indisponível',
-    variant: 'disabled',
+    label: "Indisponível",
+    variant: "disabled",
   },
-}
+};
 
 export const WithSlot: Story = {
   render: () => ({
@@ -117,7 +126,7 @@ export const WithSlot: Story = {
       </GenericButton>
     `,
   }),
-  name: 'Com Slot Label',
+  name: "Com Slot Label",
   parameters: {
     docs: {
       source: {
@@ -131,5 +140,4 @@ export const WithSlot: Story = {
       },
     },
   },
-}
-
+};

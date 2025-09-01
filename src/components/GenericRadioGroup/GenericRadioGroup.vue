@@ -1,58 +1,52 @@
 <script setup lang="ts" generic="T extends string | number | undefined">
-import type { radioGroupOptions } from '../../types';
-import type { InputHTMLAttributes } from 'vue';
-import { computed, useAttrs, useSlots } from 'vue';
-import { cn } from '../../utils/cn';
+import type { radioGroupOptions } from "../../types";
+import type { InputHTMLAttributes } from "vue";
+import { computed, useAttrs, useSlots } from "vue";
+import { cn } from "../../utils/cn";
 
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
-type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes
+type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type radioGroupProps<T> = {
-  options?: radioGroupOptions<T>[],
-  label?: string,
-  containerClass?: string | string[]
-  errorMessages?: string | string[]
-} & NativeInputAttributes
+  options?: radioGroupOptions<T>[];
+  label?: string;
+  containerClass?: string | string[];
+  errorMessages?: string | string[];
+} & NativeInputAttributes;
 
 const props = withDefaults(defineProps<radioGroupProps<T>>(), {
   options: () => [],
-  label: '',
+  label: "",
   containerClass: () => [],
   errorMessages: () => [],
-})
+});
 
-const modelValue = defineModel<T>()
+const modelValue = defineModel<T>();
 
-const slots = useSlots()
-const attrs = useAttrs()
+const slots = useSlots();
+const attrs = useAttrs();
 
-const hasOptionSlots = computed(() => !!slots.options)
-const hasErrorSlots = computed(() => !!slots.error)
-const hasLabelSlots = computed(() => !!slots.label)
+const hasOptionSlots = computed(() => !!slots.options);
+const hasErrorSlots = computed(() => !!slots.error);
+const hasLabelSlots = computed(() => !!slots.label);
 
-const radioGroupClass = computed(() => cn(
-  'accent-primary-500 h-5 w-5',
-  attrs.class as string | undefined
-))
+const radioGroupClass = computed(() =>
+  cn("accent-primary-500 h-5 w-5", attrs.class as string | undefined),
+);
 
 const forwarded = computed(() => {
-  const { ...rest } = attrs
-  return rest
-})
+  const { ...rest } = attrs;
+  return rest;
+});
 </script>
 
 <template>
   <div :class="cn('w-full gap-y-2 flex flex-col', props.containerClass)">
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
-      <label
-        class="
-        w-fit
-        text-base
-        font-medium font-inter"
-      >
-        {{ props.label }}{{ attrs.required ? '*' : '' }}
+      <label class="w-fit text-base font-medium font-inter">
+        {{ props.label }}{{ attrs.required ? "*" : "" }}
       </label>
     </div>
     <div v-else-if="hasLabelSlots">
@@ -60,10 +54,7 @@ const forwarded = computed(() => {
     </div>
     <!-- input -->
     <div>
-      <div
-        v-if="!hasOptionSlots"
-        class="flex flex-col gap-y-1"
-      >
+      <div v-if="!hasOptionSlots" class="flex flex-col gap-y-1">
         <div
           v-for="option in props.options"
           :key="option.id"
@@ -76,11 +67,10 @@ const forwarded = computed(() => {
             :value="option.value"
             :class="radioGroupClass"
             type="radio"
-          >
-          <label
-            :for="option.id"
-            class="text-base font-inter font-medium"
-          >{{ option.label }}</label>
+          />
+          <label :for="option.id" class="text-base font-inter font-medium">{{
+            option.label
+          }}</label>
         </div>
       </div>
       <div v-else-if="hasOptionSlots">
@@ -88,15 +78,10 @@ const forwarded = computed(() => {
       </div>
     </div>
     <!-- errors -->
-    <div
-      v-if="!hasErrorSlots && props.errorMessages.length > 0"
-    >
+    <div v-if="!hasErrorSlots && props.errorMessages.length > 0">
       <div class="text-sm text-error-300">
         <div v-if="Array.isArray(props.errorMessages)">
-          <p
-            v-for="(error, index) in props.errorMessages"
-            :key="index"
-          >
+          <p v-for="(error, index) in props.errorMessages" :key="index">
             {{ error }}
           </p>
         </div>

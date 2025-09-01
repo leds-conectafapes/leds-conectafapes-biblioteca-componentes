@@ -3,6 +3,7 @@
 Este documento descreve como você pode contribuir e quais são as expectativas que temos para garantir um processo de colaboração produtivo e transparente
 
 ## Como posso contribuir?
+
 Existem várias maneiras de contribuir para o projeto, dependendo de suas habilidades e interesses:
 
 - **Reportar bugs:** Se encontrar algum problema, abra uma issue descrevendo o bug.
@@ -49,7 +50,7 @@ git push origin nome-da-sua-branch
 
 ### 6. Abra um Pull Request
 
-Vá até o repositório original do **ConectaFAPES** no GitHub e crie um *pull request* (PR) a partir da sua branch. Na descrição do PR:
+Vá até o repositório original do **ConectaFAPES** no GitHub e crie um _pull request_ (PR) a partir da sua branch. Na descrição do PR:
 
 - Descreva o problema ou a funcionalidade abordada
 - Explique a solução implementada
@@ -63,7 +64,7 @@ Para garantir que o código seja legível e de alta qualidade, siga estes padrõ
 
 - **Clareza**: Escreva código claro e fácil de entender. Nomeie variáveis e funções de maneira descritiva.
 - **Documentação**: Sempre que possível, adicione comentários explicando trechos de código que possam ser complexos ou não óbvios.
-- **Boas práticas**: Siga as melhores práticas de desenvolvimento e qualquer *style guide* que o projeto esteja utilizando.
+- **Boas práticas**: Siga as melhores práticas de desenvolvimento e qualquer _style guide_ que o projeto esteja utilizando.
 
 ## Feedback e Revisão
 
@@ -75,4 +76,4 @@ Ao contribuir, você deve seguir nosso [Código de Conduta](./CODE_OF_CONDUCT.md
 
 ## Dúvidas?
 
-Se tiver qualquer dúvida sobre o processo de contribuição, sinta-se à vontade para perguntar abrindo uma *issue* ou entrando em contato com a equipe do projeto.
+Se tiver qualquer dúvida sobre o processo de contribuição, sinta-se à vontade para perguntar abrindo uma _issue_ ou entrando em contato com a equipe do projeto.

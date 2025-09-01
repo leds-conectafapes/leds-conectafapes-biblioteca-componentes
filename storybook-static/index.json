@@ -1,0 +1,566 @@
+{
+  "v": 5,
+  "entries": {
+    "components-genericbutton--docs": {
+      "id": "components-genericbutton--docs",
+      "title": "Components/GenericButton",
+      "name": "Docs",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericbutton--primary": {
+      "type": "story",
+      "id": "components-genericbutton--primary",
+      "name": "Primary",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--danger": {
+      "type": "story",
+      "id": "components-genericbutton--danger",
+      "name": "Danger",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--warning": {
+      "type": "story",
+      "id": "components-genericbutton--warning",
+      "name": "Warning",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--secondary": {
+      "type": "story",
+      "id": "components-genericbutton--secondary",
+      "name": "Secondary",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--secondary-danger": {
+      "type": "story",
+      "id": "components-genericbutton--secondary-danger",
+      "name": "Secondary Danger",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--disabled": {
+      "type": "story",
+      "id": "components-genericbutton--disabled",
+      "name": "Disabled",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericbutton--with-slot": {
+      "type": "story",
+      "id": "components-genericbutton--with-slot",
+      "name": "Com Slot Label",
+      "title": "Components/GenericButton",
+      "importPath": "./src/components/GenericButton/GenericButton.stories.ts",
+      "componentPath": "./src/components/GenericButton/GenericButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericcheckbox--docs": {
+      "id": "components-genericcheckbox--docs",
+      "title": "Components/GenericCheckbox",
+      "name": "Docs",
+      "importPath": "./src/components/GenericCheckbox/GenericCheckbox.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericcheckbox--default": {
+      "type": "story",
+      "id": "components-genericcheckbox--default",
+      "name": "Default",
+      "title": "Components/GenericCheckbox",
+      "importPath": "./src/components/GenericCheckbox/GenericCheckbox.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericcheckbox--com-valores-customizados": {
+      "type": "story",
+      "id": "components-genericcheckbox--com-valores-customizados",
+      "name": "Com Valores Customizados",
+      "title": "Components/GenericCheckbox",
+      "importPath": "./src/components/GenericCheckbox/GenericCheckbox.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericcheckbox--com-slot-label": {
+      "type": "story",
+      "id": "components-genericcheckbox--com-slot-label",
+      "name": "Com Slot Label",
+      "title": "Components/GenericCheckbox",
+      "importPath": "./src/components/GenericCheckbox/GenericCheckbox.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericcompactbutton--docs": {
+      "id": "components-genericcompactbutton--docs",
+      "title": "Components/GenericCompactButton",
+      "name": "Docs",
+      "importPath": "./src/components/GenericCompactButton/GenericCompactButton.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericcompactbutton--default": {
+      "type": "story",
+      "id": "components-genericcompactbutton--default",
+      "name": "Default",
+      "title": "Components/GenericCompactButton",
+      "importPath": "./src/components/GenericCompactButton/GenericCompactButton.stories.ts",
+      "componentPath": "./src/components/GenericCompactButton/GenericCompactButton.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericdatepicker--docs": {
+      "id": "components-genericdatepicker--docs",
+      "title": "Components/GenericDatePicker",
+      "name": "Docs",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericdatepicker--default": {
+      "type": "story",
+      "id": "components-genericdatepicker--default",
+      "name": "Default",
+      "title": "Components/GenericDatePicker",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericdatepicker--com-erro": {
+      "type": "story",
+      "id": "components-genericdatepicker--com-erro",
+      "name": "Com Erro",
+      "title": "Components/GenericDatePicker",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericdatepicker--disabled": {
+      "type": "story",
+      "id": "components-genericdatepicker--disabled",
+      "name": "Disabled",
+      "title": "Components/GenericDatePicker",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericdatepicker--com-slot-label": {
+      "type": "story",
+      "id": "components-genericdatepicker--com-slot-label",
+      "name": "Com Slot Label",
+      "title": "Components/GenericDatePicker",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericdatepicker--com-slot-error": {
+      "type": "story",
+      "id": "components-genericdatepicker--com-slot-error",
+      "name": "Com Slot Error",
+      "title": "Components/GenericDatePicker",
+      "importPath": "./src/components/GenericDatePicker/GenericDatePicker.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericinput--docs": {
+      "id": "components-genericinput--docs",
+      "title": "Components/GenericInput",
+      "name": "Docs",
+      "importPath": "./src/components/GenericInput/GenericInput.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericinput--default": {
+      "type": "story",
+      "id": "components-genericinput--default",
+      "name": "Default",
+      "title": "Components/GenericInput",
+      "importPath": "./src/components/GenericInput/GenericInput.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericinput--search": {
+      "type": "story",
+      "id": "components-genericinput--search",
+      "name": "Search",
+      "title": "Components/GenericInput",
+      "importPath": "./src/components/GenericInput/GenericInput.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericinput--com-erro": {
+      "type": "story",
+      "id": "components-genericinput--com-erro",
+      "name": "Com Erro",
+      "title": "Components/GenericInput",
+      "importPath": "./src/components/GenericInput/GenericInput.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericinput--com-slot-de-erro": {
+      "type": "story",
+      "id": "components-genericinput--com-slot-de-erro",
+      "name": "Com Slot De Erro",
+      "title": "Components/GenericInput",
+      "importPath": "./src/components/GenericInput/GenericInput.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericradiogroup--docs": {
+      "id": "components-genericradiogroup--docs",
+      "title": "Components/GenericRadioGroup",
+      "name": "Docs",
+      "importPath": "./src/components/GenericRadioGroup/GenericRadioGroup.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericradiogroup--default": {
+      "type": "story",
+      "id": "components-genericradiogroup--default",
+      "name": "Default",
+      "title": "Components/GenericRadioGroup",
+      "importPath": "./src/components/GenericRadioGroup/GenericRadioGroup.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericradiogroup--with-slot-error": {
+      "type": "story",
+      "id": "components-genericradiogroup--with-slot-error",
+      "name": "Com Slot Erro",
+      "title": "Components/GenericRadioGroup",
+      "importPath": "./src/components/GenericRadioGroup/GenericRadioGroup.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericradiogroup--with-slot-label": {
+      "type": "story",
+      "id": "components-genericradiogroup--with-slot-label",
+      "name": "Com Slot Label",
+      "title": "Components/GenericRadioGroup",
+      "importPath": "./src/components/GenericRadioGroup/GenericRadioGroup.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericradiogroup--with-slot-options": {
+      "type": "story",
+      "id": "components-genericradiogroup--with-slot-options",
+      "name": "Com Slot Options",
+      "title": "Components/GenericRadioGroup",
+      "importPath": "./src/components/GenericRadioGroup/GenericRadioGroup.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericselect--docs": {
+      "id": "components-genericselect--docs",
+      "title": "Components/GenericSelect",
+      "name": "Docs",
+      "importPath": "./src/components/GenericSelect/GenericSelect.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericselect--default": {
+      "type": "story",
+      "id": "components-genericselect--default",
+      "name": "Default",
+      "title": "Components/GenericSelect",
+      "importPath": "./src/components/GenericSelect/GenericSelect.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericselect--with-slot-label": {
+      "type": "story",
+      "id": "components-genericselect--with-slot-label",
+      "name": "Com Slot Label",
+      "title": "Components/GenericSelect",
+      "importPath": "./src/components/GenericSelect/GenericSelect.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericselect--with-slot-options": {
+      "type": "story",
+      "id": "components-genericselect--with-slot-options",
+      "name": "Com Slot Options",
+      "title": "Components/GenericSelect",
+      "importPath": "./src/components/GenericSelect/GenericSelect.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericselect--with-slot-error": {
+      "type": "story",
+      "id": "components-genericselect--with-slot-error",
+      "name": "Com Slot Error",
+      "title": "Components/GenericSelect",
+      "importPath": "./src/components/GenericSelect/GenericSelect.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsnackbar--docs": {
+      "id": "components-genericsnackbar--docs",
+      "title": "Components/GenericSnackBar",
+      "name": "Docs",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericsnackbar--informative": {
+      "type": "story",
+      "id": "components-genericsnackbar--informative",
+      "name": "Informative",
+      "title": "Components/GenericSnackBar",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "componentPath": "./src/components/GenericSnackBar/GenericSnackBar.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsnackbar--success": {
+      "type": "story",
+      "id": "components-genericsnackbar--success",
+      "name": "Success",
+      "title": "Components/GenericSnackBar",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "componentPath": "./src/components/GenericSnackBar/GenericSnackBar.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsnackbar--warning": {
+      "type": "story",
+      "id": "components-genericsnackbar--warning",
+      "name": "Warning",
+      "title": "Components/GenericSnackBar",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "componentPath": "./src/components/GenericSnackBar/GenericSnackBar.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsnackbar--error": {
+      "type": "story",
+      "id": "components-genericsnackbar--error",
+      "name": "Error",
+      "title": "Components/GenericSnackBar",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "componentPath": "./src/components/GenericSnackBar/GenericSnackBar.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsnackbar--custom-slots": {
+      "type": "story",
+      "id": "components-genericsnackbar--custom-slots",
+      "name": "Com Slots Title e Description",
+      "title": "Components/GenericSnackBar",
+      "importPath": "./src/components/GenericSnackBar/GenericSnackBar.stories.ts",
+      "componentPath": "./src/components/GenericSnackBar/GenericSnackBar.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericstatustag--docs": {
+      "id": "components-genericstatustag--docs",
+      "title": "Components/GenericStatusTag",
+      "name": "Docs",
+      "importPath": "./src/components/GenericStatusTag/GenericStatusTag.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericstatustag--default": {
+      "type": "story",
+      "id": "components-genericstatustag--default",
+      "name": "Default",
+      "title": "Components/GenericStatusTag",
+      "importPath": "./src/components/GenericStatusTag/GenericStatusTag.stories.ts",
+      "componentPath": "./src/components/GenericStatusTag/GenericStatusTag.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericstatustag--custom-slot": {
+      "type": "story",
+      "id": "components-genericstatustag--custom-slot",
+      "name": "Com Slot",
+      "title": "Components/GenericStatusTag",
+      "importPath": "./src/components/GenericStatusTag/GenericStatusTag.stories.ts",
+      "componentPath": "./src/components/GenericStatusTag/GenericStatusTag.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericstatustag--variants": {
+      "type": "story",
+      "id": "components-genericstatustag--variants",
+      "name": "Variantes visuais",
+      "title": "Components/GenericStatusTag",
+      "importPath": "./src/components/GenericStatusTag/GenericStatusTag.stories.ts",
+      "componentPath": "./src/components/GenericStatusTag/GenericStatusTag.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsubtitle--docs": {
+      "id": "components-genericsubtitle--docs",
+      "title": "Components/GenericSubtitle",
+      "name": "Docs",
+      "importPath": "./src/components/GenericSubtitle/GenericSubtitle.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-genericsubtitle--default": {
+      "type": "story",
+      "id": "components-genericsubtitle--default",
+      "name": "Default",
+      "title": "Components/GenericSubtitle",
+      "importPath": "./src/components/GenericSubtitle/GenericSubtitle.stories.ts",
+      "componentPath": "./src/components/GenericSubtitle/GenericSubtitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsubtitle--error-state": {
+      "type": "story",
+      "id": "components-genericsubtitle--error-state",
+      "name": "Error State",
+      "title": "Components/GenericSubtitle",
+      "importPath": "./src/components/GenericSubtitle/GenericSubtitle.stories.ts",
+      "componentPath": "./src/components/GenericSubtitle/GenericSubtitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-genericsubtitle--custom-text-slot": {
+      "type": "story",
+      "id": "components-genericsubtitle--custom-text-slot",
+      "name": "Com Slot Text",
+      "title": "Components/GenericSubtitle",
+      "importPath": "./src/components/GenericSubtitle/GenericSubtitle.stories.ts",
+      "componentPath": "./src/components/GenericSubtitle/GenericSubtitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictable--docs": {
+      "id": "components-generictable--docs",
+      "title": "Components/GenericTable",
+      "name": "Docs",
+      "importPath": "./src/components/GenericTable/GenericTable.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-generictable--default": {
+      "type": "story",
+      "id": "components-generictable--default",
+      "name": "Default",
+      "title": "Components/GenericTable",
+      "importPath": "./src/components/GenericTable/GenericTable.stories.ts",
+      "componentPath": "./src/components/GenericTable/GenericTable.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictable--with-pagination": {
+      "type": "story",
+      "id": "components-generictable--with-pagination",
+      "name": "Com Paginação",
+      "title": "Components/GenericTable",
+      "importPath": "./src/components/GenericTable/GenericTable.stories.ts",
+      "componentPath": "./src/components/GenericTable/GenericTable.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictable--with-render-function-per-row": {
+      "type": "story",
+      "id": "components-generictable--with-render-function-per-row",
+      "name": "Com Render Function em linha",
+      "title": "Components/GenericTable",
+      "importPath": "./src/components/GenericTable/GenericTable.stories.ts",
+      "componentPath": "./src/components/GenericTable/GenericTable.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictextarea--docs": {
+      "id": "components-generictextarea--docs",
+      "title": "Components/GenericTextArea",
+      "name": "Docs",
+      "importPath": "./src/components/GenericTextArea/GenericTextArea.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-generictextarea--default": {
+      "type": "story",
+      "id": "components-generictextarea--default",
+      "name": "Default",
+      "title": "Components/GenericTextArea",
+      "importPath": "./src/components/GenericTextArea/GenericTextArea.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictextarea--com-erro": {
+      "type": "story",
+      "id": "components-generictextarea--com-erro",
+      "name": "Com Erro",
+      "title": "Components/GenericTextArea",
+      "importPath": "./src/components/GenericTextArea/GenericTextArea.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictextarea--disabled": {
+      "type": "story",
+      "id": "components-generictextarea--disabled",
+      "name": "Disabled",
+      "title": "Components/GenericTextArea",
+      "importPath": "./src/components/GenericTextArea/GenericTextArea.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictextarea--custom-slots": {
+      "type": "story",
+      "id": "components-generictextarea--custom-slots",
+      "name": "Com Slots Label e Error",
+      "title": "Components/GenericTextArea",
+      "importPath": "./src/components/GenericTextArea/GenericTextArea.stories.ts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictitle--docs": {
+      "id": "components-generictitle--docs",
+      "title": "Components/GenericTitle",
+      "name": "Docs",
+      "importPath": "./src/components/GenericTitle/GenericTitle.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-generictitle--default": {
+      "type": "story",
+      "id": "components-generictitle--default",
+      "name": "Default",
+      "title": "Components/GenericTitle",
+      "importPath": "./src/components/GenericTitle/GenericTitle.stories.ts",
+      "componentPath": "./src/components/GenericTitle/GenericTitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictitle--variations": {
+      "type": "story",
+      "id": "components-generictitle--variations",
+      "name": "Variações de Type",
+      "title": "Components/GenericTitle",
+      "importPath": "./src/components/GenericTitle/GenericTitle.stories.ts",
+      "componentPath": "./src/components/GenericTitle/GenericTitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictitle--com-slot-text": {
+      "type": "story",
+      "id": "components-generictitle--com-slot-text",
+      "name": "Com Slot Text",
+      "title": "Components/GenericTitle",
+      "importPath": "./src/components/GenericTitle/GenericTitle.stories.ts",
+      "componentPath": "./src/components/GenericTitle/GenericTitle.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictooltip--docs": {
+      "id": "components-generictooltip--docs",
+      "title": "Components/GenericTooltip",
+      "name": "Docs",
+      "importPath": "./src/components/GenericTooltip/GenericTooltip.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-generictooltip--exemplo": {
+      "type": "story",
+      "id": "components-generictooltip--exemplo",
+      "name": "Exemplo",
+      "title": "Components/GenericTooltip",
+      "importPath": "./src/components/GenericTooltip/GenericTooltip.stories.ts",
+      "componentPath": "./src/components/GenericTooltip/GenericTooltip.vue",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-generictooltip--slot-text": {
+      "type": "story",
+      "id": "components-generictooltip--slot-text",
+      "name": "Com slot \"text\"",
+      "title": "Components/GenericTooltip",
+      "importPath": "./src/components/GenericTooltip/GenericTooltip.stories.ts",
+      "componentPath": "./src/components/GenericTooltip/GenericTooltip.vue",
+      "tags": ["dev", "test", "autodocs"]
+    }
+  }
+}

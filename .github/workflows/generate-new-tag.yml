@@ -18,5 +18,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-          WITH_V: true         # Adiciona 'v' antes da versão (ex: v1.2.3)
+          WITH_V: true # Adiciona 'v' antes da versão (ex: v1.2.3)
           RELEASE_BRANCHES: main

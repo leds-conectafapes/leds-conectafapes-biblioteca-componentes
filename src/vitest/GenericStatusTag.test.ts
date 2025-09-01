@@ -1,86 +1,100 @@
-import { render } from '@testing-library/vue'
-import { describe, it, expect } from 'vitest'
-import GenericStatusTag from '../components/GenericStatusTag/GenericStatusTag.vue'
-import type { statusTagVariant } from '../types'
+import { render } from "@testing-library/vue";
+import { describe, it, expect } from "vitest";
+import GenericStatusTag from "../components/GenericStatusTag/GenericStatusTag.vue";
+import type { statusTagVariant } from "../types";
 
-const statusTagVariants: statusTagVariant[] = ['success', 'successOutline', 'warning', 'secondary', 'secondaryDanger', 'disabled']
-const statusTagStyleMap: Record<statusTagVariant, {
-  bg: string
-  border: string | undefined
-  border_color: string | undefined
-  text_color: string | undefined
-}> = {
+const statusTagVariants: statusTagVariant[] = [
+  "success",
+  "successOutline",
+  "warning",
+  "secondary",
+  "secondaryDanger",
+  "disabled",
+];
+const statusTagStyleMap: Record<
+  statusTagVariant,
+  {
+    bg: string;
+    border: string | undefined;
+    border_color: string | undefined;
+    text_color: string | undefined;
+  }
+> = {
   success: {
-    bg: 'bg-success-400',
+    bg: "bg-success-400",
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
   successOutline: {
-    bg: 'bg-white',
-    border: 'border',
-    border_color: 'border-success-100',
-    text_color: '!text-success-400',
+    bg: "bg-white",
+    border: "border",
+    border_color: "border-success-100",
+    text_color: "!text-success-400",
   },
   warning: {
-    bg: 'bg-error-200',
+    bg: "bg-error-200",
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
   secondary: {
-    bg: 'bg-gray-600',
+    bg: "bg-gray-600",
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
   secondaryDanger: {
-    bg: 'bg-white',
-    border: 'border',
-    border_color: 'border-gray-400',
-    text_color: '!text-gray-600',
+    bg: "bg-white",
+    border: "border",
+    border_color: "border-gray-400",
+    text_color: "!text-gray-600",
   },
   disabled: {
-    bg: 'bg-warning-200',
+    bg: "bg-warning-200",
     border: undefined,
     border_color: undefined,
     text_color: undefined,
   },
-}
+};
 
-describe('GenericStatusTag.vue', () => {
-  describe('testes de estilização', () => {
+describe("GenericStatusTag.vue", () => {
+  describe("testes de estilização", () => {
     // Testes de estilização para cada variant
     it.each(statusTagVariants)(
       'renderiza corretamente com variant "%s"',
       (variant) => {
         const { getAllByRole } = render(GenericStatusTag, {
-          props: { text: `StatusTag ${variant}`, variant}
-        })
+          props: { text: `StatusTag ${variant}`, variant },
+        });
 
-        const statusTag = getAllByRole('generic')[1]
+        const statusTag = getAllByRole("generic")[1];
 
         // Verifica a aplicação do background
-        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].bg}`)
+        expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].bg}`);
 
         // Verifica a aplicação da borda
         if (statusTagStyleMap[variant].border) {
-          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border}`)
+          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border}`);
         }
 
         // Verifica a aplicação da cor da borda
         if (statusTagStyleMap[variant].border_color) {
-          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].border_color}`)
+          expect(statusTag).toHaveClass(
+            `${statusTagStyleMap[variant].border_color}`,
+          );
         }
 
         // Verifica a aplicação da cor do texto
         if (statusTagStyleMap[variant].text_color) {
-          expect(statusTag).toHaveClass(`${statusTagStyleMap[variant].text_color}`)
+          expect(statusTag).toHaveClass(
+            `${statusTagStyleMap[variant].text_color}`,
+          );
         }
 
         // Verifica a aplicação do texto no StatusTag
-        expect(statusTag).toHaveTextContent('StatusTag')
-      }
-    )
-  })
-})
+        expect(statusTag).toHaveTextContent("StatusTag");
+      },
+    );
+  });
+});

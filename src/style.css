@@ -1,56 +1,55 @@
-@import './assets/fonts/Inter/Inter.css';
-@import './assets/fonts/MaterialSymbols/MaterialSymbols.css';
+@import "./assets/fonts/Inter/Inter.css";
+@import "./assets/fonts/MaterialSymbols/MaterialSymbols.css";
 @import "tailwindcss";
 @theme {
+  /* Base Colors */
+  --color-white: #fff;
 
-    /* Base Colors */
-    --color-white: #fff;
-    
-    /* Primary */
-    --color-primary-hover: #1A255F;
-    --color-primary-500: #2B3A8A;
-    --color-primary-400: #5360A1;
-    --color-primary-300: #7C85B8;
-    --color-primary-200: #B8BEDA;
-    --color-primary-100: #CDD0E5;
+  /* Primary */
+  --color-primary-hover: #1a255f;
+  --color-primary-500: #2b3a8a;
+  --color-primary-400: #5360a1;
+  --color-primary-300: #7c85b8;
+  --color-primary-200: #b8beda;
+  --color-primary-100: #cdd0e5;
 
-    /* Secondary */
-    --color-secondary: #ADBC13;
-    --color-secondary-400: #BDC942;
-    --color-secondary-300: #CED771;
-    --color-secondary-200: #E6EBB8;
+  /* Secondary */
+  --color-secondary: #adbc13;
+  --color-secondary-400: #bdc942;
+  --color-secondary-300: #ced771;
+  --color-secondary-200: #e6ebb8;
 
-    /* Success */
-    --color-success-400: #107B2E;
-    --color-success-100: #6FC487;
+  /* Success */
+  --color-success-400: #107b2e;
+  --color-success-100: #6fc487;
 
-    /* Gray */
-    --color-gray: #32333A;
-    --color-gray-700: #2A2D3C;
-    --color-gray-600: #4F5059;
-    --color-gray-500: #727793;
-    --color-gray-400: #989BB1;
-    --color-gray-300: #B9BBC9;
-    --color-gray-200: #CACDDA;
-    --color-gray-200: #E2E3EB;
-    --color-gray-hover: #CFD0D3;
+  /* Gray */
+  --color-gray: #32333a;
+  --color-gray-700: #2a2d3c;
+  --color-gray-600: #4f5059;
+  --color-gray-500: #727793;
+  --color-gray-400: #989bb1;
+  --color-gray-300: #b9bbc9;
+  --color-gray-200: #cacdda;
+  --color-gray-200: #e2e3eb;
+  --color-gray-hover: #cfd0d3;
 
-    /* Error */
-    --color-error-hover: #810C0C;
-    --color-error-300: #AE1212;
-    --color-error-200: #BD383B;
-    --color-error-100: #CD6363;
-    --color-error-secondaryHover: #E9CACA;
+  /* Error */
+  --color-error-hover: #810c0c;
+  --color-error-300: #ae1212;
+  --color-error-200: #bd383b;
+  --color-error-100: #cd6363;
+  --color-error-secondaryHover: #e9caca;
 
-    /* Warning */
-    --color-warning-hover: #9B3312;
-    --color-warning-100: #B64421;
-    --color-warning-200: #FDC32E;
+  /* Warning */
+  --color-warning-hover: #9b3312;
+  --color-warning-100: #b64421;
+  --color-warning-200: #fdc32e;
 
-    /* Temporary Colors */
-    --color-table-line: #E0E0E0;
+  /* Temporary Colors */
+  --color-table-line: #e0e0e0;
 
-    /* Fonts */
-    --font-inter: Inter, sans-serif;
-    --font-sans: Inter, sans-serif;
+  /* Fonts */
+  --font-inter: Inter, sans-serif;
+  --font-sans: Inter, sans-serif;
 }

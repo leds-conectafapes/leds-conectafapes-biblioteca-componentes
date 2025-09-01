@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericCompactButton from './GenericCompactButton.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericCompactButton from "./GenericCompactButton.vue";
 
 const meta: Meta<typeof GenericCompactButton> = {
-  title: 'Components/GenericCompactButton',
+  title: "Components/GenericCompactButton",
   component: GenericCompactButton,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -24,42 +24,41 @@ const meta: Meta<typeof GenericCompactButton> = {
   },
   argTypes: {
     icon: {
-      control: 'text',
-      description: 'Nome do ícone do botão',
+      control: "text",
+      description: "Nome do ícone do botão",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
-      required: true
+      required: true,
     },
     variant: {
-      control: 'select',
-      options: ['default', 'danger'],
-      description: 'Variação visual do botão',
+      control: "select",
+      options: ["default", "danger"],
+      description: "Variação visual do botão",
       table: {
         type: { summary: `'default' | 'danger'` },
         defaultValue: { summary: "'default'" },
       },
     },
     onClick: {
-      action: 'onClick',
-      description: 'Evento emitido ao clicar no botão',
+      action: "onClick",
+      description: "Evento emitido ao clicar no botão",
       table: {
-        category: 'Events',
-        type: { summary: '() => void' },
+        category: "Events",
+        type: { summary: "() => void" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericCompactButton>
+type Story = StoryObj<typeof GenericCompactButton>;
 
 export const Default: Story = {
   args: {
-    icon: 'visibility',
-    variant: 'default',
+    icon: "visibility",
+    variant: "default",
   },
-}
-
+};

@@ -1,109 +1,117 @@
 // tests/GenericSelect.spec.ts
-import { ref } from 'vue'
-import { render, fireEvent } from '@testing-library/vue'
-import { describe, it, expect, vi } from 'vitest'
+import { ref } from "vue";
+import { render, fireEvent } from "@testing-library/vue";
+import { describe, it, expect, vi } from "vitest";
 
-import GenericButton from '../components/GenericButton/GenericButton.vue'
-import GenericSelect from '../components/GenericSelect/GenericSelect.vue'
+import GenericButton from "../components/GenericButton/GenericButton.vue";
+import GenericSelect from "../components/GenericSelect/GenericSelect.vue";
 
-import type { selectState } from '../types'
+import type { selectState } from "../types";
 
-const selectStates: selectState[] = ['default', 'error', 'warning', 'disabled']
-const requiredValues = [true, false]
+const selectStates: selectState[] = ["default", "error", "warning", "disabled"];
+const requiredValues = [true, false];
 
-const selectStyleMap: Record<selectState, {
-  ring: string
-  bg: string | undefined
-}> = {
+const selectStyleMap: Record<
+  selectState,
+  {
+    ring: string;
+    bg: string | undefined;
+  }
+> = {
   default: {
-    ring: 'ring-gray-500',
-    bg: undefined
+    ring: "ring-gray-500",
+    bg: undefined,
   },
   error: {
-    ring: 'ring-error-300',
-    bg: 'bg-error-100/10',
+    ring: "ring-error-300",
+    bg: "bg-error-100/10",
   },
   warning: {
-    ring: 'ring-warning-100',
-    bg: undefined
+    ring: "ring-warning-100",
+    bg: undefined,
   },
   disabled: {
-    ring: '!ring-0',
-    bg: 'bg-gray-100/40',
+    ring: "!ring-0",
+    bg: "bg-gray-100/40",
   },
-}
+};
 
-describe('GenericSelect.vue', () => {
-  describe('testes de estilização', () => {
+describe("GenericSelect.vue", () => {
+  describe("testes de estilização", () => {
     it.each(
-      selectStates.flatMap(state =>
-        requiredValues.map(required => [state, required] as [selectState, boolean])
-      )
-    )(
-      'renderiza corretamente com state "%s"',
-      (state, required) => {
-        const { getByLabelText, getByText } = render(GenericSelect, {
-          props: {
-            label: `Select ${state} ${required ? 'required' : 'optional'}`,
-            placeholder: `${state} ${required}`,
-            options: [],
-            state,
-            required
-          }
-        })
+      selectStates.flatMap((state) =>
+        requiredValues.map(
+          (required) => [state, required] as [selectState, boolean],
+        ),
+      ),
+    )('renderiza corretamente com state "%s"', (state, required) => {
+      const { getByLabelText, getByText } = render(GenericSelect, {
+        props: {
+          label: `Select ${state} ${required ? "required" : "optional"}`,
+          placeholder: `${state} ${required}`,
+          options: [],
+          state,
+          required,
+        },
+      });
 
-        const label = getByText(`Select ${state} ${required ? 'required' : 'optional'}`, { exact: false })
-        const select = getByLabelText(`Select ${state} ${required ? 'required' : 'optional'}`, { exact: false })
+      const label = getByText(
+        `Select ${state} ${required ? "required" : "optional"}`,
+        { exact: false },
+      );
+      const select = getByLabelText(
+        `Select ${state} ${required ? "required" : "optional"}`,
+        { exact: false },
+      );
 
-        // Verifica a aplicação do anel
-        expect(select).toHaveClass(`${selectStyleMap[state].ring}`)
+      // Verifica a aplicação do anel
+      expect(select).toHaveClass(`${selectStyleMap[state].ring}`);
 
-        // Verifica a aplicação da cor do background
-        if (selectStyleMap[state].bg) {
-          expect(select).toHaveClass(`${selectStyleMap[state].bg}`)
-        }
-
-        // Verifica a aplicação do placeholder no Select
-        expect(select.firstChild).toHaveTextContent(`${state} ${required}`)
-      
-        // Verifica a aplicação de label no Select
-        expect(label).toBeTruthy()
-
-        // Verifica a aplicação de * quando required
-        if (required) {
-          expect(label).toHaveTextContent(/\*/)
-        } else {
-          expect(label).not.toHaveTextContent(/\*/)
-        }
+      // Verifica a aplicação da cor do background
+      if (selectStyleMap[state].bg) {
+        expect(select).toHaveClass(`${selectStyleMap[state].bg}`);
       }
-    )
-  })
 
-  describe('testes de comportamento', () => {
-    it('vincula corretamente o valor com v-model', async () => {
-      const model = ref<string | number | undefined>('banana')
+      // Verifica a aplicação do placeholder no Select
+      expect(select.firstChild).toHaveTextContent(`${state} ${required}`);
+
+      // Verifica a aplicação de label no Select
+      expect(label).toBeTruthy();
+
+      // Verifica a aplicação de * quando required
+      if (required) {
+        expect(label).toHaveTextContent(/\*/);
+      } else {
+        expect(label).not.toHaveTextContent(/\*/);
+      }
+    });
+  });
+
+  describe("testes de comportamento", () => {
+    it("vincula corretamente o valor com v-model", async () => {
+      const model = ref<string | number | undefined>("banana");
 
       const { getByDisplayValue } = render(GenericSelect, {
         props: {
-          label: 'Fruta',
-          placeholder: 'Selecione',
-          options: ['banana', 'maçã', 'uva'],
+          label: "Fruta",
+          placeholder: "Selecione",
+          options: ["banana", "maçã", "uva"],
           modelValue: model.value,
-          'onUpdate:modelValue': (val: string | number | undefined) => {
-            model.value = val
-          }
-        }
-      })
+          "onUpdate:modelValue": (val: string | number | undefined) => {
+            model.value = val;
+          },
+        },
+      });
 
-      const select = getByDisplayValue('banana')
-      expect(select).toHaveValue('banana')
+      const select = getByDisplayValue("banana");
+      expect(select).toHaveValue("banana");
 
-      await fireEvent.update(select, 'uva')
-      expect(model.value).toBe('uva')
-    })
+      await fireEvent.update(select, "uva");
+      expect(model.value).toBe("uva");
+    });
 
-    it('envio de formulário', () => {
-      const onSubmit = vi.fn()
+    it("envio de formulário", () => {
+      const onSubmit = vi.fn();
       const { getByLabelText, getByText } = render({
         components: { GenericSelect, GenericButton },
         template: `
@@ -113,81 +121,81 @@ describe('GenericSelect.vue', () => {
           </form>
         `,
         setup() {
-          const selectModel = ref()
+          const selectModel = ref();
           const submitForm = () => {
-            onSubmit(selectModel.value)
-          }
-          return { selectModel, submitForm }
-        }
-      })
+            onSubmit(selectModel.value);
+          };
+          return { selectModel, submitForm };
+        },
+      });
 
-      const select = getByLabelText('Select') as HTMLSelectElement
-      const button = getByText('Enviar')
+      const select = getByLabelText("Select") as HTMLSelectElement;
+      const button = getByText("Enviar");
 
-      fireEvent.update(select, '123')
-      fireEvent.click(button)
-      expect(onSubmit).toHaveBeenCalledWith('123')
+      fireEvent.update(select, "123");
+      fireEvent.click(button);
+      expect(onSubmit).toHaveBeenCalledWith("123");
 
-      fireEvent.update(select, 'Algo')
-      fireEvent.click(button)
-      expect(onSubmit).toHaveBeenCalledWith(undefined)
-    })
+      fireEvent.update(select, "Algo");
+      fireEvent.click(button);
+      expect(onSubmit).toHaveBeenCalledWith(undefined);
+    });
 
-    it.each(selectStates.filter(s => s !== 'disabled'))(
+    it.each(selectStates.filter((s) => s !== "disabled"))(
       'permite interação quando state = "%s"',
       async (state) => {
-        const model = ref<string | number | undefined>('')
+        const model = ref<string | number | undefined>("");
 
         const { getByDisplayValue } = render(GenericSelect, {
           props: {
-            label: 'Estado',
-            placeholder: 'Selecionar',
-            options: ['ativo', 'inativo'],
+            label: "Estado",
+            placeholder: "Selecionar",
+            options: ["ativo", "inativo"],
             state,
             modelValue: model.value,
-            'onUpdate:modelValue': (val: string | number | undefined) => {
-              model.value = val
-            }
-          }
-        })
+            "onUpdate:modelValue": (val: string | number | undefined) => {
+              model.value = val;
+            },
+          },
+        });
 
-        const select = getByDisplayValue('Selecionar') as HTMLSelectElement
-        expect(select).toBeEnabled()
+        const select = getByDisplayValue("Selecionar") as HTMLSelectElement;
+        expect(select).toBeEnabled();
 
-        await fireEvent.update(select, 'ativo')
-        expect(model.value).toBe('ativo')
-      }
-    )
+        await fireEvent.update(select, "ativo");
+        expect(model.value).toBe("ativo");
+      },
+    );
 
     it('desabilita o select se state for "disabled"', async () => {
       const { getByDisplayValue } = render(GenericSelect, {
         props: {
-          label: 'Estado',
-          placeholder: 'Selecionar',
-          options: ['ativo', 'inativo'],
-          state: 'disabled'
-        }
-      })
+          label: "Estado",
+          placeholder: "Selecionar",
+          options: ["ativo", "inativo"],
+          state: "disabled",
+        },
+      });
 
-      const select = getByDisplayValue('Selecionar') as HTMLSelectElement
-      expect(select).toBeDisabled()
-    })
+      const select = getByDisplayValue("Selecionar") as HTMLSelectElement;
+      expect(select).toBeDisabled();
+    });
 
-    it('exibe mensagens de erro corretamente e aplica classe de erro', () => {
+    it("exibe mensagens de erro corretamente e aplica classe de erro", () => {
       const { getByText, getByDisplayValue } = render(GenericSelect, {
         props: {
-          label: 'Curso',
-          placeholder: 'Escolha',
-          options: ['Engenharia', 'Medicina'],
-          errorMessages: ['Campo obrigatório', 'Valor inválido']
-        }
-      })
+          label: "Curso",
+          placeholder: "Escolha",
+          options: ["Engenharia", "Medicina"],
+          errorMessages: ["Campo obrigatório", "Valor inválido"],
+        },
+      });
 
-      expect(getByText('Campo obrigatório')).toBeInTheDocument()
-      expect(getByText('Valor inválido')).toBeInTheDocument()
+      expect(getByText("Campo obrigatório")).toBeInTheDocument();
+      expect(getByText("Valor inválido")).toBeInTheDocument();
 
-      const select = getByDisplayValue('Escolha') as HTMLSelectElement
-      expect(select).toHaveClass('bg-error-100/10')
-    })
-  })
-})
+      const select = getByDisplayValue("Escolha") as HTMLSelectElement;
+      expect(select).toHaveClass("bg-error-100/10");
+    });
+  });
+});

@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericInput from './GenericInput.vue'
-import type { ConcreteComponent } from 'vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericInput from "./GenericInput.vue";
+import type { ConcreteComponent } from "vue";
 
 const meta: Meta<typeof GenericInput> = {
-  title: 'Components/GenericInput',
+  title: "Components/GenericInput",
   component: GenericInput as unknown as ConcreteComponent,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -35,76 +35,76 @@ const meta: Meta<typeof GenericInput> = {
   },
   argTypes: {
     modelValue: {
-      control: 'text',
-      description: 'Valor do input (string, number ou undefined)',
+      control: "text",
+      description: "Valor do input (string, number ou undefined)",
       table: {
-        type: { summary: 'string | number | undefined' },
+        type: { summary: "string | number | undefined" },
         defaultValue: { summary: "''" },
       },
     },
     type: {
-      control: { type: 'select' },
-      options: ['text', 'number', 'email', 'password', 'search', 'tel', 'url'],
-      description: 'Tipo nativo do input',
+      control: { type: "select" },
+      options: ["text", "number", "email", "password", "search", "tel", "url"],
+      description: "Tipo nativo do input",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "'text'" },
       },
     },
     state: {
-      control: 'select',
-      options: ['default', 'error', 'warning', 'disabled'],
-      description: 'Estado visual do input',
+      control: "select",
+      options: ["default", "error", "warning", "disabled"],
+      description: "Estado visual do input",
       table: {
         type: { summary: "'default' | 'error' | 'warning' | 'disabled'" },
         defaultValue: { summary: "'default'" },
       },
     },
     label: {
-      control: 'text',
-      description: 'Texto do label (ignorado se usar slot `label`)',
+      control: "text",
+      description: "Texto do label (ignorado se usar slot `label`)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     errorMessages: {
-      control: 'object',
-      description: 'Mensagem(s) de erro (string ou string[])',
+      control: "object",
+      description: "Mensagem(s) de erro (string ou string[])",
       table: {
-        type: { summary: 'string | string[]' },
-        defaultValue: { summary: '[]' },
+        type: { summary: "string | string[]" },
+        defaultValue: { summary: "[]" },
       },
     },
     containerClass: {
-      control: 'text',
-      description: 'Classe CSS customizada para o container externo',
+      control: "text",
+      description: "Classe CSS customizada para o container externo",
       table: {
-        type: { summary: 'string | string[]' },
+        type: { summary: "string | string[]" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericInput>
+type Story = StoryObj<typeof GenericInput>;
 
 export const Default: Story = {
   args: {
-    modelValue: '',
-    type: 'text',
-    label: 'Texto',
-    state: 'default',
+    modelValue: "",
+    type: "text",
+    label: "Texto",
+    state: "default",
     errorMessages: [],
   },
-}
+};
 
 export const Search: Story = {
   args: {
-    modelValue: '',
-    type: 'search',
-    label: 'Buscar usuário',
+    modelValue: "",
+    type: "search",
+    label: "Buscar usuário",
   },
   parameters: {
     docs: {
@@ -125,19 +125,19 @@ export const Search: Story = {
     data() {
       return {
         busca: args.modelValue,
-      }
+      };
     },
     watch: {
       busca(val) {
-        args['onUpdate:modelValue']?.(val)
+        args["onUpdate:modelValue"]?.(val);
       },
-      'args.modelValue'(val) {
-        this.busca = val
+      "args.modelValue"(val) {
+        this.busca = val;
       },
     },
     methods: {
       onSearch() {
-        alert('Buscando por: ' + this.busca)
+        alert("Buscando por: " + this.busca);
       },
     },
     template: `
@@ -150,17 +150,17 @@ export const Search: Story = {
       />
     `,
   }),
-}
+};
 
 export const ComErro: Story = {
   args: {
-    modelValue: '',
-    type: 'text',
-    label: 'Email',
-    state: 'error',
-    errorMessages: ['Campo obrigatório', 'Formato inválido'],
+    modelValue: "",
+    type: "text",
+    label: "Email",
+    state: "error",
+    errorMessages: ["Campo obrigatório", "Formato inválido"],
   },
-}
+};
 
 export const ComSlotDeErro: Story = {
   parameters: {
@@ -180,7 +180,7 @@ export const ComSlotDeErro: Story = {
   },
   render: () => ({
     components: { GenericInput },
-    data: () => ({ valor: '' }),
+    data: () => ({ valor: "" }),
     template: `
       <GenericInput v-model="valor" state="error">
         <template #error>
@@ -191,4 +191,4 @@ export const ComSlotDeErro: Story = {
       </GenericInput>
     `,
   }),
-}
+};

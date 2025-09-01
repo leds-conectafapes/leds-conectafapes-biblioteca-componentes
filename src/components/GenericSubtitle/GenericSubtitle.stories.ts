@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericSubtitle from './GenericSubtitle.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericSubtitle from "./GenericSubtitle.vue";
 
 const meta: Meta<typeof GenericSubtitle> = {
-  title: 'Components/GenericSubtitle',
+  title: "Components/GenericSubtitle",
   component: GenericSubtitle,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -30,42 +30,42 @@ const meta: Meta<typeof GenericSubtitle> = {
   },
   argTypes: {
     text: {
-      control: 'text',
-      description: 'Texto exibido no subtítulo (se não usar slot)',
+      control: "text",
+      description: "Texto exibido no subtítulo (se não usar slot)",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: "''" },
       },
     },
     state: {
-      control: { type: 'select' },
-      options: ['default', 'error'],
-      description: 'Estado visual do subtítulo',
+      control: { type: "select" },
+      options: ["default", "error"],
+      description: "Estado visual do subtítulo",
       table: {
-        type: { summary: 'subtitleState' },
-        defaultValue: { summary: 'default' },
+        type: { summary: "subtitleState" },
+        defaultValue: { summary: "default" },
       },
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericSubtitle>
+type Story = StoryObj<typeof GenericSubtitle>;
 
 export const Default: Story = {
   args: {
-    text: 'Subtítulo Padrão',
-    state: 'default',
+    text: "Subtítulo Padrão",
+    state: "default",
   },
-}
+};
 
 export const ErrorState: Story = {
   args: {
-    text: 'Subtítulo Com Erro',
-    state: 'error',
+    text: "Subtítulo Com Erro",
+    state: "error",
   },
-}
+};
 
 export const CustomTextSlot: Story = {
   render: () => ({
@@ -78,7 +78,7 @@ export const CustomTextSlot: Story = {
       </GenericSubtitle>
     `,
   }),
-  name: 'Com Slot Text',
+  name: "Com Slot Text",
   parameters: {
     docs: {
       source: {
@@ -92,5 +92,4 @@ export const CustomTextSlot: Story = {
       },
     },
   },
-}
-
+};

@@ -1,52 +1,54 @@
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue'
-import type { StatusTagVariant } from '../../types';
-import type { HTMLAttributes } from 'vue';
-import { cn } from '../../utils/cn';
+import { computed, useAttrs } from "vue";
+import type { StatusTagVariant } from "../../types";
+import type { HTMLAttributes } from "vue";
+import { cn } from "../../utils/cn";
 
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
-type NativeStatusTagAttributes = /* @vue-ignore */ HTMLAttributes
+type NativeStatusTagAttributes = /* @vue-ignore */ HTMLAttributes;
 
 type statusTagProps = {
-  text?: string,
-  variant?: StatusTagVariant,
-  dontUppercase?: boolean,
-} & NativeStatusTagAttributes
+  text?: string;
+  variant?: StatusTagVariant;
+  dontUppercase?: boolean;
+} & NativeStatusTagAttributes;
 
-const { text, variant = 'success', dontUppercase, } = defineProps<statusTagProps>()
+const {
+  text,
+  variant = "success",
+  dontUppercase,
+} = defineProps<statusTagProps>();
 
-const attrs = useAttrs()
+const attrs = useAttrs();
 
 const STATUSTAG_VARIANTS = {
-  info: 'bg-zinc-300 text-zinc-700',
-  infoStrong: 'bg-gray-600 text-white',
-  success: 'bg-success-400',
-  warn: 'bg-amber-300 text-zinc-800',
-  warnStrong: 'bg-amber-700 text-white',
-  critical: 'bg-red-800 text-white',
-  custom: ''
-} as const
+  info: "bg-zinc-300 text-zinc-700",
+  infoStrong: "bg-gray-600 text-white",
+  success: "bg-success-400",
+  warn: "bg-amber-300 text-zinc-800",
+  warnStrong: "bg-amber-700 text-white",
+  critical: "bg-red-800 text-white",
+  custom: "",
+} as const;
 
-const statusTagVariant = computed(() => cn(
-  'w-max inline-flex items-center rounded-lg px-3 py-1 text-sm font-bold text-white',
-  STATUSTAG_VARIANTS[variant],
-  !dontUppercase && 'uppercase',
-  attrs.class as string | undefined,
-))
+const statusTagVariant = computed(() =>
+  cn(
+    "w-max inline-flex items-center rounded-lg px-3 py-1 text-sm font-bold text-white",
+    STATUSTAG_VARIANTS[variant],
+    !dontUppercase && "uppercase",
+    attrs.class as string | undefined,
+  ),
+);
 
 const forwarded = computed(() => {
-  const { ...rest } = attrs
-  return rest
-})
-
+  const { ...rest } = attrs;
+  return rest;
+});
 </script>
 
 <template>
-  <span
-    v-bind="forwarded"
-    :class="statusTagVariant"
-  >
+  <span v-bind="forwarded" :class="statusTagVariant">
     <slot>
       {{ text }}
     </slot>

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import GenericTitle from './GenericTitle.vue'
+import type { Meta, StoryObj } from "@storybook/vue3";
+import GenericTitle from "./GenericTitle.vue";
 
 const meta: Meta<typeof GenericTitle> = {
-  title: 'Components/GenericTitle',
+  title: "Components/GenericTitle",
   component: GenericTitle,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -24,39 +24,39 @@ const meta: Meta<typeof GenericTitle> = {
       },
       extractArgTypes: false,
       extractComponentDescription: false,
-    }
+    },
   },
   argTypes: {
     text: {
-      control: 'text',
-      description: 'Texto a ser exibido no título',
-      defaultValue: '',
+      control: "text",
+      description: "Texto a ser exibido no título",
+      defaultValue: "",
     },
     type: {
       control: {
-        type: 'select',
-        options: ['h1', 'h2', 'h3', 'title', 'subtitle', 'body', 'caption'],
+        type: "select",
+        options: ["h1", "h2", "h3", "title", "subtitle", "body", "caption"],
       },
-      description: 'Tipo do título que define o estilo visual',
-      defaultValue: 'h1',
+      description: "Tipo do título que define o estilo visual",
+      defaultValue: "h1",
     },
     class: {
-      control: 'text',
-      description: 'Classes CSS adicionais para customização',
+      control: "text",
+      description: "Classes CSS adicionais para customização",
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof GenericTitle>
+type Story = StoryObj<typeof GenericTitle>;
 
 export const Default: Story = {
   args: {
-    text: 'Título Exemplo',
-    type: 'h1',
+    text: "Título Exemplo",
+    type: "h1",
   },
-}
+};
 
 export const Variations: Story = {
   render: () => ({
@@ -73,7 +73,7 @@ export const Variations: Story = {
       </div>
     `,
   }),
-  name: 'Variações de Type',
+  name: "Variações de Type",
   parameters: {
     docs: {
       source: {
@@ -91,7 +91,7 @@ export const Variations: Story = {
       },
     },
   },
-}
+};
 
 export const ComSlotText: Story = {
   render: (args) => ({
@@ -106,6 +106,6 @@ export const ComSlotText: Story = {
     `,
   }),
   args: {
-    type: 'h2',
+    type: "h2",
   },
-}
+};
