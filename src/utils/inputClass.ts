@@ -1,0 +1,1 @@
+export const inputClass = 'p-4 text-base font-regular font-inter leading-normal bg-white text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400'

@@ -3,6 +3,7 @@ import { computed, useAttrs, useSlots } from "vue";
 import type { InputHTMLAttributes } from "vue";
 import type { datePickerState } from "../../types";
 import { cn } from "../../utils/cn";
+import { inputClass } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
@@ -41,7 +42,8 @@ const DATEPICKER_STATES: Record<datePickerState, string> = {
 
 const datePickerState = computed(() =>
   cn(
-    "w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400 calendar-none",
+    inputClass,
+    "w-full calendar-none",
     DATEPICKER_STATES[props.errorMessages.length > 0 ? "error" : props.state],
     attrs.class as string | undefined,
   ),

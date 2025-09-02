@@ -4,6 +4,7 @@ import { cn } from "../../utils/cn";
 import type { SelectHTMLAttributes } from "vue";
 import type { selectState } from "../../types";
 import type { selectOption } from "../../types";
+import { inputClass } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
@@ -45,7 +46,8 @@ const SELECT_STATES: Record<selectState, string> = {
 
 const selectState = computed(() =>
   cn(
-    "appearance-none w-full p-4 font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400",
+    inputClass,
+    "appearance-none w-full",
     SELECT_STATES[errorMessages.length > 0 ? "error" : state],
     attrs.class as string | undefined,
   ),
