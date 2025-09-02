@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends string | undefined">
 import { computed, useAttrs, useSlots } from "vue";
 import type { InputHTMLAttributes } from "vue";
-import type { datePickerState } from "../../types";
+import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
 import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
@@ -10,7 +10,7 @@ defineOptions({ inheritAttrs: false });
 type NativeDatePickerAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type DatePickerProps = {
-  state?: datePickerState;
+  state?: inputState;
   label?: string;
   errorMessages?: string | string[];
   containerClass?: string | string[];

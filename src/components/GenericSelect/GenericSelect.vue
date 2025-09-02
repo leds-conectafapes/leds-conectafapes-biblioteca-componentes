@@ -2,7 +2,7 @@
 import { computed, useAttrs } from "vue";
 import { cn } from "../../utils/cn";
 import type { SelectHTMLAttributes } from "vue";
-import type { selectState } from "../../types";
+import type { inputState } from "../../types";
 import type { selectOption } from "../../types";
 import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
@@ -13,7 +13,7 @@ type NativeSelectAttributes = /* @vue-ignore */ SelectHTMLAttributes;
 type selectProps<T> = {
   options?: selectOption<T>[];
   label?: string;
-  state?: selectState;
+  state?: inputState;
   placeholder?: string;
   containerClass?: string | string[];
   errorMessages?: string | string[];
