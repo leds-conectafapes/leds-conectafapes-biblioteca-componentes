@@ -4,7 +4,7 @@ import { cn } from "../../utils/cn";
 import type { SelectHTMLAttributes } from "vue";
 import type { selectState } from "../../types";
 import type { selectOption } from "../../types";
-import { inputClass } from "../../utils/inputClass";
+import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
@@ -37,18 +37,11 @@ const id = computed(() => attrs.id as string | undefined);
 
 const isDisabled = computed(() => state === "disabled");
 
-const SELECT_STATES: Record<selectState, string> = {
-  default: "ring-gray-500",
-  error: "ring-error-300 bg-error-100/10",
-  warning: "ring-warning-100",
-  disabled: "ring-0 bg-gray-100/40",
-} as const;
-
 const selectState = computed(() =>
   cn(
     inputClass,
     "appearance-none w-full",
-    SELECT_STATES[errorMessages.length > 0 ? "error" : state],
+    inputStateStyles[errorMessages.length > 0 ? "error" : state],
     attrs.class as string | undefined,
   ),
 );

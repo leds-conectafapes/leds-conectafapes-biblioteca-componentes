@@ -3,7 +3,7 @@ import { computed, useAttrs, useSlots } from "vue";
 import type { InputHTMLAttributes } from "vue";
 import type { datePickerState } from "../../types";
 import { cn } from "../../utils/cn";
-import { inputClass } from "../../utils/inputClass";
+import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
@@ -33,18 +33,11 @@ const isDisabled = computed(() => props.state === "disabled");
 const hasLabelSlots = computed(() => !!slots.label);
 const hasErrorSlots = computed(() => !!slots.error);
 
-const DATEPICKER_STATES: Record<datePickerState, string> = {
-  default: "ring-gray-500",
-  error: "ring-error-300 bg-error-100/10",
-  warning: "ring-warning-100",
-  disabled: "!ring-0 bg-gray-100/40",
-} as const;
-
 const datePickerState = computed(() =>
   cn(
     inputClass,
     "w-full calendar-none",
-    DATEPICKER_STATES[props.errorMessages.length > 0 ? "error" : props.state],
+    inputStateStyles[props.errorMessages.length > 0 ? "error" : props.state],
     attrs.class as string | undefined,
   ),
 );
