@@ -1,0 +1,31 @@
+kind: pipeline
+type: docker
+name: Build
+
+trigger:
+  event:
+    - push
+  branch:
+    - develop
+    - test
+
+steps:
+  - name: build
+    image: docker:27.2.0-dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - cd leds-conectafapes-biblioteca-componentes
+      - docker build -f dockerfile .
+      - echo "Build completed successfully"
+services:
+  - name: dind
+    image: docker:27.1-dind
+    privileged: true
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
