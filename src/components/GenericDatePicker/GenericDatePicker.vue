@@ -33,10 +33,13 @@ const isDisabled = computed(() => props.state === "disabled");
 const hasLabelSlots = computed(() => !!slots.label);
 const hasErrorSlots = computed(() => !!slots.error);
 
+const isFirefox = /Firefox\//.test(navigator.userAgent)
+
 const datePickerState = computed(() =>
   cn(
     inputClass,
-    "w-full calendar-none",
+    "w-full",
+    isFirefox ? "" : "calendar-none",
     inputStateStyles[props.errorMessages.length > 0 ? "error" : props.state],
     attrs.class as string | undefined,
   ),
@@ -71,6 +74,7 @@ const forwarded = computed(() => {
         :disabled="isDisabled"
       />
       <svg
+        v-if="!isFirefox"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
