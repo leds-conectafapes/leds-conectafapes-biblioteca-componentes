@@ -17,8 +17,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - cd leds-conectafapes-biblioteca-componentes
-      - docker build -f dockerfile .
+      - docker build -f Dockerfile .
       - echo "Build completed successfully"
 services:
   - name: dind
