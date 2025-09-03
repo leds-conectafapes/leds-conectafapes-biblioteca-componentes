@@ -28,10 +28,8 @@ export type buttonVariant =
   | "secondaryDanger"
   | "disabled";
 export type compactButtonVariant = "default" | "danger";
-export type datePickerState = "default" | "error" | "warning" | "disabled";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
-export type selectState = "default" | "error" | "warning" | "disabled";
 export type selectOption<T> = { id: string | number; value: T; label: string };
 export type StatusTagVariant =
   | "info"

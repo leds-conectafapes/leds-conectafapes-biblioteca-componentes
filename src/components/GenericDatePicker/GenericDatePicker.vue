@@ -1,15 +1,17 @@
 <script setup lang="ts" generic="T extends string | undefined">
 import { computed, useAttrs, useSlots } from "vue";
 import type { InputHTMLAttributes } from "vue";
-import type { datePickerState } from "../../types";
+import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
+import { inputClass, inputStateStyles } from "../../utils/inputClass";
+import GenericIcon from "../GenericIcon/GenericIcon.vue";
 
 defineOptions({ inheritAttrs: false });
 
 type NativeDatePickerAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type DatePickerProps = {
-  state?: datePickerState;
+  state?: inputState;
   label?: string;
   errorMessages?: string | string[];
   containerClass?: string | string[];
@@ -32,17 +34,14 @@ const isDisabled = computed(() => props.state === "disabled");
 const hasLabelSlots = computed(() => !!slots.label);
 const hasErrorSlots = computed(() => !!slots.error);
 
-const DATEPICKER_STATES: Record<datePickerState, string> = {
-  default: "ring-gray-500",
-  error: "ring-error-300 bg-error-100/10",
-  warning: "ring-warning-100",
-  disabled: "!ring-0 bg-gray-100/40",
-} as const;
+const isFirefox = /Firefox\//.test(navigator.userAgent);
 
 const datePickerState = computed(() =>
   cn(
-    "w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400 calendar-none",
-    DATEPICKER_STATES[props.errorMessages.length > 0 ? "error" : props.state],
+    inputClass,
+    "w-full",
+    isFirefox ? "" : "calendar-none",
+    inputStateStyles[props.errorMessages.length > 0 ? "error" : props.state],
     attrs.class as string | undefined,
   ),
 );
@@ -75,20 +74,13 @@ const forwarded = computed(() => {
         :class="datePickerState"
         :disabled="isDisabled"
       />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 text-gray-500 pointer-events-none"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6.75 3v2.25m10.5-2.25V5.25M3.75 9h16.5M4.5 6.75h15a.75.75 0 01.75.75v12a.75.75 0 01-.75.75H4.5A.75.75 0 013.75 19.5V7.5a.75.75 0 01.75-.75z"
-        />
-      </svg>
+
+      <GenericIcon
+        v-if="!isFirefox"
+        name="date_range"
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-lg leading-tight text-gray-500 transition pointer-events-none"
+        filled
+      />
     </div>
     <!-- errors -->
     <div v-if="!hasErrorSlots && props.errorMessages.length > 0">
