@@ -119,3 +119,4 @@ export type titleType =
   | "body"
   | "caption";
 export type radioGroupOptions<T> = { id: string; label: string; value: T };
+export type RadioGroupDirection = "column" | "row";
