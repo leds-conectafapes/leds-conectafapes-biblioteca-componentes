@@ -47,7 +47,7 @@ const buttonVariant = computed(() =>
   ),
 );
 
-const type = computed(() => (attrs.type as NativeButtonAttributes['type']) ?? "button")
+const type = computed(() => props.type ?? "button")
 
 const forwarded = computed(() => {
   const { ...rest } = attrs;
