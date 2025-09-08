@@ -78,6 +78,15 @@ const meta: Meta<typeof GenericRadioGroup> = {
         type: { summary: "string | string[]" },
       },
     },
+    direction: {
+      control: "select",
+      description: "Direção da disposição das opções.",
+      options: ["column", "row"],
+      table: {
+        type: { summary: "RadioGroupDirection" },
+        defaultValue: { summary: "column" },
+      },
+    }
   },
 };
 
@@ -274,6 +283,42 @@ const options = [
   { id: 'op2', label: 'Opção 2', value: 'op2' },
   { id: 'op3', label: 'Opção 3', value: 'op3' },
 ]
+</script>
+        `.trim(),
+      },
+    },
+  },
+};
+
+export const RowDirection: Story = {
+  name: "Dispor opções por linha",
+  args: {
+    modelValue: "yes",
+    label: "Você aceita os termos?",
+    options: [
+      // @ts-expect-error O Typescript junto com o Storybook não conseguem entender que o radioGroupOptions tem um type genérico
+      { id: "yes", label: "Sim", value: "yes" },
+      { id: "no", label: "Não", value: "no" },
+    ] satisfies radioGroupOptions<string>[],
+    direction: "row",
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<GenericRadioGroup
+  v-model="selected"
+  :options="[
+    { id: 'yes', label: 'Sim', value: 'yes' },
+    { id: 'no', label: 'Não', value: 'no' }
+  ]"
+  label="Você aceita os termos?"
+  direction="row"
+/>
+
+<script setup>
+import { ref } from 'vue'
+const selected = ref('yes')
 </script>
         `.trim(),
       },

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends string | number | undefined">
-import type { radioGroupOptions } from "../../types";
+import type { RadioGroupDirection, radioGroupOptions } from "../../types";
 import type { InputHTMLAttributes } from "vue";
 import { computed, useAttrs, useSlots } from "vue";
 import { cn } from "../../utils/cn";
@@ -13,6 +13,7 @@ type radioGroupProps<T> = {
   label?: string;
   containerClass?: string | string[];
   errorMessages?: string | string[];
+  direction?: RadioGroupDirection;
 } & NativeInputAttributes;
 
 const props = withDefaults(defineProps<radioGroupProps<T>>(), {
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<radioGroupProps<T>>(), {
   label: "",
   containerClass: () => [],
   errorMessages: () => [],
+  direction: "column",
 });
 
 const modelValue = defineModel<T>();
@@ -32,17 +34,26 @@ const hasErrorSlots = computed(() => !!slots.error);
 const hasLabelSlots = computed(() => !!slots.label);
 
 const radioGroupClass = computed(() =>
-  cn("accent-primary-500 h-5 w-5", attrs.class as string | undefined),
+  cn("accent-primary-500 size-6", attrs.class as string | undefined),
 );
 
 const forwarded = computed(() => {
   const { ...rest } = attrs;
   return rest;
 });
+
+const optionWrapperClass = computed(() => {
+  const base = "flex gap-y-4 gap-x-8"
+  if (props.direction === "column") {
+    return base + " flex-col"
+  } else {
+    return base
+  }
+})
 </script>
 
 <template>
-  <div :class="cn('w-full gap-y-2 flex flex-col', props.containerClass)">
+  <div :class="cn('w-full gap-y-4 flex flex-col', props.containerClass)">
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label class="w-fit text-base font-medium font-inter">
@@ -54,11 +65,11 @@ const forwarded = computed(() => {
     </div>
     <!-- input -->
     <div>
-      <div v-if="!hasOptionSlots" class="flex flex-col gap-y-1">
+      <div v-if="!hasOptionSlots" :class="optionWrapperClass">
         <div
           v-for="option in props.options"
           :key="option.id"
-          class="flex flex-row gap-x-2"
+          class="flex flex-row gap-x-4"
         >
           <input
             v-bind="forwarded"
