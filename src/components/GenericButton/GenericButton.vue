@@ -47,6 +47,8 @@ const buttonVariant = computed(() =>
   ),
 );
 
+const type = computed(() => (attrs.type as NativeButtonAttributes['type']) ?? "button")
+
 const forwarded = computed(() => {
   const { ...rest } = attrs;
   return rest;
@@ -56,7 +58,7 @@ const forwarded = computed(() => {
 <template>
   <button
     v-bind="forwarded"
-    type="button"
+    :type="type"
     :class="buttonVariant"
     :disabled="isDisabled"
     @click="onClick"
