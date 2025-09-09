@@ -25,11 +25,13 @@ const {
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: boolean): void;
+  (e: "close"): void;
   (e: "confirm"): void;
 }>();
 
 function close() {
   emit("update:modelValue", false);
+  emit("close");
 }
 
 function confirm() {
