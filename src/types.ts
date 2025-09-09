@@ -32,6 +32,7 @@ export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
 export type selectOption<T> = { id: string | number; value: T; label: string };
 export type ModalVariant = Exclude<buttonVariant, "secondary">;
+export type ModalWidth = "regular" | "medium"
 export type StatusTagVariant =
   | "info"
   | "infoStrong"

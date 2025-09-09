@@ -2,7 +2,7 @@
 import { computed, useAttrs } from "vue";
 import GenericButton from "../GenericButton/GenericButton.vue";
 import { cn } from "../../utils/cn";
-import type { ModalVariant } from "../../types";
+import type { ModalVariant, ModalWidth } from "../../types";
 import GenericIcon from "../GenericIcon/GenericIcon.vue";
 
 defineOptions({ inheritAttrs: false });
@@ -14,6 +14,7 @@ const {
   confirmLabel,
   variant = "primary",
   hideCloseIcon = false,
+  width = "regular",
 } = defineProps<{
   modelValue: boolean;
   title: string;
@@ -21,6 +22,7 @@ const {
   confirmLabel?: string;
   variant?: ModalVariant;
   hideCloseIcon?: boolean;
+  width?: ModalWidth
 }>();
 
 const emit = defineEmits<{
@@ -42,14 +44,15 @@ const attrs = useAttrs();
 
 const overlayClass = computed(() => {
   return cn(
-    "fixed inset-0 flex items-center justify-center bg-[#0005] backdrop-blur-sm z-50",
+    "fixed inset-0 flex items-center justify-center bg-zinc-700/15 backdrop-blur-sm z-50",
     modelValue ? undefined : "hidden",
   );
 });
 
 const cardClass = computed(() => {
   return cn(
-    "bg-white rounded-lg p-6 flex flex-col gap-6 text-base leading-normal font-normal text-gray-600 overflow-scroll",
+    "bg-white rounded-lg p-6 flex flex-col gap-6 text-base leading-normal font-normal text-gray-600 overflow-hidden break-all",
+    width === "regular" ? "w-148" : "w-200",
     attrs.class as string | undefined,
   );
 });

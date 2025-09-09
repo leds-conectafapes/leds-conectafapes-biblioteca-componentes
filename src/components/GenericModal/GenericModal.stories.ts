@@ -102,6 +102,18 @@ function confirmarCadastro() {
         defaultValue: { summary: 'false' },
       },
     },
+    width: {
+      control: "select",
+      options: [
+        "regular",
+        "medium",
+      ],
+      description: "Define largura do modal. A largura pode ser sobrescrita por meio de classe de largura.",
+      table: {
+        type: { summary: `'regular' | 'medium'` },
+        defaultValue: { summary: "'regular'" },
+      },
+    },
     onConfirm: {
       action: "onConfirm",
       description: "Evento emitido ao clicar no botão de confirmação",
@@ -147,7 +159,7 @@ export const Default: Story = {
           cancelLabel: "Não",
           confirmLabel: "Sim",
           onConfirm: confirmarCadastro,
-          "onUpdate:modelValue": (newValue) => modal.value = newValue
+          "onUpdate:modelValue": (newValue) => modal.value = newValue,
         },
         () => "Todas as informações estão corretas?"
       )
