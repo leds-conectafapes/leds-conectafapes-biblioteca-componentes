@@ -16,7 +16,7 @@ const {
   tooltip,
   tooltipIcon,
 } = defineProps<{
-  title: string;
+  title?: string;
   titleClass?: string;
   text?: string;
   caption?: string;
@@ -29,6 +29,9 @@ const {
 } | {
   textVariant?: "default";
   captionVariant: CardVariant;
+} | {
+  textVariant?: "default";
+  captionVariant?: "default";
 })>()
 /**
  * esse tipo um pouco mais complicado serve para aplicar uma
