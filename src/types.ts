@@ -17,6 +17,7 @@ export { default as GenericCompactButton } from "./components/GenericCompactButt
 export { default as GenericPagination } from "./components/GenericPagination/GenericPagination.vue";
 export { default as GenericTooltip } from "./components/GenericTooltip/GenericTooltip.vue";
 export { default as GenericIcon } from "./components/GenericIcon/GenericIcon.vue";
+export { default as GenericModal } from "./components/GenericModal/GenericModal.vue";
 
 // Exportação de types da biblioteca
 export type IconVariant = "outlined" | "rounded" | "sharp";
