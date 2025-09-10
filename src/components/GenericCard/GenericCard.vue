@@ -30,6 +30,13 @@ const {
  *   textVariant="success" captionVariant="error"
  */
 
+defineSlots<{
+  title: () => unknown;
+  tooltip: () => unknown;
+  default: () => unknown;
+  caption: () => unknown;
+}>();
+
 const attrs = useAttrs()
 
 const textVariantClasses = {
