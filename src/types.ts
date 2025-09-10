@@ -28,6 +28,24 @@ export type buttonVariant =
   | "secondaryDanger"
   | "disabled";
 export type CardVariant = "default" | "success" | "error";
+export type GenericCardProps = {
+  title?: string;
+  titleClass?: string;
+  text?: string;
+  caption?: string;
+  captionClass?: string;
+  tooltip?: string;
+  tooltipIcon?: string;
+} & ({
+  textVariant: CardVariant;
+  captionVariant?: "default";
+} | {
+  textVariant?: "default";
+  captionVariant: CardVariant;
+} | {
+  textVariant?: "default";
+  captionVariant?: "default";
+})
 export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";

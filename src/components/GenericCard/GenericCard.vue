@@ -3,7 +3,7 @@ import { computed, useAttrs } from 'vue';
 import { cn } from '../../utils/cn';
 import GenericIcon from '../GenericIcon/GenericIcon.vue';
 import GenericTooltip from '../GenericTooltip/GenericTooltip.vue';
-import type { CardVariant } from '../../types';
+import type { GenericCardProps } from '../../types';
 
 const {
   title,
@@ -15,24 +15,7 @@ const {
   captionClass,
   tooltip,
   tooltipIcon,
-} = defineProps<{
-  title?: string;
-  titleClass?: string;
-  text?: string;
-  caption?: string;
-  captionClass?: string;
-  tooltip?: string;
-  tooltipIcon?: string;
-} & ({
-  textVariant: CardVariant;
-  captionVariant?: "default";
-} | {
-  textVariant?: "default";
-  captionVariant: CardVariant;
-} | {
-  textVariant?: "default";
-  captionVariant?: "default";
-})>()
+} = defineProps<GenericCardProps>()
 /**
  * esse tipo um pouco mais complicado serve para aplicar uma
  * regra do Design System de nao colorir ambos o texto principal
