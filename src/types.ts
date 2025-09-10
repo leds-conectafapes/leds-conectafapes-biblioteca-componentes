@@ -17,6 +17,9 @@ export { default as GenericCompactButton } from "./components/GenericCompactButt
 export { default as GenericPagination } from "./components/GenericPagination/GenericPagination.vue";
 export { default as GenericTooltip } from "./components/GenericTooltip/GenericTooltip.vue";
 export { default as GenericIcon } from "./components/GenericIcon/GenericIcon.vue";
+export { default as GenericCard } from "./components/GenericCard/GenericCard.vue";
+export { default as GenericNavCard } from "./components/GenericNavCard/GenericNavCard.vue";
+export { default as GenericMessageCard } from "./components/GenericMessageCard/GenericMessageCard.vue";
 
 // Exportação de types da biblioteca
 export type IconVariant = "outlined" | "rounded" | "sharp";
@@ -36,16 +39,20 @@ export type GenericCardProps = {
   captionClass?: string;
   tooltip?: string;
   tooltipIcon?: string;
-} & ({
-  textVariant: CardVariant;
-  captionVariant?: "default";
-} | {
-  textVariant?: "default";
-  captionVariant: CardVariant;
-} | {
-  textVariant?: "default";
-  captionVariant?: "default";
-})
+} & (
+  | {
+      textVariant: CardVariant;
+      captionVariant?: "default";
+    }
+  | {
+      textVariant?: "default";
+      captionVariant: CardVariant;
+    }
+  | {
+      textVariant?: "default";
+      captionVariant?: "default";
+    }
+);
 export type MessageCardVariant = "default" | "warning" | "error" | "disabled";
 export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";

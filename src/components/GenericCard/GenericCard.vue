@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue';
-import { cn } from '../../utils/cn';
-import GenericIcon from '../GenericIcon/GenericIcon.vue';
-import GenericTooltip from '../GenericTooltip/GenericTooltip.vue';
-import type { GenericCardProps } from '../../types';
+import { computed, useAttrs } from "vue";
+import { cn } from "../../utils/cn";
+import GenericIcon from "../GenericIcon/GenericIcon.vue";
+import GenericTooltip from "../GenericTooltip/GenericTooltip.vue";
+import type { GenericCardProps } from "../../types";
 
 const {
   title,
@@ -15,7 +15,7 @@ const {
   captionClass,
   tooltip,
   tooltipIcon,
-} = defineProps<GenericCardProps>()
+} = defineProps<GenericCardProps>();
 /**
  * esse tipo um pouco mais complicado serve para aplicar uma
  * regra do Design System de nao colorir ambos o texto principal
@@ -37,44 +37,44 @@ defineSlots<{
   caption: () => unknown;
 }>();
 
-const attrs = useAttrs()
+const attrs = useAttrs();
 
 const textVariantClasses = {
   default: "text-gray-800",
   success: "text-green-400",
   error: "text-red-700",
-} as const
+} as const;
 const cardClass = computed(() => {
   return cn(
     "p-8 border border-slate-300 rounded-2xl min-h-38 text-3xl font-extrabold leading-tight break-all",
     textVariantClasses[textVariant],
     attrs.class as string | undefined,
-  )
-})
+  );
+});
 
 const _titleClass = computed(() => {
   return cn(
     "text-xl font-bold flex justify-between mb-4 text-gray-800",
     titleClass,
-  )
-})
+  );
+});
 
 const captionVariantClasses = {
   default: "text-gray-600",
   success: "text-green-700",
   error: "text-red-800",
-} as const
+} as const;
 const _captionClass = computed(() => {
   return cn(
     "text-sm font-medium text-gray-600 mt-2",
     captionVariantClasses[captionVariant],
     captionClass,
-  )
-})
+  );
+});
 
 const _tooltipIcon = computed(() => {
-  return tooltipIcon || "info"
-})
+  return tooltipIcon || "info";
+});
 </script>
 
 <template>
@@ -84,10 +84,7 @@ const _tooltipIcon = computed(() => {
         {{ title }}
 
         <slot name="tooltip">
-          <GenericTooltip
-            v-if="tooltip"
-            :text="tooltip"
-          >
+          <GenericTooltip v-if="tooltip" :text="tooltip">
             <GenericIcon
               class="text-2xl text-primary-500"
               :name="_tooltipIcon"

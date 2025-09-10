@@ -10,17 +10,21 @@ const {
   statusVariant,
   disabled = false,
   ...props
-} = defineProps<{
-  statusText: string;
-  statusVariant?: StatusTagVariant;
-  disabled?: boolean;
-} & GenericCardProps>();
+} = defineProps<
+  {
+    statusText: string;
+    statusVariant?: StatusTagVariant;
+    disabled?: boolean;
+  } & GenericCardProps
+>();
 
 const attrs = useAttrs();
 const cardClass = computed(() => {
   return cn(
     "break-keep",
-    disabled ? "" : "hover:bg-blue-50 hover:ring-2 hover:ring-blue-800/60 cursor-pointer",
+    disabled
+      ? ""
+      : "hover:bg-blue-50 hover:ring-2 hover:ring-blue-800/60 cursor-pointer",
     attrs.class as string | undefined,
   );
 });

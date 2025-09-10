@@ -43,13 +43,13 @@ const forwarded = computed(() => {
 });
 
 const optionWrapperClass = computed(() => {
-  const base = "flex gap-y-4 gap-x-8"
+  const base = "flex gap-y-4 gap-x-8";
   if (props.direction === "column") {
-    return base + " flex-col"
+    return base + " flex-col";
   } else {
-    return base
+    return base;
   }
-})
+});
 </script>
 
 <template>

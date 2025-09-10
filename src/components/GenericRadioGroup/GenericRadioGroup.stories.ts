@@ -86,7 +86,7 @@ const meta: Meta<typeof GenericRadioGroup> = {
         type: { summary: "RadioGroupDirection" },
         defaultValue: { summary: "column" },
       },
-    }
+    },
   },
 };
 
