@@ -46,6 +46,7 @@ export type GenericCardProps = {
   textVariant?: "default";
   captionVariant?: "default";
 })
+export type MessageCardVariant = "default" | "warning" | "error" | "disabled";
 export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
