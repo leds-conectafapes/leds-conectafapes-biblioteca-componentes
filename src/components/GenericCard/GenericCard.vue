@@ -76,7 +76,7 @@ const captionVariantClasses = {
 } as const
 const _captionClass = computed(() => {
   return cn(
-    "text-sm text-gray-600 mt-2",
+    "text-sm font-medium text-gray-600 mt-2",
     captionVariantClasses[captionVariant],
     captionClass,
   )
