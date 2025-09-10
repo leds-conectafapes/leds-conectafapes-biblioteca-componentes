@@ -18,6 +18,9 @@ export { default as GenericPagination } from "./components/GenericPagination/Gen
 export { default as GenericTooltip } from "./components/GenericTooltip/GenericTooltip.vue";
 export { default as GenericIcon } from "./components/GenericIcon/GenericIcon.vue";
 export { default as GenericModal } from "./components/GenericModal/GenericModal.vue";
+export { default as GenericCard } from "./components/GenericCard/GenericCard.vue";
+export { default as GenericNavCard } from "./components/GenericNavCard/GenericNavCard.vue";
+export { default as GenericMessageCard } from "./components/GenericMessageCard/GenericMessageCard.vue";
 
 // Exportação de types da biblioteca
 export type IconVariant = "outlined" | "rounded" | "sharp";
@@ -28,6 +31,30 @@ export type buttonVariant =
   | "secondary"
   | "secondaryDanger"
   | "disabled";
+export type CardVariant = "default" | "success" | "error";
+export type GenericCardProps = {
+  title?: string;
+  titleClass?: string;
+  text?: string;
+  caption?: string;
+  captionClass?: string;
+  tooltip?: string;
+  tooltipIcon?: string;
+} & (
+  | {
+      textVariant: CardVariant;
+      captionVariant?: "default";
+    }
+  | {
+      textVariant?: "default";
+      captionVariant: CardVariant;
+    }
+  | {
+      textVariant?: "default";
+      captionVariant?: "default";
+    }
+);
+export type MessageCardVariant = "default" | "warning" | "error" | "disabled";
 export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
