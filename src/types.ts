@@ -17,6 +17,7 @@ export { default as GenericCompactButton } from "./components/GenericCompactButt
 export { default as GenericPagination } from "./components/GenericPagination/GenericPagination.vue";
 export { default as GenericTooltip } from "./components/GenericTooltip/GenericTooltip.vue";
 export { default as GenericIcon } from "./components/GenericIcon/GenericIcon.vue";
+export { default as GenericModal } from "./components/GenericModal/GenericModal.vue";
 
 // Exportação de types da biblioteca
 export type IconVariant = "outlined" | "rounded" | "sharp";
@@ -31,6 +32,8 @@ export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
 export type selectOption<T> = { id: string | number; value: T; label: string };
+export type ModalVariant = Exclude<buttonVariant, "secondary">;
+export type ModalWidth = "regular" | "medium"
 export type StatusTagVariant =
   | "info"
   | "infoStrong"
