@@ -11,14 +11,17 @@ const { title, variant = "default" } = defineProps<{
 const attrs = useAttrs();
 
 const variantClasses = {
-  default: "border-gray-700 hover:bg-gray-100 hover:ring-gray-500",
-  warning: "border-orange-600 hover:bg-orange-50 hover:ring-orange-500/50",
-  error: "border-red-800 hover:bg-red-50 hover:ring-red-400/50",
-  disabled: "border-gray-700",
+  default:
+    "bg-gray-100 border-gray-700 ring-gray-400 hover:bg-gray-200 hover:ring-gray-500",
+  warning:
+    "bg-orange-50 border-orange-600 ring-orange-500/50 hover:bg-orange-100 hover:ring-orange-500",
+  error:
+    "bg-red-50 border-red-800 ring-red-400/50 hover:bg-red-100 hover:ring-red-400",
+  disabled: "border-gray-700 ring-gray-100",
 } as const;
 const cardClass = computed(() => {
   return cn(
-    "px-6 py-5 rounded-lg border-l-8 bg-white flex gap-x-4 ring-1 hover:ring-2 ring-gray-100",
+    "px-6 py-5 rounded-lg border-l-8 flex gap-x-4 ring-2",
     variantClasses[variant],
     variant === "disabled" ? "" : "cursor-pointer",
     attrs.class as string | undefined,
