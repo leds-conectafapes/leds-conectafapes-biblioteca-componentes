@@ -70,7 +70,6 @@ const cardClass = computed(() => {
           v-if="!hideCloseIcon"
           name="close"
           class="cursor-pointer text-xl leading-normal font-bold text-gray-800 self-start"
-          :weight="400"
           @click="close"
         />
       </div>

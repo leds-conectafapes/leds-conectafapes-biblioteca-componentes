@@ -65,7 +65,6 @@ const titleClass = computed(() => {
       :class="iconClass"
       :name="iconName"
       :filled="variant !== 'disabled'"
-      :weight="400"
     />
 
     <span :class="titleClass">{{ title }}</span>
@@ -74,7 +73,6 @@ const titleClass = computed(() => {
       v-if="variant !== 'disabled'"
       class="text-lg leading-none align-middle"
       name="arrow_forward"
-      :weight="400"
     />
   </div>
 </template>
