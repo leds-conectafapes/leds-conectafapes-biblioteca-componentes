@@ -60,7 +60,7 @@ const cardClass = computed(() => {
 
 <template>
   <div :class="overlayClass">
-    <div :class="cardClass">
+    <div v-bind="attrs" :class="cardClass">
       <div class="flex items-center gap-2">
         <span class="text-xl leading-normal font-bold text-gray-800 grow h-fit">
           {{ title }}
@@ -69,7 +69,7 @@ const cardClass = computed(() => {
         <GenericIcon
           v-if="!hideCloseIcon"
           name="close"
-          class="cursor-pointer text-xl leading-normal font-bold text-gray-800"
+          class="cursor-pointer text-xl leading-normal font-bold text-gray-800 self-start"
           :weight="400"
           @click="close"
         />
