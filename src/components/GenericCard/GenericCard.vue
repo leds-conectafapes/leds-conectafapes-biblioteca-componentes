@@ -41,7 +41,7 @@ const attrs = useAttrs();
 
 const textVariantClasses = {
   default: "text-gray-800",
-  success: "text-green-400",
+  success: "text-success-400",
   error: "text-red-700",
 } as const;
 const cardClass = computed(() => {
@@ -61,7 +61,7 @@ const _titleClass = computed(() => {
 
 const captionVariantClasses = {
   default: "text-gray-600",
-  success: "text-green-700",
+  success: "text-success-400",
   error: "text-red-800",
 } as const;
 const _captionClass = computed(() => {

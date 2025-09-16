@@ -21,7 +21,7 @@ const {
 const attrs = useAttrs();
 const cardClass = computed(() => {
   return cn(
-    "break-keep",
+    "break-keep text-xl",
     disabled
       ? ""
       : "hover:bg-blue-50 hover:ring-2 hover:ring-blue-800/60 cursor-pointer",

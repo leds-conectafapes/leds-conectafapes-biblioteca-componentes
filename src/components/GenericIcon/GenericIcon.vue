@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
   variant: "outlined",
   className: "",
   filled: false,
-  weight: 300,
+  weight: 400,
 });
 </script>
 

@@ -157,7 +157,6 @@ defineSlots<
                   <GenericIcon
                     class="text-primary-500 text-xl leading-tight relative ml-1 top-1"
                     name="info"
-                    :weight="400"
                   />
                 </GenericTooltip>
               </th>

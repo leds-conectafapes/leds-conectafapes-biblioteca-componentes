@@ -129,7 +129,6 @@ const forwarded = computed(() => {
             id="icon"
             :name="flagVariant.icon"
             :class="cn(flagVariant.style.icon)"
-            :weight="400"
             filled
           />
           <div
@@ -151,7 +150,6 @@ const forwarded = computed(() => {
               cn('text-xl cursor-pointer select-none', flagVariant.style.title)
             "
             name="close"
-            :weight="400"
             @click="close"
           />
         </div>
