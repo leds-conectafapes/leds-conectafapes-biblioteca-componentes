@@ -53,7 +53,7 @@ function confirmarCadastro() {
       table: {
         type: { summary: "boolean" },
       },
-      required: true
+      required: true,
     },
     title: {
       control: "text",
@@ -73,7 +73,8 @@ function confirmarCadastro() {
     },
     confirmLabel: {
       control: "text",
-      description: "Texto do botão de ação confirmar. Se ausente, este botão não será exibido.",
+      description:
+        "Texto do botão de ação confirmar. Se ausente, este botão não será exibido.",
       table: {
         type: { summary: "string" },
         defaultValue: { summary: "''" },
@@ -81,34 +82,29 @@ function confirmarCadastro() {
     },
     variant: {
       control: "select",
-      options: [
-        "primary",
-        "danger",
-        "warning",
-        "secondaryDanger",
-        "disabled",
-      ],
+      options: ["primary", "danger", "warning", "secondaryDanger", "disabled"],
       description: "Variação visual do botão de confirmação",
       table: {
-        type: { summary: `'primary' | 'danger' | 'warning' | 'secondaryDanger' | 'disabled'` },
+        type: {
+          summary: `'primary' | 'danger' | 'warning' | 'secondaryDanger' | 'disabled'`,
+        },
         defaultValue: { summary: "'primary'" },
       },
     },
     hideCloseIcon: {
       control: "boolean",
-      description: "Quando verdadeiro, esconde o botão de fechar do título do modal",
+      description:
+        "Quando verdadeiro, esconde o botão de fechar do título do modal",
       table: {
         type: { summary: "boolean" },
-        defaultValue: { summary: 'false' },
+        defaultValue: { summary: "false" },
       },
     },
     width: {
       control: "select",
-      options: [
-        "regular",
-        "medium",
-      ],
-      description: "Define largura do modal. A largura pode ser sobrescrita por meio de classe de largura.",
+      options: ["regular", "medium"],
+      description:
+        "Define largura do modal. A largura pode ser sobrescrita por meio de classe de largura.",
       table: {
         type: { summary: `'regular' | 'medium'` },
         defaultValue: { summary: "'regular'" },
@@ -139,18 +135,15 @@ type Story = StoryObj<typeof GenericModal>;
 
 export const Default: Story = {
   render: () => {
-    const modal = ref(false)
+    const modal = ref(false);
     function confirmarCadastro() {
-      modal.value = false
+      modal.value = false;
     }
     return () => [
-      h(
-        GenericButton,
-        {
-          label: "Confirmar cadastro",
-          onClick: () => modal.value = true,
-        }
-      ),
+      h(GenericButton, {
+        label: "Confirmar cadastro",
+        onClick: () => (modal.value = true),
+      }),
       h(
         GenericModal,
         {
@@ -159,11 +152,11 @@ export const Default: Story = {
           cancelLabel: "Não",
           confirmLabel: "Sim",
           onConfirm: confirmarCadastro,
-          "onUpdate:modelValue": (newValue) => modal.value = newValue,
+          "onUpdate:modelValue": (newValue) => (modal.value = newValue),
         },
-        () => "Todas as informações estão corretas?"
-      )
-    ]
+        () => "Todas as informações estão corretas?",
+      ),
+    ];
   },
   parameters: {
     docs: {
@@ -188,9 +181,8 @@ function confirmarCadastro() {
   >
     Todas as informações estão corretas?
   </GenericModal>
-</template>`
-      }
-    }
-  }
+</template>`,
+      },
+    },
+  },
 };
-

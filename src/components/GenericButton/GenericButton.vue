@@ -9,14 +9,14 @@ defineOptions({ inheritAttrs: false });
 type buttonProps = {
   label?: string;
   variant?: buttonVariant;
-  type?: ButtonHTMLAttributes['type']
-}
+  type?: ButtonHTMLAttributes["type"];
+};
 
 const {
   label,
   variant = "primary",
   type = "button",
-} = defineProps<buttonProps>()
+} = defineProps<buttonProps>();
 
 const emit = defineEmits<{
   (e: "onClick"): void;
