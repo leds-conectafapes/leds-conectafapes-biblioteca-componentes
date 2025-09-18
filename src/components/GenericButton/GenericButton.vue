@@ -6,17 +6,17 @@ import type { buttonVariant } from "../../types";
 
 defineOptions({ inheritAttrs: false });
 
-type NativeButtonAttributes = /* @vue-ignore */ ButtonHTMLAttributes;
-
 type buttonProps = {
   label?: string;
   variant?: buttonVariant;
-} & NativeButtonAttributes;
+  type?: ButtonHTMLAttributes['type']
+}
 
-const props = withDefaults(defineProps<buttonProps>(), {
-  label: "",
-  variant: "primary",
-});
+const {
+  label,
+  variant = "primary",
+  type = "button",
+} = defineProps<buttonProps>()
 
 const emit = defineEmits<{
   (e: "onClick"): void;
@@ -26,7 +26,7 @@ const onClick = () => {
   emit("onClick");
 };
 
-const isDisabled = computed(() => props.variant === "disabled");
+const isDisabled = computed(() => variant === "disabled");
 const attrs = useAttrs();
 
 const BUTTON_VARIANTS: Record<buttonVariant, string> = {
@@ -41,13 +41,11 @@ const BUTTON_VARIANTS: Record<buttonVariant, string> = {
 const buttonVariant = computed(() =>
   cn(
     "w-full flex gap-2.5 items-center justify-center px-6 py-4 leading-tight rounded-lg text-base font-inter font-medium easy-in-out duration-300",
-    BUTTON_VARIANTS[props.variant],
+    BUTTON_VARIANTS[variant],
     isDisabled.value ? undefined : "cursor-pointer",
     attrs.class as string | undefined,
   ),
 );
-
-const type = computed(() => props.type ?? "button")
 
 const forwarded = computed(() => {
   const { ...rest } = attrs;
@@ -57,14 +55,14 @@ const forwarded = computed(() => {
 
 <template>
   <button
-    v-bind="forwarded"
     :type="type"
     :class="buttonVariant"
     :disabled="isDisabled"
     @click="onClick"
+    v-bind="forwarded"
   >
     <slot name="label">
-      {{ props.label }}
+      {{ label }}
     </slot>
   </button>
 </template>
