@@ -139,7 +139,6 @@ export type TableAction<T extends Record<string, unknown>> =
       onClick: (row: T) => void;
     };
 
-export type textAreaState = "default" | "error" | "warning" | "disabled";
 export type titleType =
   | "h1"
   | "h2"

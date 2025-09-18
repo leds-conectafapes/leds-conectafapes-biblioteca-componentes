@@ -1,15 +1,16 @@
 <script setup lang="ts" generic="T extends string | number | undefined">
 import { computed, useAttrs, useSlots } from "vue";
 import type { TextareaHTMLAttributes } from "vue";
-import type { textAreaState } from "../../types";
+import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
+import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
 type NativeTextareaAttributes = /* @vue-ignore */ TextareaHTMLAttributes;
 
 type textAreaProps = {
-  state?: textAreaState;
+  state?: inputState;
   label?: string;
   containerClass?: string | string[];
   errorMessages?: string | string[];
@@ -35,17 +36,12 @@ const isDisabled = computed(() => props.state === "disabled");
 const hasLabelSlots = computed(() => !!slots.label);
 const hasErrorSlots = computed(() => !!slots.error);
 
-const TEXTAREA_STATES: Record<textAreaState, string> = {
-  default: "ring-gray-500",
-  error: "ring-error-300 bg-error-100/10",
-  warning: "ring-warning-100",
-  disabled: "!ring-0 bg-gray-100/40",
-} as const;
-
 const textAreaState = computed(() =>
   cn(
-    "w-full p-4 leading-tight font-inter text-gray-600 ring hover:ring-2 rounded-lg outline-primary-400",
-    TEXTAREA_STATES[props.errorMessages.length > 0 ? "error" : props.state],
+    inputClass,
+    "w-full",
+    inputStateStyles[props.errorMessages.length > 0 ? "error" : props.state],
+    props.state === "disabled" ? "resize-none" : undefined,
     props.containerClass,
   ),
 );
