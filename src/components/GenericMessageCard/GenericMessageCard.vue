@@ -49,7 +49,7 @@ const iconName = computed(() => {
 });
 
 const titleClass = computed(() => {
-  const base = ["text-base font-semibold leading-none align-top grow"];
+  const base = ["text-base font-semibold leading-none grow self-center"];
   if (variant === "disabled") {
     base.push("text-gray-600");
   } else {
