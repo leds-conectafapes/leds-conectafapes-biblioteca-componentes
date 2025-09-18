@@ -28,6 +28,9 @@ const modelValue = defineModel<T>();
 
 const slots = useSlots();
 const attrs = useAttrs();
+const label = computed(() =>
+  attrs.hasOwnProperty("required") ? props.label + " *" : props.label,
+);
 
 const hasOptionSlots = computed(() => !!slots.options);
 const hasErrorSlots = computed(() => !!slots.error);
@@ -57,7 +60,7 @@ const optionWrapperClass = computed(() => {
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label class="w-fit text-base font-medium font-inter">
-        {{ props.label }}{{ attrs.required ? "*" : "" }}
+        {{ label }}
       </label>
     </div>
     <div v-else-if="hasLabelSlots">

@@ -35,6 +35,7 @@ const {
 
 const attrs = useAttrs();
 const id = computed(() => attrs.id as string | undefined);
+const _label = computed(() => (required ? label + " *" : label));
 
 const isDisabled = computed(() => state === "disabled");
 
@@ -75,7 +76,7 @@ const forwarded = computed(() => {
         :for="id"
         class="w-fit text-base font-medium font-inter"
       >
-        {{ label }}{{ required ? " *" : "" }}
+        {{ _label }}
       </label>
     </slot>
 

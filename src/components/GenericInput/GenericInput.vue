@@ -38,6 +38,9 @@ const slots = useSlots();
 const attrs = useAttrs();
 const id = computed(() => attrs.id as string | undefined);
 const type = computed(() => attrs.type as string | undefined);
+const label = computed(() =>
+  attrs.hasOwnProperty("required") ? props.label + " *" : props.label,
+);
 
 const isDisabled = computed(() => props.state === "disabled");
 const isSearchType = computed(() => type.value === "search");
@@ -64,7 +67,7 @@ const forwarded = computed(() => {
     <!-- label -->
     <div v-if="!hasLabelSlots && props.label !== ''">
       <label :for="id" class="w-fit text-base font-medium font-inter">
-        {{ props.label }}{{ attrs.required ? "*" : "" }}
+        {{ label }}
       </label>
     </div>
     <div v-else-if="hasLabelSlots">
