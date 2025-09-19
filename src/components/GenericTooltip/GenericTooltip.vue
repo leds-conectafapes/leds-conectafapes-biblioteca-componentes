@@ -12,6 +12,7 @@ type TooltipProps = {
   position?: TooltipPosition;
   customPosition?: string;
   width?: string;
+  modelValue?: boolean | undefined;
 } & NativeHTMLAttributes;
 
 const {
@@ -19,6 +20,7 @@ const {
   position = "top",
   customPosition,
   width = "w-max",
+  modelValue = undefined,
 } = defineProps<TooltipProps>();
 
 const positionClasses = {
@@ -29,10 +31,20 @@ const positionClasses = {
   custom: "",
 } as const;
 
+const displayClasses = computed(() => {
+  if (modelValue === undefined) {
+    return "hidden group-hover:block"
+  } else if (modelValue === true) {
+    return "block"
+  } else {
+    return "hidden"
+  }
+})
 const tooltipClass = computed(() => {
   const base = `${width} ${customPosition || positionClasses[position]}`;
   return cn(
-    "absolute hidden group-hover:block bg-gray-900 text-sm text-white font-medium rounded-lg px-2 py-3",
+    displayClasses.value,
+    "absolute bg-gray-900 text-sm text-white font-medium rounded-lg px-2 py-3",
     "shadow-lg shadow-zinc-600/10",
     base,
   );
