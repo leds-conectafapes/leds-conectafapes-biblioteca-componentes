@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import GenericTooltip from "./GenericTooltip.vue";
 import GenericCompactButton from "../GenericCompactButton/GenericCompactButton.vue";
-import { h } from "vue";
+import { h, ref } from "vue";
+import GenericInput from "../GenericInput/GenericInput.vue";
+import GenericButton from "../GenericButton/GenericButton.vue";
 
 const meta: Meta<typeof GenericTooltip> = {
   title: "Components/GenericTooltip",
@@ -115,4 +117,36 @@ export const slotText: Story = {
       },
     },
   },
+};
+
+export const vModel: Story = {
+  name: "Com v-model",
+  render: () => ({
+    components: { GenericTooltip, GenericInput, GenericButton },
+    setup() {
+      const tooltip = ref(false);
+
+      return {
+        tooltip,
+      };
+    },
+    template: `
+<GenericTooltip
+  v-model="tooltip"
+  text="O e-mail é obrigatório"
+  class="my-4 w-full"
+>
+  <GenericInput
+    type="email"
+    label="E-mail"
+  />
+</GenericTooltip>
+
+<GenericButton
+  label="Enviar"
+  @mouseover="tooltip = true"
+  @mouseout="tooltip = false"
+/>
+`.trim(),
+  }),
 };
