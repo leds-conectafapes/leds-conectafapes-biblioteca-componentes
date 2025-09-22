@@ -40,6 +40,7 @@ export type GenericCardProps = {
   captionClass?: string;
   tooltip?: string;
   tooltipIcon?: string;
+  tooltipWidth?: string;
 } & (
   | {
       textVariant: CardVariant;
