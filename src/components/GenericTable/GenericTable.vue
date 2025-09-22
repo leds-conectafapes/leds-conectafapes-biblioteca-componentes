@@ -58,7 +58,7 @@ const itemsOfPage = computed(() => {
   }
 });
 
-type CellName = `cell-${keyof T & string}`;
+type CellName = `cell-${string}`;
 function getCellName(col: TableHeader<T>): CellName {
   return `cell-${col.key}`;
 }
@@ -130,7 +130,7 @@ defineSlots<
     [K in CellName]: (_: {
       rowData: T;
       rowIndex: number;
-      cellData: T[keyof T];
+      cellData: unknown;
     }) => unknown;
   }
 >();

@@ -73,11 +73,11 @@ export type StatusTagVariant =
 export type subtitleState = "default" | "error";
 
 export type TableRender<T extends Record<string, unknown>> = (
-  value: T[keyof T],
+  value: unknown,
   row: T,
   col: keyof T,
   index: number,
-) => VNode | (() => VNode) | (() => VNode[]);
+) => VNode | (() => VNode) | (() => VNode[]) | (() => string);
 
 export type TableHeaderColumnType =
   | "text"
@@ -97,7 +97,7 @@ export type TableProps<T extends Record<string, unknown>> = {
   emptyText?: string;
 };
 export type TableHeader<T extends Record<string, unknown>> = {
-  key: keyof T & string;
+  key: string;
   title: string;
   sortable?: boolean;
   tooltip?: string;
