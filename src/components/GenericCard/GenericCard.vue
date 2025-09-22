@@ -15,6 +15,7 @@ const {
   captionClass,
   tooltip,
   tooltipIcon,
+  tooltipWidth,
 } = defineProps<GenericCardProps>();
 /**
  * esse tipo um pouco mais complicado serve para aplicar uma
@@ -84,7 +85,7 @@ const _tooltipIcon = computed(() => {
         {{ title }}
 
         <slot name="tooltip">
-          <GenericTooltip v-if="tooltip" :text="tooltip">
+          <GenericTooltip v-if="tooltip" :text="tooltip" :width="tooltipWidth">
             <GenericIcon
               class="text-2xl text-primary-500"
               :name="_tooltipIcon"

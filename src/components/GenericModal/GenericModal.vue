@@ -22,7 +22,7 @@ const {
   confirmLabel?: string;
   variant?: ModalVariant;
   hideCloseIcon?: boolean;
-  width?: ModalWidth
+  width?: ModalWidth;
 }>();
 
 const emit = defineEmits<{

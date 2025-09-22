@@ -58,7 +58,7 @@ const itemsOfPage = computed(() => {
   }
 });
 
-type CellName = `cell-${keyof T & string}`;
+type CellName = `cell-${string}`;
 function getCellName(col: TableHeader<T>): CellName {
   return `cell-${col.key}`;
 }
@@ -118,6 +118,10 @@ const _rows = computed(() => {
   });
 });
 
+const tooltips = ref(
+  Object.fromEntries(columns.map((col) => [col.key, false])),
+);
+
 defineSlots<
   {
     row: (_: { rowData: T; rowIndex: number }) => unknown;
@@ -126,7 +130,7 @@ defineSlots<
     [K in CellName]: (_: {
       rowData: T;
       rowIndex: number;
-      cellData: T[keyof T];
+      cellData: unknown;
     }) => unknown;
   }
 >();
@@ -148,24 +152,28 @@ defineSlots<
           >
             <template v-for="column in columns" :key="column.key">
               <th
-                v-if="column.tooltip"
-                class="text-left font-semibold text-base rounded-t-lg font-inter"
-              >
-                <GenericTooltip :text="column.tooltip" class="px-5 py-4 w-full">
-                  {{ column.title }}
-
-                  <GenericIcon
-                    class="text-primary-500 text-xl leading-tight relative ml-1 top-1"
-                    name="info"
-                  />
-                </GenericTooltip>
-              </th>
-
-              <th
-                v-else
                 class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
+                @mouseover="tooltips[column.key] = true"
+                @mouseout="tooltips[column.key] = false"
               >
-                {{ column.title }}
+                <template v-if="column.tooltip">
+                  {{ column.title }}&nbsp;
+
+                  <GenericTooltip
+                    :text="column.tooltip"
+                    class="inline p-1"
+                    v-model="tooltips[column.key]"
+                  >
+                    <GenericIcon
+                      class="text-primary-500 leading-none relative top-1"
+                      name="info"
+                    />
+                  </GenericTooltip>
+                </template>
+
+                <template v-else>
+                  {{ column.title }}
+                </template>
               </th>
             </template>
             <th

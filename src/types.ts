@@ -40,6 +40,7 @@ export type GenericCardProps = {
   captionClass?: string;
   tooltip?: string;
   tooltipIcon?: string;
+  tooltipWidth?: string;
 } & (
   | {
       textVariant: CardVariant;
@@ -60,7 +61,7 @@ export type snackBarVariant = "informative" | "success" | "warning" | "error";
 export type inputState = "default" | "disabled" | "error" | "warning";
 export type selectOption<T> = { id: string | number; value: T; label: string };
 export type ModalVariant = Exclude<buttonVariant, "secondary">;
-export type ModalWidth = "regular" | "medium"
+export type ModalWidth = "regular" | "medium";
 export type StatusTagVariant =
   | "info"
   | "infoStrong"
@@ -72,11 +73,11 @@ export type StatusTagVariant =
 export type subtitleState = "default" | "error";
 
 export type TableRender<T extends Record<string, unknown>> = (
-  value: T[keyof T],
+  value: unknown,
   row: T,
   col: keyof T,
   index: number,
-) => VNode | (() => VNode) | (() => VNode[]);
+) => VNode | (() => VNode) | (() => VNode[]) | (() => string);
 
 export type TableHeaderColumnType =
   | "text"
@@ -96,7 +97,7 @@ export type TableProps<T extends Record<string, unknown>> = {
   emptyText?: string;
 };
 export type TableHeader<T extends Record<string, unknown>> = {
-  key: keyof T & string;
+  key: string;
   title: string;
   sortable?: boolean;
   tooltip?: string;
@@ -139,7 +140,6 @@ export type TableAction<T extends Record<string, unknown>> =
       onClick: (row: T) => void;
     };
 
-export type textAreaState = "default" | "error" | "warning" | "disabled";
 export type titleType =
   | "h1"
   | "h2"
