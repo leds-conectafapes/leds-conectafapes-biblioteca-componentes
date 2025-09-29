@@ -136,7 +136,7 @@ const selected = ref('não')
   },
 };
 
-export const ComSlotLabel: Story = {
+export const ComSlot: Story = {
   render: () => ({
     components: { GenericCheckbox },
     data() {
@@ -146,21 +146,17 @@ export const ComSlotLabel: Story = {
     },
     template: `
       <GenericCheckbox v-model="checked" id="slot-checkbox">
-        <template #label>
-          <span class="text-sm font-bold">✔ Aceito os <em>termos</em> importantes</span>
-        </template>
+        <span class="text-sm font-bold">✔ Aceito os <em>termos</em> importantes</span>
       </GenericCheckbox>
     `,
-    name: "Com slot label",
+    name: "Com slot",
   }),
   parameters: {
     docs: {
       source: {
         code: `
 <GenericCheckbox v-model="checked" id="slot-checkbox">
-  <template #label>
-    <span class="text-sm font-bold">✔ Aceito os <em>termos</em> importantes</span>
-  </template>
+  <span class="text-sm font-bold">✔ Aceito os <em>termos</em> importantes</span>
 </GenericCheckbox>
 
 <script setup lang="ts">

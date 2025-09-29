@@ -3,7 +3,7 @@
   setup
   generic="T extends string | number | boolean | undefined"
 >
-import { computed, useAttrs, useSlots } from "vue";
+import { computed, useAttrs } from "vue";
 import { cn } from "../../utils/cn";
 import type { InputHTMLAttributes } from "vue";
 import GenericIcon from "../GenericIcon/GenericIcon.vue";
@@ -24,11 +24,8 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 
 const modelValue = defineModel<T>();
 
-const slots = useSlots();
 const attrs = useAttrs();
 const id = computed(() => attrs.id as string | undefined);
-
-const hasLabelSlot = computed(() => !!slots.label);
 
 const checkboxClass = computed(() =>
   cn(
@@ -67,11 +64,10 @@ const forwarded = computed(() => {
       />
     </div>
 
-    <label v-if="!hasLabelSlot" :for="id">
-      {{ label }}
-    </label>
-    <label v-else-if="hasLabelSlot" :for="id">
-      <slot name="label" />
-    </label>
+    <slot>
+      <label v-if="label" :for="id">
+        {{ label }}
+      </label>
+    </slot>
   </div>
 </template>
