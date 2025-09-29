@@ -50,7 +50,7 @@ const forwarded = computed(() => {
   <div
     :class="
       cn(
-        'flex flex-row items-center gap-3 w-fit cursor-pointer select-none font-inter',
+        'flex flex-row items-center gap-3 w-fit font-inter',
         props.containerClass,
       )
     "
