@@ -15,11 +15,13 @@ type NativeCheckboxAttributes = /* @vue-ignore */ InputHTMLAttributes;
 type CheckboxProps = {
   label?: string;
   containerClass?: string | string[];
+  disabled?: boolean;
 } & NativeCheckboxAttributes;
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
   label: "",
   containerClass: () => [],
+  disabled: false,
 });
 
 const modelValue = defineModel<T>();
@@ -27,9 +29,13 @@ const modelValue = defineModel<T>();
 const attrs = useAttrs();
 const id = computed(() => attrs.id as string | undefined);
 
+console.log(props.disabled)
 const checkboxClass = computed(() =>
   cn(
-    "w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer checked:border-0 checked:bg-primary-500 block",
+    "w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer  block",
+    props.disabled
+      ? "bg-gray-100 checked:bg-gray-500"
+      : "checked:border-0 checked:bg-primary-500",
     attrs.class as string | undefined,
   ),
 );
@@ -55,6 +61,7 @@ const forwarded = computed(() => {
         v-model="modelValue"
         type="checkbox"
         :class="checkboxClass"
+        :disabled="props.disabled"
       />
 
       <GenericIcon
