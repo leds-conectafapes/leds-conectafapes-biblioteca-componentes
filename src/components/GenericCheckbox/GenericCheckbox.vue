@@ -54,7 +54,7 @@ const forwarded = computed(() => {
       )
     "
   >
-    <div class="group relative">
+    <div class="group relative select-none">
       <input
         v-bind="forwarded"
         v-model="modelValue"
