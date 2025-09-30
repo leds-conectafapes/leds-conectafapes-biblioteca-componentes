@@ -29,7 +29,6 @@ const modelValue = defineModel<T>();
 const attrs = useAttrs();
 const id = computed(() => attrs.id as string | undefined);
 
-console.log(props.disabled)
 const checkboxClass = computed(() =>
   cn(
     "w-5 h-5 appearance-none rounded-xs border-1 border-gray-500 cursor-pointer  block",
