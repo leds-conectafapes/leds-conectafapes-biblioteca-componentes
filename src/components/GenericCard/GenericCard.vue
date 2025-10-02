@@ -47,7 +47,7 @@ const textVariantClasses = {
 } as const;
 const cardClass = computed(() => {
   return cn(
-    "p-8 border border-slate-300 rounded-2xl min-h-38 text-3xl font-extrabold leading-tight break-all",
+    "p-8 border border-slate-300 rounded-2xl min-h-38 text-3xl font-extrabold leading-tight break-word",
     textVariantClasses[textVariant],
     attrs.class as string | undefined,
   );

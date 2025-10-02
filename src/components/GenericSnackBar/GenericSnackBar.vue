@@ -105,7 +105,7 @@ const forwarded = computed(() => {
 
 <template>
   <Teleport to="body">
-    <div class="fixed bottom-4 right-4 z-50 flex flex-col items-end space-y-2">
+    <div class="fixed bottom-1 right-0.5 m-2 z-50 flex flex-col items-end space-y-2 lg:bottom-4 lg:right-4 lg:m-0">
       <Transition
         appear
         enter-active-class="transition duration-300"
@@ -120,7 +120,7 @@ const forwarded = computed(() => {
           v-bind="forwarded"
           :class="
             cn(
-              'flex flex-row justify-between gap-x-4 w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-[420px] md:max-w-[700px] font-inter',
+              'flex flex-row justify-between gap-x-4 w-full py-5 px-6 border rounded-lg shadow-lg shadow-zinc-600/10 text-base md:min-w-105 md:max-w-175 font-inter',
               flagVariant.style.card,
             )
           "
