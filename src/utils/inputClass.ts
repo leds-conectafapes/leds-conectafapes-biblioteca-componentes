@@ -1,5 +1,5 @@
 export const inputClass =
-  "p-4 text-base font-regular font-inter leading-normal bg-white text-gray-600 rounded-lg border border-gray-500 hover:border-gray-700 focus:border-primary-500 focus:ring-2 focus:ring-blue-600/50 outline-none";
+  "p-2 text-base font-regular font-inter leading-normal bg-white text-gray-600 rounded-lg border border-gray-500 hover:border-gray-700 focus:border-primary-500 focus:ring-2 focus:ring-blue-600/50 outline-none lg:p-4";
 
 export const inputStateStyles = {
   default: "",

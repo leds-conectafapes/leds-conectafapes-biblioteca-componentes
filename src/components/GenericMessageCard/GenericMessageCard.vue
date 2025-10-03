@@ -21,7 +21,7 @@ const variantClasses = {
 } as const;
 const cardClass = computed(() => {
   return cn(
-    "px-6 py-5 rounded-lg border-l-8 flex gap-x-4 ring-2",
+    "px-6 py-5 rounded-lg border-l-8 flex items-center gap-x-4 ring-2",
     variantClasses[variant],
     variant === "disabled" ? "" : "cursor-pointer",
     attrs.class as string | undefined,
