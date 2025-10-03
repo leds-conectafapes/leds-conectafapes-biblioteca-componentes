@@ -51,7 +51,7 @@ const overlayClass = computed(() => {
 
 const cardClass = computed(() => {
   return cn(
-    "bg-white rounded-lg p-6 flex flex-col gap-6 m-4 text-base leading-normal font-normal text-gray-600 overflow-hidden break-normal lg:break-all lg:m-0",
+    "bg-white rounded-lg p-6 flex flex-col gap-6 m-4 text-base leading-normal font-normal text-gray-600 overflow-hidden lg:break-all lg:m-0",
     width === "regular" ? "w-148" : "w-200",
     attrs.class as string | undefined,
   );
