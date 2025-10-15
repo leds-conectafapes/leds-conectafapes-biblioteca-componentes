@@ -75,6 +75,7 @@
     "prettier-format": "prettier --config .prettierrc src/**/*.{ts,tsx,vue,js,jsx,json,html,css,scss} --write"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.1.9",
     "@tailwindcss/vite": "^4.1.5",
     "@vue/eslint-config-typescript": "^14.5.0",
     "clsx": "^2.1.1",

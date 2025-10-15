@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { cn } from "../../utils/cn";
 import type { HTMLAttributes } from "vue";
+import { flip, offset, shift, useFloating } from "@floating-ui/vue";
 
 type NativeHTMLAttributes = /* @vue-ignore */ HTMLAttributes;
 
@@ -24,22 +25,22 @@ const {
 } = defineProps<TooltipProps>();
 
 const positionClasses = {
-  top: "triangle-bottom bottom-full left-1/2 -translate-x-1/2 mb-2",
-  right: "left-full top-1/2 -translate-y-1/2 ml-2",
-  bottom: "triangle-top top-full left-1/2 -translate-x-1/2 mt-2",
-  left: "right-full top-1/2 -translate-y-1/2 mr-2",
+  top: "triangle-bottom -translate-y-1/2 -translate-x-1/2",
+  right: "left-full top-1/2 -translate-y-1/2",
+  bottom: "triangle-top -translate-x-1/2",
+  left: "-translate-y-1/2",
   custom: "",
 } as const;
 
 const displayClasses = computed(() => {
   if (modelValue === undefined) {
-    return "hidden group-hover:block"
+    return "hidden group-hover:block";
   } else if (modelValue === true) {
-    return "block"
+    return "block";
   } else {
-    return "hidden"
+    return "hidden";
   }
-})
+});
 const tooltipClass = computed(() => {
   const base = `${width} ${customPosition || positionClasses[position]}`;
   return cn(
@@ -49,13 +50,30 @@ const tooltipClass = computed(() => {
     base,
   );
 });
+
+let isCustom = true
+let propPosition: Exclude<TooltipPosition, 'custom'> = 'top'
+if (position !== 'custom') {
+  propPosition = position
+  isCustom = false
+}
+
+const reference = ref(null)
+const tooltip = ref(null)
+
+const { floatingStyles } = useFloating(reference, tooltip, {
+  placement: propPosition,
+  middleware: [offset(32), flip(), shift()]
+})
+
+const style = ref(isCustom ? '' : floatingStyles)
 </script>
 
 <template>
-  <div class="relative group w-fit">
+  <div ref="reference" class="group w-fit">
     <slot></slot>
-
-    <div :class="tooltipClass">
+    
+    <div ref="tooltip" :class="tooltipClass" :style="style">
       <slot name="text">
         {{ text }}
       </slot>
