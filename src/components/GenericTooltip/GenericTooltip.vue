@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { cn } from "../../utils/cn";
 import type { HTMLAttributes } from "vue";
-import { flip, offset, shift, useFloating } from "@floating-ui/vue";
+import { autoUpdate, offset, useFloating } from "@floating-ui/vue";
 
 type NativeHTMLAttributes = /* @vue-ignore */ HTMLAttributes;
 
@@ -25,10 +25,10 @@ const {
 } = defineProps<TooltipProps>();
 
 const positionClasses = {
-  top: "triangle-bottom -translate-y-1/2 -translate-x-1/2",
-  right: "left-full top-1/2 -translate-y-1/2",
-  bottom: "triangle-top -translate-x-1/2",
-  left: "-translate-y-1/2",
+  top: "triangle-bottom",
+  right: "triangle-left",
+  bottom: "triangle-top",
+  left: "triangle-right",
   custom: "",
 } as const;
 
@@ -38,7 +38,7 @@ const displayClasses = computed(() => {
   } else if (modelValue === true) {
     return "block";
   } else {
-    return "hidden";
+    return "block";
   }
 });
 const tooltipClass = computed(() => {
@@ -51,29 +51,41 @@ const tooltipClass = computed(() => {
   );
 });
 
-let isCustom = true
-let propPosition: Exclude<TooltipPosition, 'custom'> = 'top'
-if (position !== 'custom') {
-  propPosition = position
-  isCustom = false
-}
+const isCustom = computed(() => position === "custom");
 
-const reference = ref(null)
-const tooltip = ref(null)
+const propPosition = computed(() => {
+  if (position !== "custom") return position;
+  return "top";
+});
+
+const reference = ref(null);
+const tooltip = ref(null);
 
 const { floatingStyles } = useFloating(reference, tooltip, {
   placement: propPosition,
-  middleware: [offset(32), flip(), shift()]
-})
+  middleware: [offset(12)],
+  whileElementsMounted: autoUpdate,
+});
 
-const style = ref(isCustom ? '' : floatingStyles)
+const style = computed(() => (isCustom.value ? {} : floatingStyles.value));
+
+const showTooltip = ref(false);
+
+const toggleTooltip = () => {
+  showTooltip.value = !showTooltip.value;
+};
 </script>
 
 <template>
-  <div ref="reference" class="group w-fit">
+  <div
+    @mouseenter="toggleTooltip"
+    @mouseleave="toggleTooltip"
+    ref="reference"
+    class="group w-fit"
+  >
     <slot></slot>
-    
-    <div ref="tooltip" :class="tooltipClass" :style="style">
+
+    <div ref="tooltip" v-if="showTooltip" :class="tooltipClass" :style="style">
       <slot name="text">
         {{ text }}
       </slot>
@@ -96,6 +108,7 @@ const style = ref(isCustom ? '' : floatingStyles)
     position: absolute;
     z-index: -1;
 
+    left: 50%;
     transform: translateX(-50%);
     transform: rotate(45deg) translateY(25%) translateX(-50%);
   }
@@ -103,14 +116,43 @@ const style = ref(isCustom ? '' : floatingStyles)
 .triangle-bottom {
   &::before {
     top: 90%;
-    left: 50%;
   }
 }
 
 .triangle-top {
   &::before {
     top: -5%;
-    left: 50%;
+  }
+}
+
+.triangle-left,
+.triangle-right {
+  &::before {
+    content: "";
+
+    display: block;
+    height: 10px;
+    width: 10px;
+
+    background-color: var(--color-gray-900);
+
+    position: absolute;
+    z-index: -1;
+
+    top: 50%;
+    transform: translateX(-50%);
+    transform: rotate(45deg) translateY(25%) translateX(-50%);
+  }
+}
+.triangle-right {
+  &::before {
+    left: 100%;
+  }
+}
+
+.triangle-left {
+  &::before {
+    left: 0%;
   }
 }
 </style>
