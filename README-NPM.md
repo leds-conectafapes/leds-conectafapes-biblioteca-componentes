@@ -10,7 +10,7 @@ Biblioteca global de componentes Vue.js para os sistemas do Conecta Fapes, desen
 
 ## Documentação(Requer VPN)
 
-- [Documentação completa dos componentes disponíveis via Storybook](http://storybooks.conectafapes.leds.dev.br:8050/)
+- [Documentação completa dos componentes disponíveis via Storybook](https://storybook.conectafapes.leds.dev.br/)
 
 ## Pre-requisitos
 
