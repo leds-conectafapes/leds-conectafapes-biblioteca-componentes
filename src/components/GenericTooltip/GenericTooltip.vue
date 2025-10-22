@@ -39,6 +39,7 @@ const { x, y } = useFloating(reference, tooltip, {
   whileElementsMounted: autoUpdate,
 })
 
+const isCustom = computed(() => position === "custom")
 const positionClass = {
   top: "triangle-bottom top-0 left-0",
   right: "triangle-left top-0 left-0",
@@ -63,7 +64,7 @@ const tooltipClass = computed(() => {
   );
 });
 
-const floatingStyle = computed(() => ({
+const floatingStyle = computed(() => (isCustom ? {} : {
   transform: `translate(${x.value}px, ${y.value}px)`,
 }))
 </script>
