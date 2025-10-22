@@ -28,25 +28,25 @@ const placement = computed(() => {
   if (position !== "custom") return position;
   return "top";
 });
-const tooltip = ref(null)
-const reference = ref(null)
+const tooltip = ref(null);
+const reference = ref(null);
 
-const open = ref(false)
+const open = ref(false);
 const { x, y } = useFloating(reference, tooltip, {
   placement,
   middleware: [offset(8)],
   open,
   whileElementsMounted: autoUpdate,
-})
+});
 
-const isCustom = computed(() => position === "custom")
+const isCustom = computed(() => position === "custom");
 const positionClass = {
   top: "triangle-bottom top-0 left-0",
   right: "triangle-left top-0 left-0",
   bottom: "triangle-top top-0 left-0",
   left: "triangle-right top-0 left-0",
-  custom: ""
-} as const
+  custom: "",
+} as const;
 
 const displayCondition = computed(() => {
   if (modelValue === undefined) {
@@ -56,7 +56,7 @@ const displayCondition = computed(() => {
   }
 });
 const tooltipClass = computed(() => {
-  const base = `${width} ${customPosition || positionClass[position]}`
+  const base = `${width} ${customPosition || positionClass[position]}`;
   return cn(
     "absolute bg-gray-900 rounded-lg px-2 py-3",
     "text-sm text-white font-medium shadow shadow-zinc-600/10",
@@ -64,9 +64,13 @@ const tooltipClass = computed(() => {
   );
 });
 
-const floatingStyle = computed(() => (isCustom ? {} : {
-  transform: `translate(${x.value}px, ${y.value}px)`,
-}))
+const floatingStyle = computed(() =>
+  isCustom
+    ? {}
+    : {
+        transform: `translate(${x.value}px, ${y.value}px)`,
+      },
+);
 </script>
 
 <template>
@@ -78,7 +82,12 @@ const floatingStyle = computed(() => (isCustom ? {} : {
   >
     <slot></slot>
 
-    <div ref="tooltip" v-if="displayCondition" :class="tooltipClass" :style="floatingStyle">
+    <div
+      ref="tooltip"
+      v-if="displayCondition"
+      :class="tooltipClass"
+      :style="floatingStyle"
+    >
       <slot name="text">
         {{ text }}
       </slot>
