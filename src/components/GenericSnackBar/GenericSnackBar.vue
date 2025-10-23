@@ -105,7 +105,9 @@ const forwarded = computed(() => {
 
 <template>
   <Teleport to="body">
-    <div class="fixed bottom-1 right-0.5 m-2 z-50 flex flex-col items-end space-y-2 lg:bottom-4 lg:right-4 lg:m-0">
+    <div
+      class="fixed bottom-1 right-0.5 m-2 z-50 flex flex-col items-end space-y-2 lg:bottom-4 lg:right-4 lg:m-0"
+    >
       <Transition
         appear
         enter-active-class="transition duration-300"

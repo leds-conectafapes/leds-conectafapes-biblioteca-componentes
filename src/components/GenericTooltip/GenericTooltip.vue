@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { autoUpdate, offset, useFloating } from "@floating-ui/vue";
+import { computed, ref } from "vue";
 import { cn } from "../../utils/cn";
 import type { HTMLAttributes } from "vue";
 
@@ -23,39 +24,70 @@ const {
   modelValue = undefined,
 } = defineProps<TooltipProps>();
 
-const positionClasses = {
-  top: "triangle-bottom bottom-full left-1/2 -translate-x-1/2 mb-2",
-  right: "left-full top-1/2 -translate-y-1/2 ml-2",
-  bottom: "triangle-top top-full left-1/2 -translate-x-1/2 mt-2",
-  left: "right-full top-1/2 -translate-y-1/2 mr-2",
+const placement = computed(() => {
+  if (position !== "custom") return position;
+  return "top";
+});
+const tooltip = ref(null);
+const reference = ref(null);
+
+const open = ref(false);
+const { x, y } = useFloating(reference, tooltip, {
+  placement,
+  middleware: [offset(8)],
+  open,
+  whileElementsMounted: autoUpdate,
+});
+
+const isCustom = computed(() => position === "custom");
+const positionClass = {
+  top: "triangle-bottom top-0 left-0",
+  right: "triangle-left top-0 left-0",
+  bottom: "triangle-top top-0 left-0",
+  left: "triangle-right top-0 left-0",
   custom: "",
 } as const;
 
-const displayClasses = computed(() => {
+const displayCondition = computed(() => {
   if (modelValue === undefined) {
-    return "hidden group-hover:block"
-  } else if (modelValue === true) {
-    return "block"
+    return open.value;
   } else {
-    return "hidden"
+    return modelValue;
   }
-})
+});
 const tooltipClass = computed(() => {
-  const base = `${width} ${customPosition || positionClasses[position]}`;
+  const base = `${width} ${customPosition || positionClass[position]}`;
   return cn(
-    displayClasses.value,
-    "absolute bg-gray-900 text-sm text-white font-medium rounded-lg px-2 py-3",
-    "shadow-lg shadow-zinc-600/10",
+    "absolute bg-gray-900 rounded-lg px-2 py-3",
+    "text-sm text-white font-medium shadow shadow-zinc-600/10",
     base,
   );
 });
+
+const floatingStyle = computed(() =>
+  isCustom
+    ? {}
+    : {
+        transform: `translate(${x.value}px, ${y.value}px)`,
+      },
+);
 </script>
 
 <template>
-  <div class="relative group w-fit">
+  <div
+    @mouseenter="open = true"
+    @mouseleave="open = false"
+    ref="reference"
+    class="w-fit"
+  >
     <slot></slot>
 
-    <div :class="tooltipClass">
+    <div
+      ref="tooltip"
+      v-if="displayCondition"
+      :class="tooltipClass"
+      :style="floatingStyle"
+    >
       <slot name="text">
         {{ text }}
       </slot>
@@ -78,6 +110,7 @@ const tooltipClass = computed(() => {
     position: absolute;
     z-index: -1;
 
+    left: 50%;
     transform: translateX(-50%);
     transform: rotate(45deg) translateY(25%) translateX(-50%);
   }
@@ -85,14 +118,43 @@ const tooltipClass = computed(() => {
 .triangle-bottom {
   &::before {
     top: 90%;
-    left: 50%;
   }
 }
 
 .triangle-top {
   &::before {
     top: -5%;
-    left: 50%;
+  }
+}
+
+.triangle-left,
+.triangle-right {
+  &::before {
+    content: "";
+
+    display: block;
+    height: 10px;
+    width: 10px;
+
+    background-color: var(--color-gray-900);
+
+    position: absolute;
+    z-index: -1;
+
+    top: 50%;
+    transform: translateX(-50%);
+    transform: rotate(45deg) translateX(-50%);
+  }
+}
+.triangle-right {
+  &::before {
+    left: 95%;
+  }
+}
+
+.triangle-left {
+  &::before {
+    left: 0%;
   }
 }
 </style>

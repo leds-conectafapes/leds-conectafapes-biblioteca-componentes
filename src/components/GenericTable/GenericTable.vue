@@ -261,7 +261,10 @@ defineSlots<
                     class="bg-white rounded-lg px-5 py-4"
                   >
                     <div class="flex gap-x-2 items-center justify-start">
-                      <template v-for="(action, index) in _actions" :key="index">
+                      <template
+                        v-for="(action, index) in _actions"
+                        :key="index"
+                      >
                         <GenericTooltip
                           v-if="action.tooltip"
                           :text="action.tooltip"
@@ -293,7 +296,9 @@ defineSlots<
           v-if="data.length === 0"
           class="sticky flex items-center justify-center py-12 left-0 lg:static"
         >
-          <span class="text-sm text-gray-500 lg:text-base">{{ emptyText }}</span>
+          <span class="text-sm text-gray-500 lg:text-base">{{
+            emptyText
+          }}</span>
         </div>
       </div>
 
