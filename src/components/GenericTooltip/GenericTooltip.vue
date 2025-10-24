@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { autoUpdate, offset, useFloating } from "@floating-ui/vue";
+import { autoUpdate, flip, offset, shift, useFloating } from "@floating-ui/vue";
 import { computed, ref } from "vue";
 import { cn } from "../../utils/cn";
 import type { HTMLAttributes } from "vue";
@@ -34,7 +34,7 @@ const reference = ref(null);
 const open = ref(false);
 const { x, y } = useFloating(reference, tooltip, {
   placement,
-  middleware: [offset(8)],
+  middleware: [offset(8), flip(), shift()],
   open,
   whileElementsMounted: autoUpdate,
 });
@@ -58,14 +58,14 @@ const displayCondition = computed(() => {
 const tooltipClass = computed(() => {
   const base = `${width} ${customPosition || positionClass[position]}`;
   return cn(
-    "absolute bg-gray-900 rounded-lg px-2 py-3",
+    "absolute bg-gray-900 rounded-lg px-2 py-3 z-50",
     "text-sm text-white font-medium shadow shadow-zinc-600/10",
     base,
   );
 });
 
 const floatingStyle = computed(() =>
-  isCustom
+  isCustom.value
     ? {}
     : {
         transform: `translate(${x.value}px, ${y.value}px)`,
