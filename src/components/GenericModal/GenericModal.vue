@@ -76,22 +76,24 @@ const cardClass = computed(() => {
 
       <slot></slot>
 
-      <div class="flex flex-col justify-end gap-6 lg:flex-row">
-        <GenericButton
-          class="lg:w-fit"
-          variant="secondary"
-          :label="closeLabel"
-          @click="close"
-        />
+      <slot name="buttons">
+        <div class="flex flex-col justify-end gap-6 lg:flex-row">
+          <GenericButton
+            class="lg:w-fit"
+            variant="secondary"
+            :label="closeLabel"
+            @click="close"
+          />
 
-        <GenericButton
-          v-if="confirmLabel"
-          class="lg:w-fit"
-          :variant="variant"
-          :label="confirmLabel"
-          @click="confirm"
-        />
-      </div>
+          <GenericButton
+            v-if="confirmLabel"
+            class="lg:w-fit"
+            :variant="variant"
+            :label="confirmLabel"
+            @click="confirm"
+          />
+        </div>
+      </slot>
     </div>
   </div>
 </template>
