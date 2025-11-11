@@ -15,6 +15,7 @@ const {
   variant = "primary",
   hideCloseIcon = false,
   width = "regular",
+  inhibitUpdatingModelValueOnClose = false,
 } = defineProps<{
   modelValue: boolean;
   title: string;
@@ -23,21 +24,33 @@ const {
   variant?: ModalVariant;
   hideCloseIcon?: boolean;
   width?: ModalWidth;
+  inhibitUpdatingModelValueOnClose?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: boolean): void;
   (e: "close"): void;
   (e: "confirm"): void;
+  (e: "onTopbarCloseClick"): void;
 }>();
 
 function close() {
-  emit("update:modelValue", false);
+  if (!inhibitUpdatingModelValueOnClose) {
+    emit("update:modelValue", false);
+  }
   emit("close");
 }
 
 function confirm() {
   emit("confirm");
+}
+
+function topbarCloseClick() {
+  if (!inhibitUpdatingModelValueOnClose) {
+    emit("update:modelValue", false);
+  }
+  emit("close");
+  emit("onTopbarCloseClick");
 }
 
 const attrs = useAttrs();
@@ -70,28 +83,30 @@ const cardClass = computed(() => {
           v-if="!hideCloseIcon"
           name="close"
           class="cursor-pointer text-xl leading-normal font-bold text-gray-800 self-start"
-          @click="close"
+          @click="topbarCloseClick"
         />
       </div>
 
       <slot></slot>
 
-      <div class="flex flex-col justify-end gap-6 lg:flex-row">
-        <GenericButton
-          class="lg:w-fit"
-          variant="secondary"
-          :label="closeLabel"
-          @click="close"
-        />
+      <slot name="buttons">
+        <div class="flex flex-col justify-end gap-6 lg:flex-row">
+          <GenericButton
+            class="lg:w-fit"
+            variant="secondary"
+            :label="closeLabel"
+            @click="close"
+          />
 
-        <GenericButton
-          v-if="confirmLabel"
-          class="lg:w-fit"
-          :variant="variant"
-          :label="confirmLabel"
-          @click="confirm"
-        />
-      </div>
+          <GenericButton
+            v-if="confirmLabel"
+            class="lg:w-fit"
+            :variant="variant"
+            :label="confirmLabel"
+            @click="confirm"
+          />
+        </div>
+      </slot>
     </div>
   </div>
 </template>
