@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      dind:
+        image: docker:27.1-dind
+        options: >-
+          --privileged
+          --hostname dind
+        ports:
+          - 2375:2375
+        env:
+          DOCKER_TLS_CERTDIR: ""
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Docker client to connect to DinD
+        run: |
+          echo "DOCKER_HOST=tcp://localhost:2375" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          docker build -f Dockerfile .
+          echo "Build completed successfully"
