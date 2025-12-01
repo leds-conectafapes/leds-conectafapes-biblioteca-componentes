@@ -9,37 +9,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      dind:
-        image: docker:27.1-dind
-        options: --privileged
-        env:
-          DOCKER_TLS_CERTDIR: ""
-        ports:
-          - 2375:2375
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure Docker client
-        run: |
-          echo "DOCKER_HOST=tcp://dind:2375" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Wait for Docker to be ready
-        run: |
-          for i in {1..30}; do
-            if docker info &> /dev/null; then
-              echo "Docker is ready!"
-              exit 0
-            fi
-            echo "Waiting for Docker..."
-            sleep 1
-          done
-          echo "Docker failed to start" >&2
-          exit 1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: |
-          docker build -f Dockerfile .
-          echo "Build completed successfully"
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          tags: local/build:test
+
+      - name: Build completed message
+        run: echo "Build completed successfully"
