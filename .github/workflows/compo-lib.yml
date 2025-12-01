@@ -12,21 +12,32 @@ jobs:
     services:
       dind:
         image: docker:27.1-dind
-        options: >-
-          --privileged
-          --hostname dind
-        ports:
-          - 2375:2375
+        options: --privileged
         env:
           DOCKER_TLS_CERTDIR: ""
+        ports:
+          - 2375:2375
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure Docker client to connect to DinD
+      - name: Configure Docker client
         run: |
-          echo "DOCKER_HOST=tcp://localhost:2375" >> $GITHUB_ENV
+          echo "DOCKER_HOST=tcp://dind:2375" >> $GITHUB_ENV
+
+      - name: Wait for Docker to be ready
+        run: |
+          for i in {1..30}; do
+            if docker info &> /dev/null; then
+              echo "Docker is ready!"
+              exit 0
+            fi
+            echo "Waiting for Docker..."
+            sleep 1
+          done
+          echo "Docker failed to start" >&2
+          exit 1
 
       - name: Build Docker image
         run: |
