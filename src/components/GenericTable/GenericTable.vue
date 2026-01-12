@@ -153,7 +153,7 @@ defineSlots<
             >
               <template v-for="column in columns" :key="column.key">
                 <th
-                  class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
+                  class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter break-normal"
                   @mouseover="tooltips[column.key] = true"
                   @mouseout="tooltips[column.key] = false"
                 >
