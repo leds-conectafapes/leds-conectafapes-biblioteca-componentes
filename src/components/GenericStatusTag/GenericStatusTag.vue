@@ -25,6 +25,7 @@ const attrs = useAttrs();
 const STATUSTAG_VARIANTS = {
   info: "bg-zinc-300 text-zinc-700",
   infoStrong: "bg-gray-600 text-white",
+  info2: "bg-sky-700 text-white",
   success: "bg-success-400",
   warn: "bg-amber-300 text-zinc-800",
   warnStrong: "bg-amber-700 text-white",

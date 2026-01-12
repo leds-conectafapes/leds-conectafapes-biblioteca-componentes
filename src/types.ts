@@ -65,6 +65,7 @@ export type ModalWidth = "regular" | "medium";
 export type StatusTagVariant =
   | "info"
   | "infoStrong"
+  | "info2"
   | "success"
   | "warn"
   | "warnStrong"
