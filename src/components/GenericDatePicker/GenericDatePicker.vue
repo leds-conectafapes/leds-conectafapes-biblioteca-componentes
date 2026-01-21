@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T extends string | undefined">
 import { computed, useAttrs, useSlots } from "vue";
-import type { InputHTMLAttributes } from "vue";
 import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
 import { inputClass, inputStateStyles } from "../../utils/inputClass";
@@ -8,14 +7,12 @@ import GenericIcon from "../GenericIcon/GenericIcon.vue";
 
 defineOptions({ inheritAttrs: false });
 
-type NativeDatePickerAttributes = /* @vue-ignore */ InputHTMLAttributes;
-
 type DatePickerProps = {
   state?: inputState;
   label?: string;
   errorMessages?: string | string[];
   containerClass?: string | string[];
-} & NativeDatePickerAttributes;
+};
 
 const modelValue = defineModel<T>();
 

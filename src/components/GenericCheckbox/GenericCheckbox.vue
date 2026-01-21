@@ -5,18 +5,15 @@
 >
 import { computed, useAttrs } from "vue";
 import { cn } from "../../utils/cn";
-import type { InputHTMLAttributes } from "vue";
 import GenericIcon from "../GenericIcon/GenericIcon.vue";
 
 defineOptions({ inheritAttrs: false });
-
-type NativeCheckboxAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type CheckboxProps = {
   label?: string;
   containerClass?: string | string[];
   disabled?: boolean;
-} & NativeCheckboxAttributes;
+};
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
   label: "",

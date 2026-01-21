@@ -1,12 +1,9 @@
 <script setup lang="ts" generic="T extends string | number | undefined">
 import type { RadioGroupDirection, radioGroupOptions } from "../../types";
-import type { InputHTMLAttributes } from "vue";
 import { computed, useAttrs, useSlots } from "vue";
 import { cn } from "../../utils/cn";
 
 defineOptions({ inheritAttrs: false });
-
-type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type radioGroupProps<T> = {
   options?: radioGroupOptions<T>[];
@@ -14,7 +11,7 @@ type radioGroupProps<T> = {
   containerClass?: string | string[];
   errorMessages?: string | string[];
   direction?: RadioGroupDirection;
-} & NativeInputAttributes;
+};
 
 const props = withDefaults(defineProps<radioGroupProps<T>>(), {
   options: () => [],
