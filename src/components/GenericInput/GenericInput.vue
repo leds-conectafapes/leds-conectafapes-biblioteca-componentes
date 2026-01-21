@@ -1,6 +1,5 @@
 <script lang="ts" setup generic="T extends string | number | undefined">
 import { computed, useAttrs, useSlots } from "vue";
-import type { InputHTMLAttributes } from "vue";
 import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
 import { inputClass, inputStateStyles } from "../../utils/inputClass";
@@ -8,14 +7,13 @@ import GenericIcon from "../GenericIcon/GenericIcon.vue";
 
 defineOptions({ inheritAttrs: false });
 
-type NativeInputAttributes = /* @vue-ignore */ InputHTMLAttributes;
 
 type inputProps = {
   label?: string;
   state?: inputState;
   containerClass?: string | string[];
   errorMessages?: string | string[];
-} & NativeInputAttributes;
+};
 
 const props = withDefaults(defineProps<inputProps>(), {
   label: "",

@@ -1,20 +1,17 @@
 <script setup lang="ts" generic="T extends string | number | undefined">
 import { computed, useAttrs, useSlots } from "vue";
-import type { TextareaHTMLAttributes } from "vue";
 import type { inputState } from "../../types";
 import { cn } from "../../utils/cn";
 import { inputClass, inputStateStyles } from "../../utils/inputClass";
 
 defineOptions({ inheritAttrs: false });
 
-type NativeTextareaAttributes = /* @vue-ignore */ TextareaHTMLAttributes;
-
 type textAreaProps = {
   state?: inputState;
   label?: string;
   containerClass?: string | string[];
   errorMessages?: string | string[];
-} & NativeTextareaAttributes;
+};
 
 const props = withDefaults(defineProps<textAreaProps>(), {
   state: "default",
