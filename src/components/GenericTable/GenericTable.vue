@@ -124,7 +124,7 @@ const tooltips = ref(
 
 const colspan = computed(() => {
   let nColumns = columns.length
-  if (someRowsHaveActions || _actions.value.length > 0) {
+  if (someRowsHaveActions.value || _actions.value.length > 0) {
     nColumns = nColumns + 1
   }
   return nColumns
@@ -146,22 +146,22 @@ defineSlots<
 
 <template>
   <table
-    class="border-zinc-300 border rounded-lg w-full"
+    class="border border-zinc-300 rounded-lg border-separate border-spacing-0 w-full"
   >
-    <td :colspan v-if="loading">
+    <td v-if="loading" :colspan>
       <div class="flex items-center justify-center py-12">
         <div class="text-gray-500 font-inter">Carregando...</div>
       </div>
     </td>
 
     <template v-else>
-      <thead class="rounded-t-lg">
+      <thead>
         <tr
-          class="border-b bg-zinc-100 border-zinc-300 gap-x-2 text-zinc-800 leading-tight rounded-t-lg"
+          class="bg-zinc-100 *:border-b *:border-zinc-300 gap-x-2 text-zinc-800 leading-tight"
         >
           <th
             v-for="column in columns" :key="column.key"
-            class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter break-normal"
+            class="px-5 py-4 text-left font-semibold text-base font-inter break-normal"
             @mouseover="tooltips[column.key] = true"
             @mouseout="tooltips[column.key] = false"
           >
@@ -193,7 +193,7 @@ defineSlots<
         </tr>
       </thead>
 
-      <td :colspan v-if="data.length === 0">
+      <td :colspan v-if="data.length === 0" class="border-b border-zinc-300">
         <div
 
           class="sticky flex items-center justify-center py-12 left-0 lg:static"
@@ -203,15 +203,16 @@ defineSlots<
           }}</span>
         </div>
       </td>
+
       <tbody v-else>
         <template v-for="(row, index) in _rows" :key="index">
           <slot name="row" :rowData="row" :rowIndex="index">
-            <tr class="border-b border-zinc-300">
+            <tr class="*:border-b *:border-zinc-300">
               <slot name="cell" :rowData="row" :rowIndex="index">
                 <td
                   v-for="(col, colIndex) in columns"
                   :key="colIndex"
-                  class="text-zinc-600 leading-relaxed text-sm px-5 py-4 bg-white rounded-lg font-inter"
+                  class="text-zinc-600 leading-relaxed text-sm px-5 py-4 bg-white font-inter"
                 >
                   <component
                     v-if="col.render"
