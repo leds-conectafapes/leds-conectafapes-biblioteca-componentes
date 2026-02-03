@@ -122,14 +122,6 @@ const tooltips = ref(
   Object.fromEntries(columns.map((col) => [col.key, false])),
 );
 
-const colspan = computed(() => {
-  let nColumns = columns.length
-  if (someRowsHaveActions.value || _actions.value.length > 0) {
-    nColumns = nColumns + 1
-  }
-  return nColumns
-})
-
 defineSlots<
   {
     row: (_: { rowData: T; rowIndex: number }) => unknown;
@@ -146,18 +138,18 @@ defineSlots<
 
 <template>
   <table
-    class="border border-zinc-300 rounded-lg border-separate border-spacing-0 w-full"
+    class="flex flex-col border border-zinc-300 rounded-lg"
   >
-    <td v-if="loading" :colspan>
-      <div class="flex items-center justify-center py-12">
-        <div class="text-gray-500 font-inter">Carregando...</div>
-      </div>
-    </td>
+    <tr v-if="loading">
+      <td class="flex items-center justify-center py-12 text-gray-500 font-inter">
+        Carregando...
+      </td>
+    </tr>
 
     <template v-else>
       <thead>
         <tr
-          class="bg-zinc-100 *:border-b *:border-zinc-300 gap-x-2 text-zinc-800 leading-tight"
+          class="flex *:flex-1  bg-zinc-100 border-b border-zinc-300 text-zinc-800"
         >
           <th
             v-for="column in columns" :key="column.key"
@@ -170,11 +162,11 @@ defineSlots<
 
               <GenericTooltip
                 :text="column.tooltip"
-                class="inline p-1"
+                class="inline align-middle"
                 v-model="tooltips[column.key]"
               >
                 <GenericIcon
-                  class="text-primary-500 leading-none relative top-1"
+                  class="text-primary-500 leading-none"
                   name="info"
                 />
               </GenericTooltip>
@@ -186,33 +178,31 @@ defineSlots<
           </th>
           <th
             v-if="someRowsHaveActions || _actions.length > 0"
-            class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
+            class="px-5 py-4 text-left font-semibold text-base font-inter break-normal"
           >
             Ações
           </th>
         </tr>
       </thead>
 
-      <td :colspan v-if="data.length === 0" class="border-b border-zinc-300">
-        <div
-
-          class="sticky flex items-center justify-center py-12 left-0 lg:static"
-        >
-          <span class="text-sm text-gray-500 lg:text-base">{{
-            emptyText
-          }}</span>
-        </div>
-      </td>
+      <tr
+        v-if="data.length === 0"
+        class="sticky flex items-center justify-center py-12 left-0 lg:static"
+      >
+        <td class="text-sm text-gray-500 lg:text-base">
+          {{ emptyText }}
+        </td>
+      </tr>
 
       <tbody v-else>
         <template v-for="(row, index) in _rows" :key="index">
           <slot name="row" :rowData="row" :rowIndex="index">
-            <tr class="*:border-b *:border-zinc-300">
+            <tr class="flex *:flex-1 border-b border-zinc-300">
               <slot name="cell" :rowData="row" :rowIndex="index">
                 <td
                   v-for="(col, colIndex) in columns"
                   :key="colIndex"
-                  class="text-zinc-600 leading-relaxed text-sm px-5 py-4 bg-white font-inter"
+                  class="flex items-center text-zinc-600 leading-relaxed text-sm px-5 py-4 font-inter"
                 >
                   <component
                     v-if="col.render"
@@ -247,7 +237,7 @@ defineSlots<
 
               <td
                 v-if="someRowsHaveActions"
-                class="bg-white rounded-lg px-5 py-4"
+                class="bg-white px-5 py-4"
               >
                 <div class="flex gap-x-2 items-center justify-start">
                   <template
@@ -276,7 +266,7 @@ defineSlots<
               </td>
               <td
                 v-else-if="_actions.length > 0"
-                class="bg-white rounded-lg px-5 py-4"
+                class="bg-white px-5 py-4"
               >
                 <div class="flex gap-x-2 items-center justify-start">
                   <template
@@ -311,11 +301,9 @@ defineSlots<
       <tfoot>
         <tr
           v-if="itemsPerPage && totalItems"
+          class="flex"
         >
-        <td :colspan>
-          <div
-            class="flex flex-col gap-3 items-center py-4 px-5 lg:flex-row lg:justify-between"
-          >
+          <td class="flex-1 flex flex-col gap-3 items-center py-4 px-5 lg:flex-row lg:justify-between">
             <span class="text-sm text-zinc-700 leading-tight font-inter">
               <strong>{{ itemsOfPage }}</strong> de
               <strong>{{ totalItems }}</strong> resultados
@@ -328,7 +316,6 @@ defineSlots<
               @update:model-value="updatePage"
               @change="changePage"
             />
-          </div>
           </td>
         </tr>
       </tfoot>
