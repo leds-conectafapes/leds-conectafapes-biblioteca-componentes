@@ -201,7 +201,7 @@ defineSlots<
         </td>
       </tr>
 
-      <tbody v-else>
+      <tbody class="overflow-y-scroll" v-else>
         <template v-for="(row, index) in _rows" :key="index">
           <slot name="row" :rowData="row" :rowIndex="index">
             <tr class="flex *:flex-1 border-b border-zinc-300">
