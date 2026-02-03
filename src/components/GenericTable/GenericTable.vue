@@ -137,6 +137,7 @@ const tooltips = ref(
 defineSlots<
   {
     row: (_: { rowData: T; rowIndex: number }) => unknown;
+    lastRow: () => unknown;
     cell: (_: { rowData: T; rowIndex: number }) => unknown;
   } & {
     [K in CellName]: (_: {
@@ -271,6 +272,9 @@ defineSlots<
             </tr>
           </slot>
         </template>
+
+        <slot name="lastRow">
+        </slot>
       </tbody>
 
       <tfoot>
