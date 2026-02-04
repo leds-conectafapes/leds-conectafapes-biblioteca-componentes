@@ -118,6 +118,27 @@ const _rows = computed(() => {
   });
 });
 
+const _columns = computed(() => {
+  const cols = columns.map(
+    c => ({
+      ...c,
+      class: "flex-1 px-5 py-4 text-left font-semibold text-base font-inter break-normal " + (c.width ?? ""),
+      cellClass: "flex-1 flex items-center text-zinc-600 leading-relaxed text-sm px-5 py-4 font-inter " + (c.width ?? "")
+    })
+  )
+  if ((someRowsHaveActions.value || _actions.value.length > 0) && !cols.find(c => c.key === "actions")) {
+    return cols.concat([
+      {
+        key: "actions",
+        title: "Ações",
+        class: "flex-1 px-5 py-4 text-left font-semibold text-base font-inter break-normal",
+        cellClass: "flex-1 flex gap-x-2 items-center justify-start px-5 py-4"
+      },
+    ])
+  }
+  return cols
+})
+
 const tooltips = ref(
   Object.fromEntries(columns.map((col) => [col.key, false])),
 );
@@ -125,6 +146,7 @@ const tooltips = ref(
 defineSlots<
   {
     row: (_: { rowData: T; rowIndex: number }) => unknown;
+    lastRow: () => unknown;
     cell: (_: { rowData: T; rowIndex: number }) => unknown;
   } & {
     [K in CellName]: (_: {
@@ -137,188 +159,150 @@ defineSlots<
 </script>
 
 <template>
-  <div class="flex flex-col border-zinc-300 border rounded-lg">
-    <!-- Loading -->
-    <div v-if="loading" class="flex items-center justify-center py-12">
-      <div class="text-gray-500 font-inter">Carregando...</div>
-    </div>
+  <table
+    class="flex flex-col border border-zinc-300 rounded-lg overflow-x-scroll"
+  >
+    <tr v-if="loading">
+      <td class="flex items-center justify-center py-12 text-gray-500 font-inter">
+        Carregando...
+      </td>
+    </tr>
 
-    <!-- Tabela -->
-    <div v-else>
-      <div class="overflow-auto">
-        <table class="table-auto w-full">
-          <thead>
-            <tr
-              class="border-b bg-zinc-100 border-zinc-300 gap-x-2 text-zinc-800 leading-tight rounded-t-lg"
-            >
-              <template v-for="column in columns" :key="column.key">
-                <th
-                  class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter break-normal"
-                  @mouseover="tooltips[column.key] = true"
-                  @mouseout="tooltips[column.key] = false"
+    <template v-else>
+      <thead>
+        <tr
+          class="flex bg-zinc-100 border-b border-zinc-300 text-zinc-800"
+        >
+          <th
+            v-for="column in _columns" :key="column.key"
+            :class="column.class"
+            @mouseover="tooltips[column.key] = true"
+            @mouseout="tooltips[column.key] = false"
+          >
+            <template v-if="column.tooltip">
+              {{ column.title }}&nbsp;
+
+              <GenericTooltip
+                :text="column.tooltip"
+                class="inline align-middle"
+                v-model="tooltips[column.key]"
+              >
+                <GenericIcon
+                  class="text-primary-500 leading-none"
+                  name="info"
+                />
+              </GenericTooltip>
+            </template>
+
+            <template v-else>
+              {{ column.title }}
+            </template>
+          </th>
+        </tr>
+      </thead>
+
+      <tr
+        v-if="data.length === 0"
+        class="sticky flex items-center justify-center py-12 left-0 lg:static"
+      >
+        <td class="text-sm text-gray-500 lg:text-base">
+          {{ emptyText }}
+        </td>
+      </tr>
+
+      <tbody class="overflow-y-scroll" v-else>
+        <template v-for="(row, index) in _rows" :key="index">
+          <slot name="row" :rowData="row" :rowIndex="index">
+            <tr class="flex border-b border-zinc-300">
+              <slot name="cell" :rowData="row" :rowIndex="index">
+                <td
+                  v-for="(col, colIndex) in _columns"
+                  :key="colIndex"
+                  :class="col.cellClass"
                 >
-                  <template v-if="column.tooltip">
-                    {{ column.title }}&nbsp;
-
+                  <template
+                    v-if="col.key === 'actions'"
+                    v-for="(action, index) in row.actions"
+                    :key="index"
+                  >
                     <GenericTooltip
-                      :text="column.tooltip"
-                      class="inline p-1"
-                      v-model="tooltips[column.key]"
+                      v-if="action.tooltip"
+                      :text="action.tooltip"
                     >
-                      <GenericIcon
-                        class="text-primary-500 leading-none relative top-1"
-                        name="info"
+                      <GenericCompactButton
+                        :icon="action.icon"
+                        :variant="action.variant"
+                        @click="action.onClick(row)"
                       />
                     </GenericTooltip>
+
+                    <GenericCompactButton
+                      v-else
+                      :icon="action.icon"
+                      :variant="action.variant"
+                      @click="action.onClick(row)"
+                    />
                   </template>
 
-                  <template v-else>
-                    {{ column.title }}
-                  </template>
-                </th>
-              </template>
-              <th
-                v-if="someRowsHaveActions || _actions.length > 0"
-                class="px-5 py-4 text-left font-semibold text-base rounded-t-lg font-inter"
-              >
-                Ações
-              </th>
-            </tr>
-          </thead>
+                  <component
+                    v-else-if="col.render"
+                    :is="col.render(row[col.key], row, col.key, index)"
+                  />
 
-          <tbody>
-            <template v-for="(row, index) in _rows" :key="index">
-              <slot name="row" :rowData="row" :rowIndex="index">
-                <tr class="border-b border-zinc-300">
-                  <slot name="cell" :rowData="row" :rowIndex="index">
-                    <td
-                      v-for="(col, colIndex) in columns"
-                      :key="colIndex"
-                      class="text-zinc-600 leading-relaxed text-sm px-5 py-4 bg-white rounded-lg font-inter"
-                    >
-                      <component
-                        v-if="col.render"
-                        :is="col.render(row[col.key], row, col.key, index)"
-                      />
+                  <slot
+                    v-else
+                    :name="getCellName(col)"
+                    :rowData="row"
+                    :rowIndex="index"
+                    :cellData="row[col.key]"
+                  >
+                    <component
+                      v-if="row.render"
+                      :is="
+                        (row.render as TableRender<T>)(
+                          row[col.key],
+                          row,
+                          col.key,
+                          index,
+                        )
+                      "
+                    />
 
-                      <slot
-                        v-else
-                        :name="getCellName(col)"
-                        :rowData="row"
-                        :rowIndex="index"
-                        :cellData="row[col.key]"
-                      >
-                        <component
-                          v-if="row.render"
-                          :is="
-                            (row.render as TableRender<T>)(
-                              row[col.key],
-                              row,
-                              col.key,
-                              index,
-                            )
-                          "
-                        />
-
-                        <template v-else>
-                          {{ row[col.key] }}
-                        </template>
-                      </slot>
-                    </td>
+                    <template v-else>
+                      {{ row[col.key] }}
+                    </template>
                   </slot>
-
-                  <td
-                    v-if="someRowsHaveActions"
-                    class="bg-white rounded-lg px-5 py-4"
-                  >
-                    <div class="flex gap-x-2 items-center justify-start">
-                      <template
-                        v-for="(action, index) in row.actions"
-                        :key="index"
-                      >
-                        <GenericTooltip
-                          v-if="action.tooltip"
-                          :text="action.tooltip"
-                        >
-                          <GenericCompactButton
-                            :icon="action.icon"
-                            :variant="action.variant"
-                            @click="action.onClick(row)"
-                          />
-                        </GenericTooltip>
-
-                        <GenericCompactButton
-                          v-else
-                          :icon="action.icon"
-                          :variant="action.variant"
-                          @click="action.onClick(row)"
-                        />
-                      </template>
-                    </div>
-                  </td>
-                  <td
-                    v-else-if="_actions.length > 0"
-                    class="bg-white rounded-lg px-5 py-4"
-                  >
-                    <div class="flex gap-x-2 items-center justify-start">
-                      <template
-                        v-for="(action, index) in _actions"
-                        :key="index"
-                      >
-                        <GenericTooltip
-                          v-if="action.tooltip"
-                          :text="action.tooltip"
-                        >
-                          <GenericCompactButton
-                            :icon="action.icon"
-                            :variant="action.variant"
-                            @click="action.onClick(row)"
-                          />
-                        </GenericTooltip>
-
-                        <GenericCompactButton
-                          v-else
-                          :icon="action.icon"
-                          :variant="action.variant"
-                          @click="action.onClick(row)"
-                        />
-                      </template>
-                    </div>
-                  </td>
-                </tr>
+                </td>
               </slot>
-            </template>
-          </tbody>
-        </table>
+            </tr>
+          </slot>
+        </template>
 
-        <!-- Estado vazio -->
-        <div
-          v-if="data.length === 0"
-          class="sticky flex items-center justify-center py-12 left-0 lg:static"
+        <slot name="lastRow">
+        </slot>
+      </tbody>
+
+      <tfoot>
+        <tr
+          v-if="itemsPerPage && totalItems"
+          class="flex"
         >
-          <span class="text-sm text-gray-500 lg:text-base">{{
-            emptyText
-          }}</span>
-        </div>
-      </div>
+          <td class="flex-1 flex flex-col gap-3 items-center py-4 px-5 lg:flex-row lg:justify-between">
+            <span class="text-sm text-zinc-700 leading-tight font-inter">
+              <strong>{{ itemsOfPage }}</strong> de
+              <strong>{{ totalItems }}</strong> resultados
+            </span>
 
-      <div
-        v-if="itemsPerPage && totalItems"
-        class="flex flex-col gap-3 items-center py-4 px-5 lg:flex-row lg:justify-between"
-      >
-        <span class="text-sm text-zinc-700 leading-tight font-inter">
-          <a class="font-bold">{{ itemsOfPage }}</a> de
-          <a class="font-bold">{{ totalItems }}</a> resultados
-        </span>
-
-        <GenericPagination
-          :total-items="totalItems"
-          :items-per-page="itemsPerPage"
-          :model-value="_page"
-          @update:model-value="updatePage"
-          @change="changePage"
-        />
-      </div>
-    </div>
-  </div>
+            <GenericPagination
+              :total-items="totalItems"
+              :items-per-page="itemsPerPage"
+              :model-value="_page"
+              @update:model-value="updatePage"
+              @change="changePage"
+            />
+          </td>
+        </tr>
+      </tfoot>
+    </template>
+  </table>
 </template>
