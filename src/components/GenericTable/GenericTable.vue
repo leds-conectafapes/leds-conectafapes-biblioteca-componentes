@@ -119,15 +119,24 @@ const _rows = computed(() => {
 });
 
 const _columns = computed(() => {
-  if (someRowsHaveActions.value || _actions.value.length > 0) {
-    return columns.concat([
+  const cols = columns.map(
+    c => ({
+      ...c,
+      class: "flex-1 px-5 py-4 text-left font-semibold text-base font-inter break-normal " + (c.width ?? ""),
+      cellClass: "flex-1 flex items-center text-zinc-600 leading-relaxed text-sm px-5 py-4 font-inter " + (c.width ?? "")
+    })
+  )
+  if ((someRowsHaveActions.value || _actions.value.length > 0) && !cols.find(c => c.key === "actions")) {
+    return cols.concat([
       {
         key: "actions",
         title: "Ações",
+        class: "flex-1 px-5 py-4 text-left font-semibold text-base font-inter break-normal",
+        cellClass: "flex-1 flex gap-x-2 items-center justify-start px-5 py-4"
       },
     ])
   }
-  return columns
+  return cols
 })
 
 const tooltips = ref(
@@ -162,11 +171,11 @@ defineSlots<
     <template v-else>
       <thead>
         <tr
-          class="flex *:flex-1  bg-zinc-100 border-b border-zinc-300 text-zinc-800"
+          class="flex bg-zinc-100 border-b border-zinc-300 text-zinc-800"
         >
           <th
             v-for="column in _columns" :key="column.key"
-            class="px-5 py-4 text-left font-semibold text-base font-inter break-normal"
+            :class="column.class"
             @mouseover="tooltips[column.key] = true"
             @mouseout="tooltips[column.key] = false"
           >
@@ -204,15 +213,39 @@ defineSlots<
       <tbody class="overflow-y-scroll" v-else>
         <template v-for="(row, index) in _rows" :key="index">
           <slot name="row" :rowData="row" :rowIndex="index">
-            <tr class="flex *:flex-1 border-b border-zinc-300">
+            <tr class="flex border-b border-zinc-300">
               <slot name="cell" :rowData="row" :rowIndex="index">
                 <td
-                  v-for="(col, colIndex) in columns"
+                  v-for="(col, colIndex) in _columns"
                   :key="colIndex"
-                  class="flex items-center text-zinc-600 leading-relaxed text-sm px-5 py-4 font-inter"
+                  :class="col.cellClass"
                 >
+                  <template
+                    v-if="col.key === 'actions'"
+                    v-for="(action, index) in row.actions"
+                    :key="index"
+                  >
+                    <GenericTooltip
+                      v-if="action.tooltip"
+                      :text="action.tooltip"
+                    >
+                      <GenericCompactButton
+                        :icon="action.icon"
+                        :variant="action.variant"
+                        @click="action.onClick(row)"
+                      />
+                    </GenericTooltip>
+
+                    <GenericCompactButton
+                      v-else
+                      :icon="action.icon"
+                      :variant="action.variant"
+                      @click="action.onClick(row)"
+                    />
+                  </template>
+
                   <component
-                    v-if="col.render"
+                    v-else-if="col.render"
                     :is="col.render(row[col.key], row, col.key, index)"
                   />
 
@@ -241,34 +274,6 @@ defineSlots<
                   </slot>
                 </td>
               </slot>
-
-              <td
-                v-if="someRowsHaveActions || _actions.length > 0"
-                class="flex gap-x-2 items-center justify-start px-5 py-4"
-              >
-                <template
-                  v-for="(action, index) in row.actions"
-                  :key="index"
-                >
-                  <GenericTooltip
-                    v-if="action.tooltip"
-                    :text="action.tooltip"
-                  >
-                    <GenericCompactButton
-                      :icon="action.icon"
-                      :variant="action.variant"
-                      @click="action.onClick(row)"
-                    />
-                  </GenericTooltip>
-
-                  <GenericCompactButton
-                    v-else
-                    :icon="action.icon"
-                    :variant="action.variant"
-                    @click="action.onClick(row)"
-                  />
-                </template>
-              </td>
             </tr>
           </slot>
         </template>

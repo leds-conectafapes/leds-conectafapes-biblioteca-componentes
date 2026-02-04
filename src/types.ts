@@ -42,19 +42,19 @@ export type GenericCardProps = {
   tooltipIcon?: string;
   tooltipWidth?: string;
 } & (
-  | {
+    | {
       textVariant: CardVariant;
       captionVariant?: "default";
     }
-  | {
+    | {
       textVariant?: "default";
       captionVariant: CardVariant;
     }
-  | {
+    | {
       textVariant?: "default";
       captionVariant?: "default";
     }
-);
+  );
 export type MessageCardVariant = "default" | "warning" | "error" | "disabled";
 export type compactButtonVariant = "default" | "danger";
 export type snackBarVariant = "informative" | "success" | "warning" | "error";
@@ -103,43 +103,44 @@ export type TableHeader<T extends Record<string, unknown>> = {
   sortable?: boolean;
   tooltip?: string;
   render?: TableRender<T>;
+  width?: string;
 };
 export type TableAction<T extends Record<string, unknown>> =
   | {
-      type: "edit";
-      icon?: "edit";
-      variant?: compactButtonVariant;
-      tooltip?: string;
-      onClick: (row: T) => void;
-    }
+    type: "edit";
+    icon?: "edit";
+    variant?: compactButtonVariant;
+    tooltip?: string;
+    onClick: (row: T) => void;
+  }
   | {
-      type: "delete";
-      icon?: "delete";
-      variant?: compactButtonVariant;
-      tooltip?: string;
-      onClick: (row: T) => void;
-    }
+    type: "delete";
+    icon?: "delete";
+    variant?: compactButtonVariant;
+    tooltip?: string;
+    onClick: (row: T) => void;
+  }
   | {
-      type: "view";
-      icon?: "visibility";
-      variant?: compactButtonVariant;
-      tooltip?: string;
-      onClick: (row: T) => void;
-    }
+    type: "view";
+    icon?: "visibility";
+    variant?: compactButtonVariant;
+    tooltip?: string;
+    onClick: (row: T) => void;
+  }
   | {
-      type: "open_in_new";
-      icon?: "open_in_new";
-      variant?: compactButtonVariant;
-      tooltip?: string;
-      onClick: (row: T) => void;
-    }
+    type: "open_in_new";
+    icon?: "open_in_new";
+    variant?: compactButtonVariant;
+    tooltip?: string;
+    onClick: (row: T) => void;
+  }
   | {
-      type: "custom";
-      icon: string;
-      tooltip?: string;
-      variant?: compactButtonVariant;
-      onClick: (row: T) => void;
-    };
+    type: "custom";
+    icon: string;
+    tooltip?: string;
+    variant?: compactButtonVariant;
+    onClick: (row: T) => void;
+  };
 
 export type titleType =
   | "h1"
